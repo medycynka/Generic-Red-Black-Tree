@@ -53,3 +53,14 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
      * <b>Iterator minIt()</b> - returns **iterator** to the node with **minimal key**
      * <b>Iterator& begin()</b> - returns **iterator** to the starting node (basic, with minimal key)
      * <b>Iterator& nd()</b> - returns **iterator** after the last node (basic, with maximal key)
+   * <b>private:</b>
+     * <b>inline int Size(node<T>*)</b> - helper method, that allows to count number of nodes below the _input node_
+     * <b>inline void Display(node<T>*, int)</b> - helper function displaying elements of the tree with a level of the nodes
+     * <b>inline void Rotate_left(node<T>*)</b> - a left rotation in regard to _input node_
+     * <b>inline void Rotate_right(node<T>*)</b> - a right rotation in regard to _input node_
+     * <b>inline void Insert_fix(node<T>*)</b> - fixing the balance of the tree and adjusting colors of the nodes after insertion
+     * <b>RBTree(node<T>*)</b> making **root** with _input node_
+     * <b>inline void Merge(node<T>*)</b> - merging trees
+     * <b>inline void Split(node<T>*)</b> - splitting trees
+     * <b>node<T>* Successor(node<T>*)</b> - returns a **succesor** of the _input node_ or **NULL** if the node doesn't havy a succesor
+     * <b>inline void Delete_fix(node<T>*)</b> - fixing the balance of the tree and adjusting colors of the nodes after deletion
