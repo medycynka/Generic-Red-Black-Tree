@@ -7,4 +7,13 @@ Balance is preserved by painting each node of the tree with one of two colors in
 The balancing of the tree is not perfect, but it is good enough to allow it to guarantee searching in **O(log n)** time, where n is the total number of elements in the tree. The insertion and deletion operations, along with the tree rearrangement and recoloring, are also performed in **O(log n)** time.
 Tracking the color of each node requires only 1 bit of information per node because there are only two colors. The tree does not contain any other data specific to its being a red–black tree so its memory footprint is almost identical to a classic (uncolored) binary search tree. In many cases, the additional bit of information can be stored at no additional memory cost.
 
+
+
 # Classes
+## node
+This class is templated representation of a tree node with:
+* T key - value of the node
+* node *father - a pointer to a father of the node
+* node *left - a pointer to a left son of the node
+* node *right - a pointer to a right son of the node
+* int color - color of the node
