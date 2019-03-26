@@ -22,10 +22,12 @@ Class **node** is a representation of a tree node
    * <b>node()</b>, <b>node(T input)</b>, <b>node(const node &s)</b>, <b>node(T input, node* father_)</b>, <b>node(T input, node* father_, int new_color)</b> - constructors
    * <b>inline void print_node()</b> - printing a value of the node, father's key, left son's key and a right son's key
    * <b>all operators</b> (=, ==, !=, >, <, >=, <=) - operators to compare node's key and nodes between themselves
-   * <b>inline bool is_left_son()</b> - returning **true** if the node is a left son
-   * <b>inline bool is_right_son()</b> - returning **true** if the node is a right son
-   * <b>inline node* max_node()</b> - returning a node with **maximal key**
-   * <b>inline node* min_node()</b> - returning a node with **minimal key**
-   * <b></b>
-   * <b></b>
-   * <b></b>
+   * <b>inline bool is_left_son()</b> - returns **true** if the node is a left son
+   * <b>inline bool is_right_son()</b> - returns **true** if the node is a right son
+   * <b>inline node* max_node()</b> - returns a node with **maximal key**
+   * <b>inline node* min_node()</b> - returns a node with **minimal key**
+   * <b>inline node* node_Successor()</b> - returns a **succesor** of the node
+   * <b>inline node* node_Predecessor()</b> - returns a **predecessor** of the node
+   * <b>inline node* node_Sibling()</b> - returns, a **sibling** of the node or **NULL** if node doesn't have a sibling or is a root of the tree
+   
+## RBTree
