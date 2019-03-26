@@ -13,10 +13,10 @@ Tracking the color of each node requires only 1 bit of information per node beca
 ## node
 Class **node** is a representation of a tree node
 1. **Fields:**
-* **T key** - value of the node
-* **node *father** - a pointer to a father of the node
-* **node *left** - a pointer to a left son of the node
-* **node *right** - a pointer to a right son of the node
-* **int color** - color of the node
+* <b>T key</b> - value of the node
+* <b>node *father</b> - a pointer to a father of the node
+* <b>node *left</b> - a pointer to a left son of the node
+* <b>node *right</b> - a pointer to a right son of the node
+* <b>int color</b> - color of the node
 2. **Methods:**
 * 
