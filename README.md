@@ -1,4 +1,4 @@
-# Generic-Red-Black-Tree
+# Generic-Red-Black-Tree by Szymon Peszek
 A generic implementation of red-black tree with iterators
 
 # Red–Black Tree
@@ -77,9 +77,11 @@ Class **Iterator** represents iterator for **Red-Black Tree**
    * <b>pointer operator->()</b> - returns _Iter_ field
    * <b>operator bool()</b> - returns **true** if the iterator is not NULL, otherwise returns **false**
 3. **typedefs:**
-   * typedef T *       pointer;
-   * typedef T const * const_pointer;
-   * typedef T &       memory_ref;
-   * typedef T const & const_memory_ref;
+   * <b>typedef T * pointer</b>
+   * <b>typedef T const * const_pointer</b>
+   * <b>typedef T & memory_ref</b>
+   * <b>typedef T const & const_memory_ref</b>
   
 # General use
+1. Impleneting other structures like std::set
+2. Simple test is in the _simpleRBTree_test.cpp_ 
