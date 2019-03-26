@@ -1,4 +1,4 @@
-# Generic-Red-Black-Tree by Szymon Peszek
+# Generic Red-Black-Tree by Szymon Peszek
 A generic implementation of red-black tree with iterators
 
 # Red–Black Tree
