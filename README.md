@@ -11,7 +11,7 @@ Tracking the color of each node requires only 1 bit of information per node beca
 
 # Classes
 ## node
-Class **node** is a representation of a tree node
+Class **node** is a representation of a **Red-Black Tree** node
 1. **Fields:**
    * <b>T key</b> - value of the node
    * <b>node *father</b> - a pointer to a father of the node
@@ -64,3 +64,22 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
      * <b>inline void Split(node<T>*)</b> - splitting trees
      * <b>node<T>* Successor(node<T>*)</b> - returns a **succesor** of the _input node_ or **NULL** if the node doesn't havy a succesor
      * <b>inline void Delete_fix(node<T>*)</b> - fixing the balance of the tree and adjusting colors of the nodes after deletion
+## Iterator
+Class **Iterator** represents iterator for **Red-Black Tree**
+1. **Fields:**
+   * <b>node<T> * Iter</b> - representation of the Red-Black Tree node for iterator
+2. **Methods:**
+   * <b>Iterator()</b>, <b>Iterator(node<T>* ptr)</b>, <b>Iterator(const Iterator &s)</b> - constructors
+   * <b>Iterator operator++()</b> - post incrementation and <b>Iterator operator++(int)</b> - pre incrementation
+   * <b>operators (=, ==, !=)</b> - (needed) operators for general use
+   * <b>operator node<T>&()</b> and <b>operator const node<T>& ()</b> - returns a pointer to the _Iter_ field
+   * <b>memory_ref operator*()</b> - returns key of the iterator
+   * <b>pointer operator->()</b> - returns _Iter_ field
+   * <b>operator bool()</b> - returns **true** if the iterator is not NULL, otherwise returns **false**
+3. **typedefs:**
+   * typedef T *       pointer;
+   * typedef T const * const_pointer;
+   * typedef T &       memory_ref;
+   * typedef T const & const_memory_ref;
+  
+# General use
