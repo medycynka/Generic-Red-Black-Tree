@@ -86,8 +86,7 @@ template <typename T>
 inline node<T>* node<T>::node_Successor(){
     if(this != NULL){
         if(right != NULL) return right->min_node();
-
-        if(is_left_son()) return father;
+        else if(is_left_son()) return father;
 
         node* successor = this;
 
@@ -106,8 +105,7 @@ template <typename T>
 inline node<T>* node<T>::node_Predecessor(){
     if(this != NULL){
         if(left != NULL) return left->max_node();
-
-        if(is_right_son()) return father;
+        else if(is_right_son()) return father;
 
         node* predeccesor = this;
 
@@ -151,7 +149,6 @@ class RBTree{
         class Iterator{
             protected:
                 node<T> * Iter;
-				std::stack<node<T> *> iter_Stack;
 
             public:
                 friend class RBTree<T>;
@@ -208,7 +205,7 @@ template <typename T>
 typename RBTree<T>::Iterator RBTree<T>::EMPTY_ITERATOR = Iterator();
 
 // POST-ORDER
-template <typename T>
+/*template <typename T>
 typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
     node<T>* node_ = this->Iter;
 
@@ -239,6 +236,44 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
 
             return *this;
         }
+    }
+}
+*/
+
+// IN-ORDER
+template <typename T>
+typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
+    if(this->Iter != NULL){
+        node<T>* node_ = this->Iter;
+
+        if(node_->right != NULL){
+            this->Iter = node_->right->min_node();
+
+            return *this;
+        }
+        else if(node_->is_left_son()){
+            this->Iter = node_->father;
+
+            return *this;
+        }
+
+        do{
+            node_ = node_->father;
+        }while(node_ != NULL && node_->is_right_son());
+
+        if(node_ != NULL){
+            this->Iter = node_->father;
+
+            return *this;
+        }
+        else{
+            this->Iter = NULL;
+
+            return *this;
+        }
+    }
+    else{
+        return *this;
     }
 }
 
