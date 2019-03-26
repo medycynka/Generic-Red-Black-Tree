@@ -13,10 +13,19 @@ Tracking the color of each node requires only 1 bit of information per node beca
 ## node
 Class **node** is a representation of a tree node
 1. **Fields:**
-* <b>T key</b> - value of the node
-* <b>node *father</b> - a pointer to a father of the node
-* <b>node *left</b> - a pointer to a left son of the node
-* <b>node *right</b> - a pointer to a right son of the node
-* <b>int color</b> - color of the node
+   * <b>T key</b> - value of the node
+   * <b>node *father</b> - a pointer to a father of the node
+   * <b>node *left</b> - a pointer to a left son of the node
+   * <b>node *right</b> - a pointer to a right son of the node
+   * <b>int color</b> - color of the node
 2. **Methods:**
-* 
+   * <b>node()</b>, <b>node(T input)</b>, <b>node(const node &s)</b>, <b>node(T input, node* father_)</b>, <b>node(T input, node* father_, int new_color)</b> - constructors
+   * <b>inline void print_node()</b> - printing a value of the node, father's key, left son's key and a right son's key
+   * <b>all operators</b> (=, ==, !=, >, <, >=, <=) - operators to compare node's key and nodes between themselves
+   * <b>inline bool is_left_son()</b> - returning **true** if the node is a left son
+   * <b>inline bool is_right_son()</b> - returning **true** if the node is a right son
+   * <b>inline node* max_node()</b> - returning a node with **maximal key**
+   * <b>inline node* min_node()</b> - returning a node with **minimal key**
+   * <b></b>
+   * <b></b>
+   * <b></b>
