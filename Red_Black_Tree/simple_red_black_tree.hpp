@@ -2,7 +2,6 @@
 #define _SIMPLE_RED_BLACK_TREE_HPP_
 
 #include <iostream>
-#include <stack>
 
 enum colors { red, black };
 
