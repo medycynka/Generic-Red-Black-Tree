@@ -21,7 +21,7 @@ class node{
         node(T input, node* father_, int new_color) : key(input), father(father_), left(NULL), right(NULL), color(new_color){};
         inline void print_node();
 
-        T &  operator= ( const T & input )	            { key = input; };
+        T &  operator= ( const T & input )              { key = input; };
         bool operator==( const T & input )     const	{ return key == input; };
         bool operator!=( const T & input )     const	{ return key != input; };
         bool operator> ( const T & input )     const	{ return key > input; };
@@ -133,10 +133,10 @@ inline node<T>* node<T>::node_Sibling(){
 template <typename T>
 class RBTree{
         inline int      Size(node<T>*);
-        inline void     Display(node<T>*,int);
-        inline void     Rotate_left (node<T>*);
+        inline void     Display(node<T>*, int);
+        inline void     Rotate_left(node<T>*);
         inline void     Rotate_right(node<T>*);
-        inline void     Insert_fix (node<T>*);
+        inline void     Insert_fix(node<T>*);
         RBTree(node<T>*);
         inline void     Merge(node<T>*);
         inline void     Split(node<T>*);
@@ -176,7 +176,7 @@ class RBTree{
         RBTree():root(NULL){};
         RBTree(const RBTree<T> &);
         RBTree(const RBTree<T> &&);
-        node<T>*        getRoot(){return root;}
+        node<T>*        getRoot(){ return root; };
         inline void     Insert(T input);
         inline bool     T_find(T);
         node<T>*        T_node_find(T);
