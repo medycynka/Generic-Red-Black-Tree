@@ -171,7 +171,7 @@ class RBTree{
                 operator const node<T>& ()                       const { return (*Iter); };
                 memory_ref operator*    ()                       const { return (Iter->key); };
                 pointer    operator->   ()                       const { return Iter; };
-				operator bool           ()                       const { Iter == NULL ? true : false; };
+                operator bool           ()                       const { Iter == NULL ? true : false; };
         };
 
         RBTree():root(NULL){};
