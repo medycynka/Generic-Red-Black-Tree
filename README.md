@@ -22,12 +22,34 @@ Class **node** is a representation of a tree node
    * <b>node()</b>, <b>node(T input)</b>, <b>node(const node &s)</b>, <b>node(T input, node* father_)</b>, <b>node(T input, node* father_, int new_color)</b> - constructors
    * <b>inline void print_node()</b> - printing a value of the node, father's key, left son's key and a right son's key
    * <b>all operators</b> (=, ==, !=, >, <, >=, <=) - operators to compare node's key and nodes between themselves
-   * <b>inline bool is_left_son()</b> - returns **true** if the node is a left son
-   * <b>inline bool is_right_son()</b> - returns **true** if the node is a right son
+   * <b>inline bool is_left_son()</b> - returns **true** if the node is a left son, otherwise returns **false**
+   * <b>inline bool is_right_son()</b> - returns **true** if the node is a right son, otherwise returns **false**
    * <b>inline node* max_node()</b> - returns a node with **maximal key**
    * <b>inline node* min_node()</b> - returns a node with **minimal key**
-   * <b>inline node* node_Successor()</b> - returns a **succesor** of the node
-   * <b>inline node* node_Predecessor()</b> - returns a **predecessor** of the node
+   * <b>inline node* node_Successor()</b> - returns a **succesor** of the node or **NULL** if the node doesn't havy a succesor
+   * <b>inline node* node_Predecessor()</b> - returns a **predecessor** of the node or **NULL** if the node doesn't havy a predecessor
    * <b>inline node* node_Sibling()</b> - returns, a **sibling** of the node or **NULL** if node doesn't have a sibling or is a root of the tree
    
 ## RBTree
+Class **RBTree** is a main class representing **Red-Black Tree** structure
+1. **Fields:**
+   * <b>node<T> *root</b> - root of the tree
+   * <b>Iterator iterator</b> - iterator for the tree
+   * <b>static Iterator EMPTY_ITERATOR</b> - field that represents the end of the iterator
+2. **Methods:**
+   * <b>public:</b>
+     * <b>RBTree()</b>, <b>RBTree(const RBTree<T> &)</b>, <b>RBTree(const RBTree<T> &&)</b> - constructors
+     * <b>node<T>* getRoot()</b> - returns root of the tree
+     * <b>inline void Insert(T input)</b> - inserting _input_ to the tree
+     * <b>inline bool T_find(T)</b> - returns **true**  if the value of the search item belongs to the tree, otherwise returns **false**
+     * <b>node<T>* T_node_find(T)</b> - returns **node** with the key of the search item, if it belongs to the tree, otherwise returns **NULL**
+     * <b>inline void Display()</b> - printing elements of the tree
+     * <b>operators</b> - operator **+ (merging trees)**, **- (spliting tree)** and **=**
+     * <b>inline int Black_hight()</b> - returns the height of black nodes
+     * <b>inline int Size()</b> - returns number of elements in the tree
+     * <b>inline void Delete(T)</b> - deleting node with _input_ key
+     * <b>inline bool isEmpty()</b> - returns **true** if the tree is empty, otherwise returns **false**
+     * <b>Iterator maxIt()</b> - returns **iterator** to the node with **maximal key**
+     * <b>Iterator minIt()</b> - returns **iterator** to the node with **minimal key**
+     * <b>Iterator& begin()</b> - returns **iterator** to the starting node (basic, with minimal key)
+     * <b>Iterator& nd()</b> - returns **iterator** after the last node (basic, with maximal key)
