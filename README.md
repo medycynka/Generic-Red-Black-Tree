@@ -28,8 +28,8 @@ These constraints enforce a critical property of red–black trees: the path fro
 To see why this is guaranteed, it suffices to consider the effect of properties 4 and 5 together. For a red–black tree T, let B be the number of black nodes in property 5. Let the shortest possible path from the root of T to any leaf consist of B black nodes. Longer possible paths may be constructed by inserting red nodes. However, property 4 makes it impossible to insert more than one consecutive red node. Therefore, ignoring any black NIL leaves, the longest possible path consists of 2*B nodes, alternating black and red (this is the worst case). Counting the black NIL leaves, the longest possible path consists of 2*B-1 nodes.
 The shortest possible path has all black nodes, and the longest possible path alternates between red and black nodes. Since all maximal paths have the same number of black nodes, by property 5, this shows that no path is more than twice as long as any other path.
 
-# Classes
-## node
+# Implementation
+## _class_ node
 Class **node** is a representation of a **Red-Black Tree** node
 1. **Fields:**
    * <b>T key</b> - value of the node
@@ -49,7 +49,7 @@ Class **node** is a representation of a **Red-Black Tree** node
    * <b>inline node* node_Predecessor()</b> - returns a **predecessor** of the node or **NULL** if the node doesn't havy a predecessor
    * <b>inline node* node_Sibling()</b> - returns, a **sibling** of the node or **NULL** if node doesn't have a sibling or is a root of the tree
    
-## RBTree
+## _class_ RBTree
 Class **RBTree** is a main class representing **Red-Black Tree** structure
 1. **Fields:**
    * <b>node<T> *root</b> - root of the tree
@@ -83,7 +83,7 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
      * <b>inline void Split(node<T>*)</b> - splitting trees
      * <b>node<T>* Successor(node<T>*)</b> - returns a **succesor** of the _input node_ or **NULL** if the node doesn't havy a succesor
      * <b>inline void Delete_fix(node<T>*)</b> - fixing the balance of the tree and adjusting colors of the nodes after deletion
-## Iterator
+## _class_ Iterator
 Class **Iterator** represents iterator for **Red-Black Tree**
 1. **Fields:**
    * <b>node<T> * Iter</b> - representation of the Red-Black Tree node for iterator
