@@ -71,7 +71,7 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
      * <b>Iterator maxIt()</b> - returns **iterator** to the node with **maximal key**
      * <b>Iterator minIt()</b> - returns **iterator** to the node with **minimal key**
      * <b>Iterator& begin()</b> - returns **iterator** to the starting node (basic, with minimal key)
-     * <b>Iterator& nd()</b> - returns **iterator** after the last node (basic, with maximal key)
+     * <b>Iterator& end()</b> - returns **iterator** after the last node (basic, with maximal key)
    * <b>private:</b>
      * <b>inline int Size(node<T>*)</b> - helper method, that allows to count number of nodes below the _input node_
      * <b>inline void Display(node<T>*, int)</b> - helper function displaying elements of the tree with a level of the nodes
