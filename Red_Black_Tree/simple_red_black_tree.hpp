@@ -160,17 +160,17 @@ class RBTree{
                 Iterator()                  : Iter(NULL){};
                 Iterator(node<T>* ptr)      : Iter(ptr){};
                 Iterator(const Iterator &s) : Iter(s.Iter){};
-
-                Iterator   operator++   ();
-                Iterator   operator++   (int);
-                Iterator&  operator=    (const_memory_ref source);
-                bool       operator==   (const Iterator& source) const { return (Iter == source.Iter); };
-                bool       operator!=   (const Iterator& source) const { return (Iter != source.Iter); };
-                operator node<T>&       ()                             { return (*Iter); };
-                operator const node<T>& ()                       const { return (*Iter); };
-                memory_ref operator*    ()                       const { return (Iter->key); };
-                pointer    operator->   ()                       const { return Iter; };
-                operator bool           ()                       const { return (Iter != NULL); };
+				
+                Iterator   operator++      ();
+                Iterator   operator++      (int);
+                Iterator&  operator=       (const_memory_ref source);
+                bool       operator==      (const Iterator& source) const { return (Iter == source.Iter); };
+                bool       operator!=      (const Iterator& source) const { return (Iter != source.Iter); };
+                operator node<T>&          ()                             { return (*Iter); };
+                operator const node<T>&    ()                       const { return (*Iter); };
+                const_memory_ref operator* ()                       const { return (Iter->key); };
+                pointer    operator->      ()                       const { return Iter; };
+                operator bool              ()                       const { return (Iter != NULL); };
         };
 
         RBTree():root(NULL){};
@@ -190,10 +190,10 @@ class RBTree{
         inline void     Delete(T);
 
         inline bool     isEmpty() const { return root == NULL; };
-        Iterator        maxIt()         { return ( isEmpty() ? end() : Iterator(root->max_node()) ); };
-        Iterator        minIt()         { return ( isEmpty() ? end() : Iterator(root->min_node()) ); };
-        Iterator&       begin()         { iterator = minIt(); return iterator; };
-        Iterator&       end()           { return EMPTY_ITERATOR; };
+        Iterator        maxIt()   const { return ( isEmpty() ? end() : Iterator(root->max_node()) ); };
+        Iterator        minIt()   const { return ( isEmpty() ? end() : Iterator(root->min_node()) ); };
+        Iterator        begin()   const { return minIt(); };
+        Iterator        end()     const { return EMPTY_ITERATOR; };
 
         private:
         	Iterator iterator;
@@ -207,22 +207,17 @@ typename RBTree<T>::Iterator RBTree<T>::EMPTY_ITERATOR = Iterator();
 /*template <typename T>
 typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
     node<T>* node_ = this->Iter;
-
     if(node_->father == NULL){
         this->Iter = NULL;
-
         return *this;
     }
-
     if(node_ == node_->father->left && node_->father->right != NULL){
         node_ = node_->father->right;
     }
     else{
         this->Iter = node_->father;
-
         return *this;
     }
-
     while(true){
         if(node_->left != NULL){
             node_ = node_->left;
@@ -232,7 +227,6 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
         }
         else{
             this->Iter = node_;
-
             return *this;
         }
     }
@@ -286,7 +280,7 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(int){
 
 template <typename T>
 typename RBTree<T>::Iterator& RBTree<T>::Iterator::operator=(const_memory_ref source){
-    Iter->key = source;
+    this->Iter->key = source;
 
     return (*this);
 }
