@@ -45,13 +45,13 @@ int main(int argc, char* argv[]){
 
     cout << endl;
 
-    for(auto it = tree.rbegin(); it != tree.end(); it--){
+    for(auto it = tree.rbegin(); it != tree.rend(); it++){
         cout << *it << ", ";
     }
 
     cout << endl;
 
-    for(auto it = tree.rbegin(); it != tree.end(); --it){
+    for(auto it = tree.rbegin(); it != tree.rend(); ++it){
         cout << *it << ", ";
     }
 
