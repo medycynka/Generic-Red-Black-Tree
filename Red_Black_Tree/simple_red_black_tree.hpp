@@ -7,41 +7,41 @@ enum colors { red, black };
 
 template <typename T>
 class node{
-    public:
-        T    key;
-        node *father;
-        node *left;
-        node *right;
-        int  color;
+public:
+    T    key;
+    node *father;
+    node *left;
+    node *right;
+    int  color;
 
-        node()                                      : father(NULL), left(NULL), right(NULL), color(black)                   {};
-        node(T input)                               : key(input), father(NULL), left(NULL), right(NULL), color(red)         {};
-        node(const node &s)                         { (*this) = s; };
-        node(T input, node* father_)                : key(input), father(father_), left(NULL), right(NULL), color(red)      {};
-        node(T input, node* father_, int new_color) : key(input), father(father_), left(NULL), right(NULL), color(new_color){};
-        inline void print_node();
+    node()                                      : father(NULL), left(NULL), right(NULL), color(black)                   {};
+    node(T input)                               : key(input), father(NULL), left(NULL), right(NULL), color(red)         {};
+    node(const node &s)                         { (*this) = s; };
+    node(T input, node* father_)                : key(input), father(father_), left(NULL), right(NULL), color(red)      {};
+    node(T input, node* father_, int new_color) : key(input), father(father_), left(NULL), right(NULL), color(new_color){};
+    inline void print_node();
 
-        T &  operator= ( const T & input )              { key = input; };
-        bool operator==( const T & input )     const	{ return key == input; };
-        bool operator!=( const T & input )     const	{ return key != input; };
-        bool operator> ( const T & input )     const	{ return key > input; };
-        bool operator< ( const T & input )     const	{ return key < input; };
-        bool operator>=( const T & input )     const	{ return key >= input; };
-        bool operator<=( const T & input )     const	{ return key <= input; };
-        bool operator==( const node & source ) const	{ return ( (key == source.key) && (father == source.father) ); };
-        bool operator!=( const node & source)  const	{ return ( (key != source.key) || (father != source.father) ); };
-        bool operator> ( const node & source)  const	{ return key > source.key; };
-        bool operator< ( const node & source)  const	{ return key < source.key; };
-        bool operator>=( const node & source)  const	{ return key >= source.key; };
-        bool operator<=( const node & source)  const	{ return key <= source.key; };
+    T &  operator= ( const T & input )              { key = input; };
+    bool operator==( const T & input )     const	{ return key == input; };
+    bool operator!=( const T & input )     const	{ return key != input; };
+    bool operator> ( const T & input )     const	{ return key > input; };
+    bool operator< ( const T & input )     const	{ return key < input; };
+    bool operator>=( const T & input )     const	{ return key >= input; };
+    bool operator<=( const T & input )     const	{ return key <= input; };
+    bool operator==( const node & source ) const	{ return ( (key == source.key) && (father == source.father) ); };
+    bool operator!=( const node & source)  const	{ return ( (key != source.key) || (father != source.father) ); };
+    bool operator> ( const node & source)  const	{ return key > source.key; };
+    bool operator< ( const node & source)  const	{ return key < source.key; };
+    bool operator>=( const node & source)  const	{ return key >= source.key; };
+    bool operator<=( const node & source)  const	{ return key <= source.key; };
 
-        inline bool    is_left_son()  const { return ( (father != NULL) && father->left == this ); };
-        inline bool    is_right_son() const { return ( (father != NULL) && father->right == this ); };
-        inline node*   max_node()           { return ( (right == NULL) ? this : right->max_node() ); };
-        inline node*   min_node()           { return ( (left == NULL) ? this : left->min_node() ); };
-        inline node*   node_Successor();
-        inline node*   node_Predecessor();
-        inline node*   node_Sibling();
+    inline bool    is_left_son()  const { return ( (father != NULL) && father->left == this ); };
+    inline bool    is_right_son() const { return ( (father != NULL) && father->right == this ); };
+    inline node*   max_node()           { return ( (right == NULL) ? this : right->max_node() ); };
+    inline node*   min_node()           { return ( (left == NULL) ? this : left->min_node() ); };
+    inline node*   node_Successor();
+    inline node*   node_Predecessor();
+    inline node*   node_Sibling();
 };
 
 template <typename T>
@@ -90,7 +90,7 @@ inline node<T>* node<T>::node_Successor(){
         node* successor = this;
 
         do{
-            successor->father;
+            successor = successor->father;
         }while( (successor != NULL) && (successor->is_right_son()) );
 
         if(successor != NULL) return successor->father;
@@ -109,7 +109,7 @@ inline node<T>* node<T>::node_Predecessor(){
         node* predeccesor = this;
 
         do{
-            predeccesor->left;
+            predeccesor = predeccesor->father;
         }while( (predeccesor != NULL) && (predeccesor->is_left_son()) );
 
         if(predeccesor != NULL) return predeccesor->father;
@@ -132,76 +132,111 @@ inline node<T>* node<T>::node_Sibling(){
 
 template <typename T>
 class RBTree{
-        inline int      Size(node<T>*);
-        inline void     Display(node<T>*, int);
-        inline void     Rotate_left(node<T>*);
-        inline void     Rotate_right(node<T>*);
-        inline void     Insert_fix(node<T>*);
-        RBTree(node<T>*);
-        inline void     Merge(node<T>*);
-        inline void     Split(node<T>*);
-        node<T>         *root;
-        node<T>*        Successor(node<T>*);
-        inline void     Delete_fix(node<T>*);
+    inline int      Size(node<T>*);
+    inline void     Display(node<T>*, int);
+    inline void     Rotate_left(node<T>*);
+    inline void     Rotate_right(node<T>*);
+    inline void     Insert_fix(node<T>*);
+    RBTree(node<T>*);
+    inline void     Merge(node<T>*);
+    inline void     Split(node<T>*);
+    node<T>         *root;
+    node<T>*        Successor(node<T>*);
+    inline void     Delete_fix(node<T>*);
+
+public:
+    class Iterator{
+    protected:
+        node<T> * Iter;
 
     public:
-        class Iterator{
-            protected:
-                node<T> * Iter;
+        friend class RBTree<T>;
 
-            public:
-                friend class RBTree<T>;
+        typedef T *       pointer;
+        typedef T const * const_pointer;
+        typedef T &       memory_ref;
+        typedef T const & const_memory_ref;
 
-                typedef T *       pointer;
-                typedef T const * const_pointer;
-                typedef T &       memory_ref;
-                typedef T const & const_memory_ref;
+        Iterator()                  : Iter(NULL){};
+        Iterator(node<T>* ptr)      : Iter(ptr){};
+        Iterator(const Iterator &s) : Iter(s.Iter){};
+        Iterator(const Iterator &&s): Iter(s.Iter){};
 
-                Iterator()                  : Iter(NULL){};
-                Iterator(node<T>* ptr)      : Iter(ptr){};
-                Iterator(const Iterator &s) : Iter(s.Iter){};
-				
-                Iterator   operator++      ();
-                Iterator   operator++      (int);
-                Iterator&  operator=       (const_memory_ref source);
-                bool       operator==      (const Iterator& source) const { return (Iter == source.Iter); };
-                bool       operator!=      (const Iterator& source) const { return (Iter != source.Iter); };
-                operator node<T>&          ()                             { return (*Iter); };
-                operator const node<T>&    ()                       const { return (*Iter); };
-                const_memory_ref operator* ()                       const { return (Iter->key); };
-                pointer    operator->      ()                       const { return Iter; };
-                operator bool              ()                       const { return (Iter != NULL); };
-        };
+        Iterator   operator++      ();
+        Iterator   operator++      (int);
+        Iterator   operator--      ();
+        Iterator   operator--      (int);
+        Iterator & operator=       (const Iterator &source)       { this->Iter = source.Iter; return (*this); };
+        Iterator & operator=       (const Iterator &&source)      { this->Iter = source.Iter; return (*this); };
+        bool       operator==      (const Iterator& source) const { return (Iter == source.Iter); };
+        bool       operator!=      (const Iterator& source) const { return (Iter != source.Iter); };
+        operator node<T>&          ()                             { return (*Iter); };
+        operator const node<T>&    ()                       const { return (*Iter); };
+        const_memory_ref operator* ()                       const { return (Iter->key); };
+        pointer    operator->      ()                       const { return Iter; };
+        operator bool              ()                       const { return (Iter != NULL); };
+    };
 
-        RBTree():root(NULL){};
-        RBTree(const RBTree<T> &);
-        RBTree(const RBTree<T> &&);
-        node<T>*        getRoot(){ return root; };
-        inline void     Insert(T input);
-        inline bool     T_find(T);
-        node<T>*        T_node_find(T);
-        inline void     Display();
-        void            operator+(const RBTree<T>&);
-        void            operator-(const RBTree<T>&);
-        void            operator=(const RBTree<T> &);
-        void            operator=(const RBTree<T> &&);
-        inline int      Black_hight();
-        inline int      Size();
-        inline void     Delete(T);
+    class ConstIterator{
+    protected:
+        node<T> * Iter;
 
-        inline bool     isEmpty() const { return root == NULL; };
-        Iterator        maxIt()   const { return ( isEmpty() ? end() : Iterator(root->max_node()) ); };
-        Iterator        minIt()   const { return ( isEmpty() ? end() : Iterator(root->min_node()) ); };
-        Iterator        begin()   const { return minIt(); };
-        Iterator        end()     const { return EMPTY_ITERATOR; };
+    public:
+        friend class RBTree<T>;
 
-        private:
-        	Iterator iterator;
-        	static Iterator EMPTY_ITERATOR;
+        typedef T *       pointer;
+        typedef T const * const_pointer;
+        typedef T &       memory_ref;
+        typedef T const & const_memory_ref;
+
+        ConstIterator()                  : Iter(NULL){};
+        ConstIterator(node<T>* ptr)      : Iter(ptr){};
+        ConstIterator(const Iterator &s) : Iter(s.Iter){};
+        ConstIterator(const Iterator &&s): Iter(s.Iter){};
+
+        ConstIterator   operator++  ()    const;
+        ConstIterator   operator++  (int) const;
+        ConstIterator   operator--  ()    const;
+        ConstIterator   operator--  (int) const;
+        ConstIterator & operator=   (const ConstIterator &source)       { this->Iter = source.Iter; return (*this); };
+        ConstIterator & operator=   (const ConstIterator &&source)      { this->Iter = source.Iter; return (*this); };
+        bool            operator==  (const ConstIterator& source) const { return (Iter == source.Iter); };
+        bool            operator!=  (const ConstIterator& source) const { return (Iter != source.Iter); };
+        operator node<T>&           ()                             { return (*Iter); };
+        operator const node<T>&     ()                       const { return (*Iter); };
+        const_memory_ref operator*  ()                       const { return (Iter->key); };
+        const_pointer    operator-> ()                       const { return Iter; };
+        operator bool               ()                       const { return (Iter != NULL); };
+    };
+
+    RBTree():root(NULL){};
+    RBTree(const RBTree<T> &);
+    RBTree(const RBTree<T> &&);
+    node<T>*        getRoot(){ return root; };
+    inline void     Insert(T input);
+    inline bool     T_find(T);
+    node<T>*        T_node_find(T);
+    inline void     Display();
+    void            operator+(const RBTree<T>&);
+    void            operator-(const RBTree<T>&);
+    void            operator=(const RBTree<T> &);
+    void            operator=(const RBTree<T> &&);
+    inline int      Black_hight();
+    inline int      Size();
+    inline void     Delete(T);
+    inline bool     isEmpty() const { return root == NULL; };
+
+    Iterator        maxIt()   const { return ( isEmpty() ? end() : Iterator(root->max_node()) ); };
+    Iterator        minIt()   const { return ( isEmpty() ? end() : Iterator(root->min_node()) ); };
+    Iterator        begin()   const { return minIt(); };
+    Iterator        rbegin()  const { return maxIt(); };
+    Iterator        end()     const { return Iterator(); };
+    ConstIterator   maxIt_()  const { return ( isEmpty() ? cend() : ConstIterator(root->max_node()) ); };
+    ConstIterator   minIt_()  const { return ( isEmpty() ? cend() : ConstIterator(root->min_node()) ); };
+    ConstIterator   cbegin()  const { return minIt_(); };
+    ConstIterator   crbegin() const { return maxIt_(); };
+    ConstIterator   cend()    const { return ConstIterator(); };
 };
-
-template <typename T>
-typename RBTree<T>::Iterator RBTree<T>::EMPTY_ITERATOR = Iterator();
 
 // POST-ORDER
 /*template <typename T>
@@ -237,6 +272,11 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
 template <typename T>
 typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
     if(this->Iter != NULL){
+        this->Iter = this->Iter->node_Successor();
+
+        return *this;
+
+        /* if node_Successor() doesn't work for some reason
         node<T>* node_ = this->Iter;
 
         if(node_->right != NULL){
@@ -264,6 +304,7 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
 
             return *this;
         }
+        */
     }
     else{
         return *this;
@@ -278,11 +319,97 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(int){
     return pom;
 }
 
+// REVERSE IN-ORDER
 template <typename T>
-typename RBTree<T>::Iterator& RBTree<T>::Iterator::operator=(const_memory_ref source){
-    this->Iter->key = source;
+typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(){
+    if(this->Iter != NULL){
+        this->Iter = this->Iter->node_Predecessor();
 
-    return (*this);
+        return *this;
+
+        /* if node_Predecessor() doesn't work for some reason
+        node<T>* node_ = this->Iter;
+
+        if(node_->right != NULL){
+            this->Iter = node_->right->min_node();
+
+            return *this;
+        }
+        else if(node_->is_left_son()){
+            this->Iter = node_->father;
+
+            return *this;
+        }
+
+        do{
+            node_ = node_->father;
+        }while(node_ != NULL && node_->is_right_son());
+
+        if(node_ != NULL){
+            this->Iter = node_->father;
+
+            return *this;
+        }
+        else{
+            this->Iter = NULL;
+
+            return *this;
+        }
+        */
+    }
+    else{
+        return *this;
+    }
+}
+
+template <typename T>
+typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(int){
+    Iterator pom = *this;
+    --(*this);
+
+    return pom;
+}
+
+// IN-ORDER
+template <typename T>
+typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++() const{
+    if(this->Iter != NULL){
+        this-Iter = this->Iter->node_Successor();
+
+        return *this;
+    }
+    else{
+        return *this;
+    }
+}
+
+template <typename T>
+typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(int) const{
+    ConstIterator pom = *this;
+    ++(*this);
+
+    return pom;
+}
+
+// REVERSE IN-ORDER
+template <typename T>
+typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--() const{
+    if(this->Iter != NULL){
+        this->Iter = this->Iter->node_Predecessor();
+
+        return *this;
+    }
+    else{
+        return *this;
+    }
+}
+
+template <typename T>
+typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--(int) const{
+    Iterator pom = *this;
+    --(*this);
+
+    return pom;
 }
 
 template <typename T>
@@ -730,4 +857,4 @@ inline void RBTree<T>::Delete_fix(node<T> *p){
     }
 }
 
-#endif // _SIMPLE_RED_BLACK_TREE_HPP_
+#endif //_SIMPLE_RED_BLACK_TREE_HPP_
