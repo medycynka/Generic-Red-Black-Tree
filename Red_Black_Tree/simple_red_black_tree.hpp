@@ -152,11 +152,6 @@ public:
         public:
             friend class RBTree<T>;
 
-            typedef T *       pointer;
-            typedef T const * const_pointer;
-            typedef T &       memory_ref;
-            typedef T const & const_memory_ref;
-
             Iterator()                      : Iter(NULL){}
             explicit Iterator(node<T>* ptr) : Iter(ptr){};
             Iterator(const Iterator &s)     : Iter(s.Iter){};
@@ -172,8 +167,8 @@ public:
             bool       operator!=             (const Iterator& source) const { return (Iter != source.Iter); };
             explicit operator node<T> &       ()                             { return (*Iter); };
             explicit operator const node<T> & ()                       const { return (*Iter); };
-            const_memory_ref operator*        ()                       const { return (Iter->key); };
-            pointer    operator->             ()                       const { return Iter; };
+            T const &  operator*              ()                       const { return (Iter->key); };
+            node<T> *    operator->             ()                       const { return Iter; };
             explicit operator bool            ()                       const { return (Iter != NULL); };
     };
 
@@ -183,11 +178,6 @@ public:
 
         public:
             friend class RBTree<T>;
-
-            typedef T *       pointer;
-            typedef T const * const_pointer;
-            typedef T &       memory_ref;
-            typedef T const & const_memory_ref;
 
             ReverseIterator()                         : Iter(NULL){};
             explicit ReverseIterator(node<T>* ptr)    : Iter(ptr){};
@@ -204,8 +194,8 @@ public:
             bool              operator!=      (const ReverseIterator& source) const { return (Iter != source.Iter); };
             explicit operator node<T>&        ()                                    { return (*Iter); };
             explicit operator const node<T>&  ()                              const { return (*Iter); };
-            const_memory_ref  operator*       ()                              const { return (Iter->key); };
-            pointer           operator->      ()                              const { return Iter; };
+            T const &         operator*       ()                              const { return (Iter->key); };
+            node<T> *         operator->      ()                              const { return Iter; };
             explicit operator bool            ()                              const { return (Iter != NULL); };
     };
 
@@ -215,11 +205,6 @@ public:
 
         public:
             friend class RBTree<T>;
-
-            typedef T *       pointer;
-            typedef T const * const_pointer;
-            typedef T &       memory_ref;
-            typedef T const & const_memory_ref;
 
             ConstIterator()                       : Iter(NULL){};
             explicit ConstIterator(node<T>* ptr)  : Iter(ptr){};
@@ -236,8 +221,8 @@ public:
             bool             operator!=       (const ConstIterator& source) const { return (Iter != source.Iter); };
             explicit operator node<T> &       ()                                  { return (*Iter); };
             explicit operator const node<T> & ()                            const { return (*Iter); };
-            const_memory_ref operator*        ()                            const { return (Iter->key); };
-            const_pointer    operator->       ()                            const { return Iter; };
+            T const &        operator*        ()                            const { return (Iter->key); };
+            node<T> const *  operator->       ()                            const { return Iter; };
             explicit operator bool            ()                            const { return (Iter != NULL); };
     };
 
