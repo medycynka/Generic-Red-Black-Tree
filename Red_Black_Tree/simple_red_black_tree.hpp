@@ -178,35 +178,35 @@ public:
     };
 
     class ReverseIterator{
-    protected:
-        node<T> * Iter;
+        protected:
+            node<T> * Iter;
 
-    public:
-        friend class RBTree<T>;
+        public:
+            friend class RBTree<T>;
 
-        typedef T *       pointer;
-        typedef T const * const_pointer;
-        typedef T &       memory_ref;
-        typedef T const & const_memory_ref;
+            typedef T *       pointer;
+            typedef T const * const_pointer;
+            typedef T &       memory_ref;
+            typedef T const & const_memory_ref;
 
-        ReverseIterator()                         : Iter(NULL){};
-        ReverseIterator(node<T>* ptr)             : Iter(ptr){};
-        ReverseIterator(const ReverseIterator &s) : Iter(s.Iter){};
-        ReverseIterator(const ReverseIterator &&s): Iter(s.Iter){};
+            ReverseIterator()                         : Iter(NULL){};
+            ReverseIterator(node<T>* ptr)             : Iter(ptr){};
+            ReverseIterator(const ReverseIterator &s) : Iter(s.Iter){};
+            ReverseIterator(const ReverseIterator &&s): Iter(s.Iter){};
 
-        ReverseIterator   operator++      ();
-        ReverseIterator   operator++      (int);
-        ReverseIterator   operator--      ();
-        ReverseIterator   operator--      (int);
-        ReverseIterator & operator=       (const ReverseIterator &source)       { this->Iter = source.Iter; return (*this); };
-        ReverseIterator & operator=       (const ReverseIterator &&source)      { this->Iter = source.Iter; return (*this); };
-        bool              operator==      (const ReverseIterator& source) const { return (Iter == source.Iter); };
-        bool              operator!=      (const ReverseIterator& source) const { return (Iter != source.Iter); };
-        operator node<T>&                 ()                                    { return (*Iter); };
-        operator const node<T>&           ()                              const { return (*Iter); };
-        const_memory_ref  operator*       ()                              const { return (Iter->key); };
-        pointer           operator->      ()                              const { return Iter; };
-        operator bool                     ()                              const { return (Iter != NULL); };
+            ReverseIterator   operator++      ();
+            ReverseIterator   operator++      (int);
+            ReverseIterator   operator--      ();
+            ReverseIterator   operator--      (int);
+            ReverseIterator & operator=       (const ReverseIterator &source)       { this->Iter = source.Iter; return (*this); };
+            ReverseIterator & operator=       (const ReverseIterator &&source)      { this->Iter = source.Iter; return (*this); };
+            bool              operator==      (const ReverseIterator& source) const { return (Iter == source.Iter); };
+            bool              operator!=      (const ReverseIterator& source) const { return (Iter != source.Iter); };
+            operator node<T>&                 ()                                    { return (*Iter); };
+            operator const node<T>&           ()                              const { return (*Iter); };
+            const_memory_ref  operator*       ()                              const { return (Iter->key); };
+            pointer           operator->      ()                              const { return Iter; };
+            operator bool                     ()                              const { return (Iter != NULL); };
     };
 
     class ConstIterator{
