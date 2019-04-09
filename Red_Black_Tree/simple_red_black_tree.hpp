@@ -211,9 +211,9 @@ public:
             ConstIterator(const ConstIterator &s)           : Iter(s.Iter){};
             ConstIterator(const ConstIterator &&s) noexcept : Iter(s.Iter){};
 
-            ConstIterator    operator++       ()    const;
+            ConstIterator    operator++       ();
             ConstIterator    operator++       (int) const;
-            ConstIterator    operator--       ()    const;
+            ConstIterator    operator--       ();
             ConstIterator    operator--       (int) const;
             ConstIterator &  operator=        (const ConstIterator &source)       { this->Iter = source.Iter; return (*this); };
             ConstIterator &  operator=        (ConstIterator &&source)   noexcept { this->Iter = source.Iter; return (*this); };
@@ -427,9 +427,9 @@ typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator--(int){
 
 // IN-ORDER
 template <typename T>
-typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++() const{
+typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(){
     if(this->Iter != NULL){
-        this-Iter = this->Iter->node_Successor();
+        this->Iter = this->Iter->node_Successor();
 
         return *this;
     }
@@ -447,7 +447,7 @@ typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(int) cons
 }
 
 template <typename T>
-typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--() const{
+typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--(){
     if(this->Iter != NULL){
         this->Iter = this->Iter->node_Predecessor();
 
