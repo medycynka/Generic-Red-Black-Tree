@@ -72,6 +72,10 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
      * <b>Iterator minIt()</b> - returns **iterator** to the node with **minimal key**
      * <b>Iterator& begin()</b> - returns **iterator** to the starting node (basic, with minimal key)
      * <b>Iterator& end()</b> - returns **iterator** after the last node (basic, with maximal key)
+     * <b>Iterator& rbegin()</b> - returns **reverse_iterator** to the starting node (basic, with maximal key)
+     * <b>Iterator& rend()</b> - returns **reverse_iterator** after the last node (basic, with minimal key)
+     * <b>Iterator& cbegin()</b> - returns **const_iterator** to the starting node (basic, with minimal key)
+     * <b>Iterator& cend()</b> - returns **const_iterator** after the last node (basic, with maximal key)
    * <b>private:</b>
      * <b>inline int Size(node<T>*)</b> - helper method, that allows to count number of nodes below the _input node_
      * <b>inline void Display(node<T>*, int)</b> - helper function displaying elements of the tree with a level of the nodes
@@ -89,7 +93,10 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
    * <b>node<T> * Iter</b> - representation of the Red-Black Tree node for iterator
 2. **Methods:**
    * <b>Iterator()</b>, <b>Iterator(node<T>* ptr)</b>, <b>Iterator(const Iterator &s)</b> - constructors
-   * <b>Iterator operator++()</b> - post incrementation and <b>Iterator operator++(int)</b> - pre incrementation
+   * <b>Iterator operator++()</b> - post incrementation
+   * <b>Iterator operator++(int)</b> - pre incrementation
+   * <b>Iterator operator--()</b> - post decrementation
+   * <b>Iterator operator--(int)</b> - pre decrementation
    * <b>operators (=, ==, !=)</b> - (needed) operators for general use
    * <b>operator node<T>&()</b> and <b>operator const node<T>& ()</b> - returns a pointer to the _Iter_ field
    * <b>memory_ref operator*()</b> - returns key of the iterator
@@ -97,5 +104,5 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
    * <b>operator bool()</b> - returns **true** if the iterator is not NULL, otherwise returns **false**
   
 # General use
-1. Impleneting other structures like std::set
+1. Impleneting other structures like **_std::set_** or **_std::map_**
 2. Simple test is in the _simpleRBTree_test.cpp_ 
