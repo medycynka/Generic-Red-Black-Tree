@@ -83,8 +83,8 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
      * <b>inline void Split(node<T>*)</b> - splitting trees
      * <b>node<T>* Successor(node<T>*)</b> - returns a **succesor** of the _input node_ or **NULL** if the node doesn't havy a succesor
      * <b>inline void Delete_fix(node<T>*)</b> - fixing the balance of the tree and adjusting colors of the nodes after deletion
-## _class_ Iterator
-Class **Iterator** represents iterator for **Red-Black Tree**
+## _class_ Iterator, ReverseIterator and ConstIterator
+**_Iterators_** represents iterator, reverse_iterator and cons_iterator class for **Red-Black Tree**
 1. **Fields:**
    * <b>node<T> * Iter</b> - representation of the Red-Black Tree node for iterator
 2. **Methods:**
@@ -95,11 +95,6 @@ Class **Iterator** represents iterator for **Red-Black Tree**
    * <b>memory_ref operator*()</b> - returns key of the iterator
    * <b>pointer operator->()</b> - returns _Iter_ field
    * <b>operator bool()</b> - returns **true** if the iterator is not NULL, otherwise returns **false**
-3. **typedefs:**
-   * <b>typedef T * pointer</b>
-   * <b>typedef T const * const_pointer</b>
-   * <b>typedef T & memory_ref</b>
-   * <b>typedef T const & const_memory_ref</b>
   
 # General use
 1. Impleneting other structures like std::set
