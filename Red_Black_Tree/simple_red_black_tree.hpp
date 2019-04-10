@@ -116,36 +116,6 @@ inline node<T>* node<T>::node_Predecessor(){
     return NULL;
 }
 
-// POST-ORDER
-/*template <typename T>
-typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
-    node<T>* node_ = this->Iter;
-    if(node_->father == NULL){
-        this->Iter = NULL;
-        return *this;
-    }
-    if(node_ == node_->father->left && node_->father->right != NULL){
-        node_ = node_->father->right;
-    }
-    else{
-        this->Iter = node_->father;
-        return *this;
-    }
-    while(true){
-        if(node_->left != NULL){
-            node_ = node_->left;
-        }
-        else if(node_->right != NULL){
-            node_ = node_->right;
-        }
-        else{
-            this->Iter = node_;
-            return *this;
-        }
-    }
-}
-*/
-
 template <typename T>
 inline node<T>* node<T>::node_For_Post_Order_Walk(){
     if(this != NULL){
@@ -200,6 +170,8 @@ public:
             Iterator(const Iterator &s)           : Iter(s.Iter){};
             Iterator(const Iterator &&s) noexcept : Iter(s.Iter){};
 
+            inline node<T> * getIter() { return Iter; };
+
             Iterator   operator++             ();
             Iterator   operator++             (int);
             Iterator   operator--             ();
@@ -227,6 +199,8 @@ public:
             ReverseIterator(const ReverseIterator &s)           : Iter(s.Iter){};
             ReverseIterator(const ReverseIterator &&s) noexcept : Iter(s.Iter){};
 
+            inline node<T> * getIter() { return Iter; };
+
             ReverseIterator   operator++      ();
             ReverseIterator   operator++      (int);
             ReverseIterator   operator--      ();
@@ -253,6 +227,8 @@ public:
             explicit ConstIterator(node<T>* ptr)            : Iter(ptr){};
             ConstIterator(const ConstIterator &s)           : Iter(s.Iter){};
             ConstIterator(const ConstIterator &&s) noexcept : Iter(s.Iter){};
+
+            inline node<T> * getIter() { return Iter; };
 
             ConstIterator    operator++       ();
             ConstIterator    operator++       (int) const;
