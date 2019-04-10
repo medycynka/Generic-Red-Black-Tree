@@ -19,6 +19,7 @@ public:
     node(const node &s)                         : key(s.key), father(s.father), left(s.left), right(s.right), color(s.color){};
     node(T input, node* father_)                : key(input), father(father_), left(NULL), right(NULL), color(red)          {};
     node(T input, node* father_, int new_color) : key(input), father(father_), left(NULL), right(NULL), color(new_color)    {};
+    ~node() = default;
 
     T &  operator= ( const T & input )              { key = input; };
     bool operator==( const T & input )     const	{ return key == input; };
@@ -47,32 +48,25 @@ public:
 template <typename T>
 inline void node<T>::print_node(){
     std::cout << "Key: " << key << ", color: ";
-    if(color == black) std::cout << "B" << std::endl;
-    else std::cout << "R" << std::endl;
+    std::cout << ( color == black ? "B" : "R" ) << std::endl;
 
     if(father != NULL ){
         std::cout << "(Father) key: " << father->key << ", color: ";
-
-        if(father->color == black) std::cout << "B" << std::endl;
-        else std::cout << "R" << std::endl;
+        std::cout << ( father->color == black ? "B" : "R" ) << std::endl;
     }
     else{
         std::cout << "No father (root)" << std::endl;
     }
     if(left != NULL){
         std::cout << "(Left son) key: " << left->key << ", color: ";
-
-        if(left->color == black) std::cout << "B" << std::endl;
-        else std::cout << "R" << std::endl;
+        std::cout << ( left->color == black ? "B" : "R" ) << std::endl;
     }
     else{
         std::cout << "(No left son)" << std::endl;
     }
     if(right != NULL){
         std::cout << "(Right son) key: " << right->key << ", color: ";
-
-        if(right->color == black) std::cout << "B" << std::endl;
-        else std::cout << "R" << std::endl;
+        std::cout << ( right->color == black ? "B" : "R" ) << std::endl;
     }
     else{
         std::cout << "(No right son)" << std::endl;
@@ -121,13 +115,8 @@ inline node<T>* node<T>::node_Predecessor(){
 
 template <typename T>
 inline node<T>* node<T>::node_Sibling(){
-    if(this != NULL){
-        if(father == NULL) return NULL;
-
-        return ( is_left_son() ? father->right : father->left );
-    }
-
-    return NULL;
+    if(this != NULL) return ( father == NULL ? NULL : ( is_left_son() ? father->right : father->left ) );
+    else return NULL;
 }
 
 template <typename T>
@@ -143,6 +132,7 @@ class RBTree{
     node<T>         *root;
     node<T>*        Successor(node<T>*);
     inline void     Delete_fix(node<T>*);
+    inline void     Destroy_tree(node<T>*);
 
 public:
     class Iterator{
@@ -229,15 +219,15 @@ public:
     RBTree():root(NULL){};
     RBTree(const RBTree<T> &);
     RBTree(const RBTree<T> &&) noexcept;
-    node<T>*        getRoot(){ return root; };
+    inline node<T>* getRoot() const { return root; };
     inline void     Insert(T input);
     inline bool     T_find(T);
-    node<T>*        T_node_find(T);
+    inline node<T>* T_node_find(T);
     inline void     Display();
-    void            operator+(const RBTree<T>&);
-    void            operator-(const RBTree<T>&);
-    void            operator=(const RBTree<T> &);
-    void            operator=(RBTree<T> &&) noexcept;
+    inline void     operator+(const RBTree<T>&);
+    inline void     operator-(const RBTree<T>&);
+    inline void     operator=(const RBTree<T> &);
+    inline void     operator=(RBTree<T> &&) noexcept;
     inline int      Black_hight();
     inline int      Size();
     inline void     Delete(T);
@@ -489,7 +479,7 @@ RBTree<T>::RBTree(const RBTree<T> &&tree) noexcept{
 }
 
 template <typename T>
-void RBTree<T>::operator=(const RBTree<T> &tree){
+inline void RBTree<T>::operator=(const RBTree<T> &tree){
     if(tree.root == NULL) root = NULL;
     else{
         root = new node<T>(tree.root->key);
@@ -500,7 +490,7 @@ void RBTree<T>::operator=(const RBTree<T> &tree){
 }
 
 template <typename T>
-void RBTree<T>::operator=(RBTree<T> &&tree) noexcept{
+inline void RBTree<T>::operator=(RBTree<T> &&tree) noexcept{
     if(tree.root == NULL) root = NULL;
     else{
         root = new node<T>(tree.root->key);
@@ -707,13 +697,13 @@ inline void RBTree<T>::Split(node<T> *p ) {
 }
 
 template<typename T>
-void RBTree<T>::operator+(const RBTree<T> & in){
+inline void RBTree<T>::operator+(const RBTree<T> & in){
     std::cout <<"\n\n Dodajemy do siebie drzewa \n";
     Merge(in.root);
 }
 
 template<typename T>
-void RBTree<T>::operator-(const RBTree<T> & in){
+inline void RBTree<T>::operator-(const RBTree<T> & in){
     std::cout <<"\n\n Odejmujemy od siebie drzewa \n";
     Split(in.root);
 }
@@ -812,11 +802,8 @@ inline void RBTree<T>::Delete(T x){
 
     if(found == 0) return;
     else{
-        std::cout << "\nDeleted Element: " << p->key;
-        std::cout << "\nColour: ";
-
-        if(p->color == black) std::cout << "Black\n";
-        else std::cout << "Red\n";
+        //std::cout << "\nDeleted Element: " << p->key << "\nColour: ";
+        //std::cout << (p->color == black ? "Black\n" : "Red\n" );
 
         if(p->left == NULL || p->right == NULL) y = p;
         else y = Successor(p);
@@ -909,6 +896,14 @@ inline void RBTree<T>::Delete_fix(node<T> *p){
             root->color = black;
         }
     }
+}
+
+template<typename T>
+void RBTree<T>::Destroy_tree(node<T> *ptr){
+    if(ptr == NULL) return;
+
+    Destroy_tree(ptr->node_Successor());
+    delete ptr;
 }
 
 #endif //_SIMPLE_RED_BLACK_TREE_HPP_
