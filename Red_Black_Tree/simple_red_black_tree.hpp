@@ -42,6 +42,7 @@ public:
     inline node*   min_node()           { return ( (left == NULL) ? this : left->min_node() ); };
     inline node*   node_Successor();
     inline node*   node_Predecessor();
+    inline node*   node_For_Post_Order_Walk();
     inline node*   node_Sibling();
 };
 
@@ -75,6 +76,7 @@ inline void node<T>::print_node(){
     std::cout << std::endl;
 }
 
+// For in-oredr walk / increment in iterator
 template <typename T>
 inline node<T>* node<T>::node_Successor(){
     if(this != NULL){
@@ -94,6 +96,7 @@ inline node<T>* node<T>::node_Successor(){
     return NULL;
 }
 
+// For reverse in-oredr walk / decrement in iterator
 template <typename T>
 inline node<T>* node<T>::node_Predecessor(){
     if(this != NULL){
@@ -108,6 +111,56 @@ inline node<T>* node<T>::node_Predecessor(){
 
         if(predeccesor != NULL) return predeccesor->father;
         else return NULL;
+    }
+
+    return NULL;
+}
+
+// POST-ORDER
+/*template <typename T>
+typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
+    node<T>* node_ = this->Iter;
+    if(node_->father == NULL){
+        this->Iter = NULL;
+        return *this;
+    }
+    if(node_ == node_->father->left && node_->father->right != NULL){
+        node_ = node_->father->right;
+    }
+    else{
+        this->Iter = node_->father;
+        return *this;
+    }
+    while(true){
+        if(node_->left != NULL){
+            node_ = node_->left;
+        }
+        else if(node_->right != NULL){
+            node_ = node_->right;
+        }
+        else{
+            this->Iter = node_;
+            return *this;
+        }
+    }
+}
+*/
+
+template <typename T>
+inline node<T>* node<T>::node_For_Post_Order_Walk(){
+    if(this != NULL){
+        node<T> *node_ = this;
+
+        if(node_->father == NULL) return NULL;
+
+        if(node_ == node_->father->left && node_->father->right != NULL) node_ = node_->father->right;
+        else return node_->father;
+
+        while(true){
+            if(node_->left != NULL) node_ = node_->left;
+            else if(node_->right != NULL) node_ = node_->right;
+            else return node_;
+        }
     }
 
     return NULL;
@@ -243,73 +296,12 @@ public:
     ConstIterator   cend()   const { return ConstIterator(); };
 };
 
-// POST-ORDER
-/*template <typename T>
-typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
-    node<T>* node_ = this->Iter;
-    if(node_->father == NULL){
-        this->Iter = NULL;
-        return *this;
-    }
-    if(node_ == node_->father->left && node_->father->right != NULL){
-        node_ = node_->father->right;
-    }
-    else{
-        this->Iter = node_->father;
-        return *this;
-    }
-    while(true){
-        if(node_->left != NULL){
-            node_ = node_->left;
-        }
-        else if(node_->right != NULL){
-            node_ = node_->right;
-        }
-        else{
-            this->Iter = node_;
-            return *this;
-        }
-    }
-}
-*/
-
-// IN-ORDER
 template <typename T>
 typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
     if(this->Iter != NULL){
         this->Iter = this->Iter->node_Successor();
 
         return *this;
-
-        /* if node_Successor() doesn't work for some reason
-        node<T>* node_ = this->Iter;
-
-        if(node_->right != NULL){
-            this->Iter = node_->right->min_node();
-
-            return *this;
-        }
-        else if(node_->is_left_son()){
-            this->Iter = node_->father;
-
-            return *this;
-        }
-
-        do{
-            node_ = node_->father;
-        }while(node_ != NULL && node_->is_right_son());
-
-        if(node_ != NULL){
-            this->Iter = node_->father;
-
-            return *this;
-        }
-        else{
-            this->Iter = NULL;
-
-            return *this;
-        }
-        */
     }
     else{
         return *this;
@@ -330,36 +322,6 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(){
         this->Iter = this->Iter->node_Predecessor();
 
         return *this;
-
-        /* if node_Predecessor() doesn't work for some reason
-        node<T>* node_ = this->Iter;
-
-        if(node_->right != NULL){
-            this->Iter = node_->right->min_node();
-
-            return *this;
-        }
-        else if(node_->is_left_son()){
-            this->Iter = node_->father;
-
-            return *this;
-        }
-
-        do{
-            node_ = node_->father;
-        }while(node_ != NULL && node_->is_right_son());
-
-        if(node_ != NULL){
-            this->Iter = node_->father;
-
-            return *this;
-        }
-        else{
-            this->Iter = NULL;
-
-            return *this;
-        }
-        */
     }
     else{
         return *this;
@@ -374,7 +336,6 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(int){
     return pom;
 }
 
-// IN-ORDER
 template <typename T>
 typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator++(){
     if(this->Iter != NULL){
@@ -415,7 +376,6 @@ typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator--(int){
     return pom;
 }
 
-// IN-ORDER
 template <typename T>
 typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(){
     if(this->Iter != NULL){
@@ -902,7 +862,7 @@ template<typename T>
 void RBTree<T>::Destroy_tree(node<T> *ptr){
     if(ptr == NULL) return;
 
-    Destroy_tree(ptr->node_Successor());
+    Destroy_tree(ptr->node_For_Post_Order_Walk());
     delete ptr;
 }
 
