@@ -20,7 +20,10 @@ int main(int argc, char* argv[]){
     }
 
     tree.Display();
-
+    cout << endl;
+    cout << (tree.T_find(3) ? "Found 3" : "Couldn't find 3") << endl;
+    tree.Delete(3);
+    cout << (tree.T_find(3) ? "Found 3" : "Couldn't find 3") << endl;
     cout << endl;
 
     cout << "Number of nodes: " << tree.Size() << endl;
@@ -62,6 +65,13 @@ int main(int argc, char* argv[]){
     cout << endl;
 
     for(auto it = tree.rbegin(); it != tree.rend(); ++it){
+        cout << *it << ", ";
+    }
+
+    RBTree<int> tree2 = tree;
+    cout << endl;
+
+    for(auto it = tree2.rbegin(); it != tree2.rend(); ++it){
         cout << *it << ", ";
     }
 

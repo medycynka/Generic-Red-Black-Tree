@@ -2,76 +2,85 @@
 #define _SIMPLE_RED_BLACK_TREE_HPP_
 
 #include <iostream>
+#include <iterator>
 
 enum colors { red, black };
 
 template <typename T>
 class node{
-public:
-    T    key;
-    node *father;
-    node *left;
-    node *right;
-    int  color;
+    public:
+        T    key;
+        node *father;
+        node *left;
+        node *right;
+        int  color;
+    
+        node()                                      : father(nullptr), left(nullptr), right(nullptr), color(black){};
+        explicit node(T input)                      : key(input), father(nullptr), left(nullptr), right(nullptr), color(red){};
+        node(const node &s)                         : key(s.key), father(s.father), left(s.left), right(s.right), color(s.color){};
+        node(T input, node* father_)                : key(input), father(father_), left(nullptr), right(nullptr), color(red){};
+        node(T input, node* father_, int new_color) : key(input), father(father_), left(nullptr), right(nullptr), color(new_color){};
+        ~node() = default;
+    
+        node& operator= ( const T &input)           { key = input; return *this; };
+        node& operator= ( const node<T> &input);
+        bool  operator==( const T &input)     const	{ return key == input; };
+        bool  operator!=( const T &input)     const	{ return key != input; };
+        bool  operator> ( const T &input)     const	{ return key > input; };
+        bool  operator< ( const T &input)     const	{ return key < input; };
+        bool  operator>=( const T &input)     const	{ return key >= input; };
+        bool  operator<=( const T &input)     const	{ return key <= input; };
+        bool  operator==( const node &source) const	{ return ( (key == source.key) && (father == source.father) ); };
+        bool  operator!=( const node &source) const	{ return ( (key != source.key) || (father != source.father) ); };
+        bool  operator> ( const node &source) const	{ return key > source.key; };
+        bool  operator< ( const node &source) const	{ return key < source.key; };
+        bool  operator>=( const node &source) const	{ return key >= source.key; };
+        bool  operator<=( const node &source) const	{ return key <= source.key; };
 
-    node()                                      : father(NULL), left(NULL), right(NULL), color(black)                       {};
-    explicit node(T input)                      : key(input), father(NULL), left(NULL), right(NULL), color(red)             {};
-    node(const node &s)                         : key(s.key), father(s.father), left(s.left), right(s.right), color(s.color){};
-    node(T input, node* father_)                : key(input), father(father_), left(NULL), right(NULL), color(red)          {};
-    node(T input, node* father_, int new_color) : key(input), father(father_), left(NULL), right(NULL), color(new_color)    {};
-    ~node() = default;
-
-    T &  operator= ( const T & input )              { key = input; };
-    bool operator==( const T & input )     const	{ return key == input; };
-    bool operator!=( const T & input )     const	{ return key != input; };
-    bool operator> ( const T & input )     const	{ return key > input; };
-    bool operator< ( const T & input )     const	{ return key < input; };
-    bool operator>=( const T & input )     const	{ return key >= input; };
-    bool operator<=( const T & input )     const	{ return key <= input; };
-    bool operator==( const node & source ) const	{ return ( (key == source.key) && (father == source.father) ); };
-    bool operator!=( const node & source)  const	{ return ( (key != source.key) || (father != source.father) ); };
-    bool operator> ( const node & source)  const	{ return key > source.key; };
-    bool operator< ( const node & source)  const	{ return key < source.key; };
-    bool operator>=( const node & source)  const	{ return key >= source.key; };
-    bool operator<=( const node & source)  const	{ return key <= source.key; };
-
-    inline void    print_node();
-    inline bool    is_left_son()  const { return ( (father != NULL) && father->left == this ); };
-    inline bool    is_right_son() const { return ( (father != NULL) && father->right == this ); };
-    inline node*   max_node()           { return ( (right == NULL) ? this : right->max_node() ); };
-    inline node*   min_node()           { return ( (left == NULL) ? this : left->min_node() ); };
-    inline node*   node_Successor();
-    inline node*   node_Predecessor();
-    inline node*   node_For_Post_Order_Walk();
-    inline node*   node_Sibling();
+        inline void    print_node();
+        inline bool    is_left_son()  const { return ( (father != nullptr) && father->left == this ); };
+        inline bool    is_right_son() const { return ( (father != nullptr) && father->right == this ); };
+        inline node*   max_node()           { return ( (right == nullptr) ? this : right->max_node() ); };
+        inline node*   min_node()           { return ( (left == nullptr) ? this : left->min_node() ); };
+        inline node*   node_Successor();
+        inline node*   node_Predecessor();
+        inline node*   node_For_Post_Order_Walk();
+        inline node*   node_Sibling();
 };
+
+template<typename T>
+node<T> &node<T>::operator=(const node<T> &input){
+    key = input.key;
+    father = input.father;
+    left = input.left;
+    right = input.right;
+    color = input.color;
+
+    return *this;
+}
 
 template <typename T>
 inline void node<T>::print_node(){
     std::cout << "Key: " << key << ", color: ";
     std::cout << ( color == black ? "B" : "R" ) << std::endl;
 
-    if(father != NULL ){
+    if(father != nullptr ){
         std::cout << "(Father) key: " << father->key << ", color: ";
         std::cout << ( father->color == black ? "B" : "R" ) << std::endl;
     }
-    else{
-        std::cout << "No father (root)" << std::endl;
-    }
-    if(left != NULL){
+    else std::cout << "No father (root)" << std::endl;
+    
+    if(left != nullptr){
         std::cout << "(Left son) key: " << left->key << ", color: ";
         std::cout << ( left->color == black ? "B" : "R" ) << std::endl;
     }
-    else{
-        std::cout << "(No left son)" << std::endl;
-    }
-    if(right != NULL){
+    else std::cout << "(No left son)" << std::endl;
+    
+    if(right != nullptr){
         std::cout << "(Right son) key: " << right->key << ", color: ";
         std::cout << ( right->color == black ? "B" : "R" ) << std::endl;
     }
-    else{
-        std::cout << "(No right son)" << std::endl;
-    }
+    else std::cout << "(No right son)" << std::endl;
 
     std::cout << std::endl;
 }
@@ -79,80 +88,80 @@ inline void node<T>::print_node(){
 // For in-oredr walk / increment in iterator
 template <typename T>
 inline node<T>* node<T>::node_Successor(){
-    if(this != NULL){
-        if(right != NULL) return right->min_node();
+    if(this != nullptr){
+        if(right != nullptr) return right->min_node();
         else if(is_left_son()) return father;
 
         node* successor = this;
 
         do{
             successor = successor->father;
-        }while( (successor != NULL) && (successor->is_right_son()) );
+        }while( (successor != nullptr) && (successor->is_right_son()) );
 
-        if(successor != NULL) return successor->father;
-        else return NULL;
+        if(successor != nullptr) return successor->father;
+        else return nullptr;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 // For reverse in-oredr walk / decrement in iterator
 template <typename T>
 inline node<T>* node<T>::node_Predecessor(){
-    if(this != NULL){
-        if(left != NULL) return left->max_node();
+    if(this != nullptr){
+        if(left != nullptr) return left->max_node();
         else if(is_right_son()) return father;
 
         node* predeccesor = this;
 
         do{
             predeccesor = predeccesor->father;
-        }while( (predeccesor != NULL) && (predeccesor->is_left_son()) );
+        }while( (predeccesor != nullptr) && (predeccesor->is_left_son()) );
 
-        if(predeccesor != NULL) return predeccesor->father;
-        else return NULL;
+        if(predeccesor != nullptr) return predeccesor->father;
+        else return nullptr;
     }
 
-    return NULL;
+    return nullptr;
 }
 
 template <typename T>
 inline node<T>* node<T>::node_For_Post_Order_Walk(){
-    if(this != NULL){
+    if(this != nullptr){
         node<T> *node_ = this;
 
-        if(node_->father == NULL) return NULL;
+        if(node_->father == nullptr) return nullptr;
 
-        if(node_ == node_->father->left && node_->father->right != NULL) node_ = node_->father->right;
+        if(node_ == node_->father->left && node_->father->right != nullptr) node_ = node_->father->right;
         else return node_->father;
 
         while(true){
-            if(node_->left != NULL) node_ = node_->left;
-            else if(node_->right != NULL) node_ = node_->right;
+            if(node_->left != nullptr) node_ = node_->left;
+            else if(node_->right != nullptr) node_ = node_->right;
             else return node_;
         }
     }
 
-    return NULL;
+    return nullptr;
 }
 
 template <typename T>
 inline node<T>* node<T>::node_Sibling(){
-    if(this != NULL) return ( father == NULL ? NULL : ( is_left_son() ? father->right : father->left ) );
-    else return NULL;
+    if(this != nullptr) return ( father == nullptr ? nullptr : ( is_left_son() ? father->right : father->left ) );
+    else return nullptr;
 }
 
 template <typename T>
 class RBTree{
-    inline int      Size(node<T>*);
-    inline void     Display(node<T>*, int);
+private:
+    inline size_t   Size(node<T>*);
+    inline void     Display(node<T>*, size_t);
     inline void     Rotate_left(node<T>*);
     inline void     Rotate_right(node<T>*);
     inline void     Insert_fix(node<T>*);
     explicit        RBTree(node<T>*);
     inline void     Merge(node<T>*);
     inline void     Split(node<T>*);
-    node<T>         *root;
     node<T>*        Successor(node<T>*);
     inline void     Delete_fix(node<T>*);
     inline void     Destroy_tree(node<T>*);
@@ -164,27 +173,33 @@ public:
 
         public:
             friend class RBTree<T>;
+            typedef Iterator                  self_type;
+            typedef T                         value_type;
+            typedef T&                        reference;
+            typedef T*                        pointer;
+            typedef std::forward_iterator_tag iterator_category;
+            typedef int                       difference_type;
 
-            Iterator()                            : Iter(NULL){}
+            Iterator()                            : Iter(nullptr){}
             explicit Iterator(node<T>* ptr)       : Iter(ptr){};
             Iterator(const Iterator &s)           : Iter(s.Iter){};
             Iterator(const Iterator &&s) noexcept : Iter(s.Iter){};
 
-            inline node<T> * getIter() { return Iter; };
+            inline node<T> *getIter() { return Iter; };
 
-            Iterator   operator++             ();
-            Iterator   operator++             (int);
-            Iterator   operator--             ();
-            Iterator   operator--             (int);
-            Iterator & operator=              (const Iterator &source)       { this->Iter = source.Iter; return (*this); };
-            Iterator & operator=              (Iterator &&source)   noexcept { this->Iter = source.Iter; return (*this); };
-            bool       operator==             (const Iterator& source) const { return (Iter == source.Iter); };
-            bool       operator!=             (const Iterator& source) const { return (Iter != source.Iter); };
-            explicit operator node<T> &       ()                             { return (*Iter); };
-            explicit operator const node<T> & ()                       const { return (*Iter); };
-            T &        operator*              ()                       const { return (Iter->key); };
-            node<T> *  operator->             ()                       const { return Iter; };
-            explicit operator bool            ()                       const { return (Iter != NULL); };
+            Iterator       operator++               ();
+            const Iterator operator++               (int);
+            Iterator       operator--               ();
+            const Iterator operator--               (int);
+            Iterator &     operator=                (const Iterator &source)       { this->Iter = source.Iter; return (*this); };
+            Iterator &     operator=                (Iterator &&source)   noexcept { this->Iter = source.Iter; return (*this); };
+            bool           operator==               (const Iterator& source) const { return (Iter == source.Iter); };
+            bool           operator!=               (const Iterator& source) const { return (Iter != source.Iter); };
+            explicit       operator node<T> &       ()                             { return (*Iter); };
+            explicit       operator const node<T> & ()                       const { return (*Iter); };
+            T &            operator*                ()                       const { return (Iter->key); };
+            node<T> *      operator->               ()                       const { return Iter; };
+            explicit       operator bool            ()                       const { return (Iter != nullptr); };
     };
 
     class ReverseIterator{
@@ -193,27 +208,33 @@ public:
 
         public:
             friend class RBTree<T>;
+            typedef ReverseIterator           self_type;
+            typedef T                         value_type;
+            typedef T&                        reference;
+            typedef T*                        pointer;
+            typedef std::forward_iterator_tag iterator_category;
+            typedef int                       difference_type;
 
-            ReverseIterator()                                   : Iter(NULL){};
+            ReverseIterator()                                   : Iter(nullptr){};
             explicit ReverseIterator(node<T>* ptr)              : Iter(ptr){};
             ReverseIterator(const ReverseIterator &s)           : Iter(s.Iter){};
             ReverseIterator(const ReverseIterator &&s) noexcept : Iter(s.Iter){};
 
             inline node<T> * getIter() { return Iter; };
 
-            ReverseIterator   operator++      ();
-            ReverseIterator   operator++      (int);
-            ReverseIterator   operator--      ();
-            ReverseIterator   operator--      (int);
-            ReverseIterator & operator=       (const ReverseIterator &source)       { this->Iter = source.Iter; return (*this); };
-            ReverseIterator & operator=       (ReverseIterator &&source)   noexcept { this->Iter = source.Iter; return (*this); };
-            bool              operator==      (const ReverseIterator& source) const { return (Iter == source.Iter); };
-            bool              operator!=      (const ReverseIterator& source) const { return (Iter != source.Iter); };
-            explicit operator node<T>&        ()                                    { return (*Iter); };
-            explicit operator const node<T>&  ()                              const { return (*Iter); };
-            T &               operator*       ()                              const { return (Iter->key); };
-            node<T> *         operator->      ()                              const { return Iter; };
-            explicit operator bool            ()                              const { return (Iter != NULL); };
+            ReverseIterator       operator++              ();
+            const ReverseIterator operator++              (int);
+            ReverseIterator       operator--              ();
+            const ReverseIterator operator--              (int);
+            ReverseIterator &     operator=               (const ReverseIterator &source)       { this->Iter = source.Iter; return (*this); };
+            ReverseIterator &     operator=               (ReverseIterator &&source)   noexcept { this->Iter = source.Iter; return (*this); };
+            bool                  operator==              (const ReverseIterator& source) const { return (Iter == source.Iter); };
+            bool                  operator!=              (const ReverseIterator& source) const { return (Iter != source.Iter); };
+            explicit              operator node<T>&       ()                                    { return (*Iter); };
+            explicit              operator const node<T>& ()                              const { return (*Iter); };
+            T &                   operator*               ()                              const { return (Iter->key); };
+            node<T> *             operator->              ()                              const { return Iter; };
+            explicit              operator bool           ()                              const { return (Iter != nullptr); };
     };
 
     class ConstIterator{
@@ -222,47 +243,89 @@ public:
 
         public:
             friend class RBTree<T>;
+            typedef ConstIterator             self_type;
+            typedef T                         value_type;
+            typedef T&                        reference;
+            typedef T*                        pointer;
+            typedef std::forward_iterator_tag iterator_category;
+            typedef int                       difference_type;
 
-            ConstIterator()                                 : Iter(NULL){};
+            ConstIterator()                                 : Iter(nullptr){};
             explicit ConstIterator(node<T>* ptr)            : Iter(ptr){};
             ConstIterator(const ConstIterator &s)           : Iter(s.Iter){};
             ConstIterator(const ConstIterator &&s) noexcept : Iter(s.Iter){};
 
             inline node<T> * getIter() { return Iter; };
 
-            ConstIterator    operator++       ();
-            ConstIterator    operator++       (int) const;
-            ConstIterator    operator--       ();
-            ConstIterator    operator--       (int) const;
-            ConstIterator &  operator=        (const ConstIterator &source)       { this->Iter = source.Iter; return (*this); };
-            ConstIterator &  operator=        (ConstIterator &&source)   noexcept { this->Iter = source.Iter; return (*this); };
-            bool             operator==       (const ConstIterator& source) const { return (Iter == source.Iter); };
-            bool             operator!=       (const ConstIterator& source) const { return (Iter != source.Iter); };
-            explicit operator node<T> &       ()                                  { return (*Iter); };
-            explicit operator const node<T> & ()                            const { return (*Iter); };
-            T const &        operator*        ()                            const { return (Iter->key); };
-            node<T> const *  operator->       ()                            const { return Iter; };
-            explicit operator bool            ()                            const { return (Iter != NULL); };
+            ConstIterator       operator++               ();
+            const ConstIterator operator++               (int);
+            ConstIterator       operator--               ();
+            const ConstIterator operator--               (int);
+            ConstIterator &     operator=                (const ConstIterator &source)       { this->Iter = source.Iter; return (*this); };
+            ConstIterator &     operator=                (ConstIterator &&source)   noexcept { this->Iter = source.Iter; return (*this); };
+            bool                operator==               (const ConstIterator& source) const { return (Iter == source.Iter); };
+            bool                operator!=               (const ConstIterator& source) const { return (Iter != source.Iter); };
+            explicit            operator node<T> &       ()                                  { return (*Iter); };
+            explicit            operator const node<T> & ()                            const { return (*Iter); };
+            T const &           operator*                ()                            const { return (Iter->key); };
+            node<T> const *     operator->               ()                            const { return Iter; };
+            explicit            operator bool            ()                            const { return (Iter != nullptr); };
     };
 
-    RBTree():root(NULL){};
+    class ConstReverseIterator{
+        protected:
+            node<T> * Iter;
+
+        public:
+            friend class RBTree<T>;
+            typedef ConstReverseIterator      self_type;
+            typedef T                         value_type;
+            typedef T&                        reference;
+            typedef T*                        pointer;
+            typedef std::forward_iterator_tag iterator_category;
+            typedef int                       difference_type;
+
+            ConstReverseIterator()                                        : Iter(nullptr){};
+            explicit ConstReverseIterator(node<T>* ptr)                   : Iter(ptr){};
+            ConstReverseIterator(const ConstReverseIterator &s)           : Iter(s.Iter){};
+            ConstReverseIterator(const ConstReverseIterator &&s) noexcept : Iter(s.Iter){};
+
+            inline node<T> * getIter() { return Iter; };
+
+            ConstReverseIterator       operator++              ();
+            const ConstReverseIterator operator++              (int);
+            ConstReverseIterator       operator--              ();
+            const ConstReverseIterator operator--              (int);
+            ConstReverseIterator &     operator=               (const ConstReverseIterator &source)       { this->Iter = source.Iter; return (*this); };
+            ConstReverseIterator &     operator=               (ConstReverseIterator &&source)   noexcept { this->Iter = source.Iter; return (*this); };
+            bool                       operator==              (const ConstReverseIterator& source) const { return (Iter == source.Iter); };
+            bool                       operator!=              (const ConstReverseIterator& source) const { return (Iter != source.Iter); };
+            explicit                   operator node<T>&       ()                                         { return (*Iter); };
+            explicit                   operator const node<T>& ()                                   const { return (*Iter); };
+            T const &                  operator*               ()                                   const { return (Iter->key); };
+            node<T> const *            operator->              ()                                   const { return Iter; };
+            explicit                   operator bool           ()                                   const { return (Iter != nullptr); };
+    };
+
+    RBTree():root(nullptr){};
     RBTree(const RBTree<T> &);
     RBTree(const RBTree<T> &&) noexcept;
     inline node<T>* getRoot() const { return root; };
     inline void     Insert(T input);
     inline bool     T_find(T);
     inline node<T>* T_node_find(T);
-    inline void     Display();
-    inline void     operator+(const RBTree<T>&);
-    inline void     operator-(const RBTree<T>&);
-    inline void     operator=(const RBTree<T> &);
-    inline void     operator=(RBTree<T> &&) noexcept;
-    inline int      Black_hight();
-    inline int      Size();
+    inline void     Display()       { Display(root, 0); };
+    inline void     operator+(const RBTree<T>& in) { Merge(in.root); };
+    inline void     operator-(const RBTree<T>& in) { Split(in.root); };
+    inline RBTree&  operator=(const RBTree<T> &);
+    inline RBTree&  operator=(RBTree<T> &&) noexcept;
+    inline size_t   Black_hight();
+    inline size_t   Size()          { return Size(root); };
     inline void     Delete(T);
-    inline bool     isEmpty() const { return root == NULL; };
-    inline node<T>* maxIt()   const { return ( isEmpty() ? NULL : root->max_node() ); };
-    inline node<T>* minIt()   const { return ( isEmpty() ? NULL : root->min_node() ); };
+    inline void     clear()         { Destroy_tree(minIt()); };
+    inline bool     isEmpty() const { return root == nullptr; };
+    inline node<T>* maxIt()   const { return ( isEmpty() ? nullptr : root->max_node() ); };
+    inline node<T>* minIt()   const { return ( isEmpty() ? nullptr : root->min_node() ); };
 
     Iterator        begin()  const { return Iterator( minIt() ); };
     Iterator        end()    const { return Iterator(); };
@@ -270,11 +333,14 @@ public:
     ReverseIterator rend()   const { return ReverseIterator(); };
     ConstIterator   cbegin() const { return ConstIterator( minIt() ); };
     ConstIterator   cend()   const { return ConstIterator(); };
+
+private:
+    node<T> *root;
 };
 
 template <typename T>
 typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
-    if(this->Iter != NULL){
+    if(this->Iter != nullptr){
         this->Iter = this->Iter->node_Successor();
 
         return *this;
@@ -285,7 +351,7 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
 }
 
 template <typename T>
-typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(int){
+const typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(int){
     Iterator pom = *this;
     ++(*this);
 
@@ -294,7 +360,7 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(int){
 
 template <typename T>
 typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(){
-    if(this->Iter != NULL){
+    if(this->Iter != nullptr){
         this->Iter = this->Iter->node_Predecessor();
 
         return *this;
@@ -305,7 +371,7 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(){
 }
 
 template <typename T>
-typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(int){
+const typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(int){
     Iterator pom = *this;
     --(*this);
 
@@ -314,7 +380,7 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(int){
 
 template <typename T>
 typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator++(){
-    if(this->Iter != NULL){
+    if(this->Iter != nullptr){
         this->Iter = this->Iter->node_Predecessor();
 
         return *this;
@@ -325,7 +391,7 @@ typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator++(){
 }
 
 template <typename T>
-typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator++(int){
+const typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator++(int){
     ReverseIterator pom = *this;
     ++(*this);
 
@@ -334,7 +400,7 @@ typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator++(int){
 
 template <typename T>
 typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator--(){
-    if(this->Iter != NULL){
+    if(this->Iter != nullptr){
         this->Iter = this->Iter->node_Successor();
 
         return *this;
@@ -345,7 +411,7 @@ typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator--(){
 }
 
 template <typename T>
-typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator--(int){
+const typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator--(int){
     ReverseIterator pom = *this;
     --(*this);
 
@@ -354,7 +420,7 @@ typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator--(int){
 
 template <typename T>
 typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(){
-    if(this->Iter != NULL){
+    if(this->Iter != nullptr){
         this->Iter = this->Iter->node_Successor();
 
         return *this;
@@ -365,7 +431,7 @@ typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(){
 }
 
 template <typename T>
-typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(int) const{
+const typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(int){
     ConstIterator pom = *this;
     ++(*this);
 
@@ -374,7 +440,7 @@ typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(int) cons
 
 template <typename T>
 typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--(){
-    if(this->Iter != NULL){
+    if(this->Iter != nullptr){
         this->Iter = this->Iter->node_Predecessor();
 
         return *this;
@@ -385,7 +451,7 @@ typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--(){
 }
 
 template <typename T>
-typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--(int) const{
+const typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--(int){
     Iterator pom = *this;
     --(*this);
 
@@ -393,47 +459,71 @@ typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--(int) cons
 }
 
 template <typename T>
-RBTree<T>::RBTree(const RBTree<T> &tree){
-    if(tree.root == NULL) root = NULL;
-    else{
-        root = new node<T>(tree.root->key);
-        root->color = tree.root->color;
-        root->left = RBTree(RBTree(tree.root->left)).root;
-        root->right = RBTree(RBTree(tree.root->right)).root;
+typename RBTree<T>::ConstReverseIterator RBTree<T>::ConstReverseIterator::operator++(){
+    if(this->Iter != nullptr){
+        this->Iter = this->Iter->node_Predecessor();
+
+        return *this;
     }
+    else{
+        return *this;
+    }
+}
+
+template <typename T>
+const typename RBTree<T>::ConstReverseIterator RBTree<T>::ConstReverseIterator::operator++(int){
+    ReverseIterator pom = *this;
+    ++(*this);
+
+    return pom;
+}
+
+template <typename T>
+typename RBTree<T>::ConstReverseIterator RBTree<T>::ConstReverseIterator::operator--(){
+    if(this->Iter != nullptr){
+        this->Iter = this->Iter->node_Successor();
+
+        return *this;
+    }
+    else{
+        return *this;
+    }
+}
+
+template <typename T>
+const typename RBTree<T>::ConstReverseIterator RBTree<T>::ConstReverseIterator::operator--(int){
+    ReverseIterator pom = *this;
+    --(*this);
+
+    return pom;
+}
+
+template <typename T>
+RBTree<T>::RBTree(const RBTree<T> &tree){
+    if(tree.root == nullptr) root = nullptr;
+    else root = tree.root;
 }
 
 template <typename T>
 RBTree<T>::RBTree(const RBTree<T> &&tree) noexcept{
-    if(tree.root == NULL) root = NULL;
-    else{
-        root = new node<T>(tree.root->key);
-        root->color = tree.root->color;
-        root->left = RBTree(RBTree(tree.root->left)).root;
-        root->right = RBTree(RBTree(tree.root->right)).root;
-    }
+    if(tree.root == nullptr) root = nullptr;
+    else root = tree.root;
 }
 
 template <typename T>
-inline void RBTree<T>::operator=(const RBTree<T> &tree){
-    if(tree.root == NULL) root = NULL;
-    else{
-        root = new node<T>(tree.root->key);
-        root->color = tree.root->color;
-        root->left = RBTree(RBTree(tree.root->left)).root;
-        root->right = RBTree(RBTree(tree.root->right)).root;
-    }
+inline RBTree<T>& RBTree<T>::operator=(const RBTree<T> &tree){
+    if(tree.root == nullptr) root = nullptr;
+    else root = tree.root;
+
+    return *this;
 }
 
 template <typename T>
-inline void RBTree<T>::operator=(RBTree<T> &&tree) noexcept{
-    if(tree.root == NULL) root = NULL;
-    else{
-        root = new node<T>(tree.root->key);
-        root->color = tree.root->color;
-        root->left = RBTree(RBTree(tree.root->left)).root;
-        root->right = RBTree(RBTree(tree.root->right)).root;
-    }
+inline RBTree<T>& RBTree<T>::operator=(RBTree<T> &&tree) noexcept{
+    if(tree.root == nullptr) root = nullptr;
+    else root = tree.root;
+
+    return *this;
 }
 
 template<typename T>
@@ -444,16 +534,16 @@ RBTree<T>::RBTree(node<T> * in){
 template <typename T>
 inline void RBTree<T>::Insert(T input){
     node<T> *p, *q;
-    node<T> *create = new node<T>(input);
+    auto *create = new node<T>(input);
     p = root;
-    q = NULL;
+    q = nullptr;
 
-    if(root == NULL ){
+    if(root == nullptr ){
         root = create;
-        create->father = NULL;
+        create->father = nullptr;
     }
     else{
-        while ( p != NULL){
+        while(p != nullptr){
             q = p;
 
             if(p->key > create->key) p = p->left;
@@ -471,16 +561,15 @@ inline void RBTree<T>::Insert(T input){
     Insert_fix(create);
 }
 
-
 template<typename T>
 inline void RBTree<T>::Insert_fix(node<T> *create){
-    node<T> *x = create;
+    auto *x = create;
 
     while(x != root && x->father->color == red){
         if(x->father == x->father->father->left){
-            node<T> *y = x->father->father->right;
+            auto *y = x->father->father->right;
 
-            if((y != NULL ) && (y->color == red)){
+            if((y != nullptr ) && (y->color == red)){
                 x->father->color = black;
                 y->color = black;
                 x->father->father->color = red;
@@ -498,8 +587,9 @@ inline void RBTree<T>::Insert_fix(node<T> *create){
             }
         }
         else{
-            node<T> *y = x->father->father->left;
-            if((y != NULL) && (y->color == red)){
+            auto *y = x->father->father->left;
+
+            if((y != nullptr) && (y->color == red)){
                 x->father->color = black;
                 y->color = black;
                 x->father->father->color = red;
@@ -523,15 +613,15 @@ inline void RBTree<T>::Insert_fix(node<T> *create){
 
 template<typename T>
 inline void RBTree<T>::Rotate_right(node<T>* in){
-    if(in->left == NULL) return;
+    if(in->left == nullptr) return;
     else{
-        node<T> *y = in;
-        node<T> *x = y->left;
-        node<T> *b = x->right;
-        node<T> *f = y->father;
+        auto *y = in;
+        auto *x = y->left;
+        auto *b = x->right;
+        auto *f = y->father;
 
-        if(f == NULL){
-            x->father = NULL;
+        if(f == nullptr){
+            x->father = nullptr;
             root = x;
         }
         else{
@@ -545,20 +635,20 @@ inline void RBTree<T>::Rotate_right(node<T>* in){
         y->father = x;
         y->left = b;
 
-        if( b != NULL) b->father =y;
+        if( b != nullptr) b->father =y;
     }
 }
 
 template <typename T>
 inline void RBTree<T>::Rotate_left(node<T>* x){
-    if(x->right == NULL) return;
+    if(x->right == nullptr) return;
     else{
-        node<T> *y = x->right;
-        node<T> *b = y->left;
-        node<T> *f = x->father;
+        auto *y = x->right;
+        auto *b = y->left;
+        auto *f = x->father;
 
-        if(f == NULL){
-            y->father = NULL;
+        if(f == nullptr){
+            y->father = nullptr;
             root = y;
         }
         else{
@@ -572,22 +662,21 @@ inline void RBTree<T>::Rotate_left(node<T>* x){
         x->father = y;
         x->right = b;
 
-        if(b != NULL) b->father = x;
+        if(b != nullptr) b->father = x;
     }
 }
 
 template <typename T>
 inline bool RBTree<T>::T_find(T in){
-    node<T> *t;
-    t = root;
+    auto *t = root;
 
-    while(t != NULL){
+    while(t != nullptr){
         if(t->key == in) break;
         if(in > t->key) t = t->right;
         else if(in < t->key) t = t->left;
     }
 
-    if(t == NULL) return false;
+    if(t == nullptr) return false;
     else if(t->key == in) return true;
 
     return true;
@@ -595,25 +684,24 @@ inline bool RBTree<T>::T_find(T in){
 
 template<typename T>
 node<T>* RBTree<T>::T_node_find(T in){
-    node<T> *t;
-    t = root;
+    auto *t = root;
 
-    while(t != NULL){
+    while(t != nullptr){
         if(t->key == in) break;
         if(in > t->key) t = t->right;
         else if(in < t->key) t = t->left;
     }
 
-    if(t == NULL) return NULL;
+    if(t == nullptr) return nullptr;
     else if(t->key == in) return t;
 
-    return NULL;
+    return nullptr;
 }
 
 
 template<typename T>
-inline void RBTree<T>::Merge(node<T> *p ) {
-    if(p != NULL){
+inline void RBTree<T>::Merge(node<T> *p ){
+    if(p != nullptr){
         if(p->left) Merge(p->left);
         if(p->right) Merge(p->right);
 
@@ -623,34 +711,20 @@ inline void RBTree<T>::Merge(node<T> *p ) {
 
 template<typename T>
 inline void RBTree<T>::Split(node<T> *p ) {
-    if(p != NULL){
+    if(p != nullptr){
         if(p->left) Split(p->left);
         if(p->right) Split(p->right);
 
-        std::cout <<p->key;
         Delete(p->key);
     }
 }
 
 template<typename T>
-inline void RBTree<T>::operator+(const RBTree<T> & in){
-    std::cout <<"\n\n Dodajemy do siebie drzewa \n";
-    Merge(in.root);
-}
+inline size_t RBTree<T>::Black_hight(){
+    auto *p = root;
+    auto num = 0;
 
-template<typename T>
-inline void RBTree<T>::operator-(const RBTree<T> & in){
-    std::cout <<"\n\n Odejmujemy od siebie drzewa \n";
-    Split(in.root);
-}
-
-template<typename T>
-inline int RBTree<T>::Black_hight(){
-    node<T> *p;
-    p = root;
-    int num = 0;
-
-    while(p != NULL){
+    while(p != nullptr){
         if(p->color == black) num++;
 
         p = p->left;
@@ -660,31 +734,20 @@ inline int RBTree<T>::Black_hight(){
 }
 
 template<typename T>
-inline int RBTree<T>::Size(){
-    return Size(root);
-}
-
-template<typename T>
-inline int RBTree<T>::Size(node<T> * in){
-    if(in == NULL) return 0;
+inline size_t RBTree<T>::Size(node<T> * in){
+    if(in == nullptr) return 0;
     else{
-        int ls,rs;
-        ls = Size(in->left);
-        rs = Size(in->right);
+        auto ls = Size(in->left);
+        auto rs = Size(in->right);
 
         return (ls + rs + 1);
     }
 }
 
 template<typename T>
-inline void RBTree<T>::Display(){
-    Display(root, 0);
-}
-
-template<typename T>
-inline void RBTree<T>::Display(node<T>* in, int level){
-    if(in == NULL){
-        //std::cout << "level: " << level << ", NULL\n";
+inline void RBTree<T>::Display(node<T>* in, size_t level){
+    if(in == nullptr){
+        //std::cout << "level: " << level << ", nullptr\n";
 
         return;
     }
@@ -698,17 +761,17 @@ inline void RBTree<T>::Display(node<T>* in, int level){
 
 template<typename T>
 node<T>* RBTree<T>::Successor(node<T> *p){
-    node<T> *y = NULL;
+    node<T> *y = nullptr;
 
-    if(p->left != NULL){
+    if(p->left != nullptr){
         y = p->left;
 
-        while(y->right != NULL) y = y->right;
+        while(y->right != nullptr) y = y->right;
     }
     else{
         y = p->right;
 
-        while(y->left != NULL) y=y->left;
+        while(y->left != nullptr) y=y->left;
     }
 
     return y;
@@ -716,19 +779,18 @@ node<T>* RBTree<T>::Successor(node<T> *p){
 
 template <typename T>
 inline void RBTree<T>::Delete(T x){
-    if(root == NULL){
+    if(root == nullptr){
         std::cout << "\nEmpty RBTree." ;
 
         return ;
     }
 
-    node<T> *p;
-    p = root;
-    node<T> *y = NULL;
-    node<T> *q = NULL;
-    int found = 0;
+    auto *p = root;
+    node<T> *y = nullptr;
+    node<T> *q = nullptr;
+    auto found = 0;
 
-    while(p != NULL && found == 0){
+    while(p != nullptr && found == 0){
         if(p->key == x) found = 1;
         if(found == 0){
             if(p->key < x) p = p->right;
@@ -741,17 +803,17 @@ inline void RBTree<T>::Delete(T x){
         //std::cout << "\nDeleted Element: " << p->key << "\nColour: ";
         //std::cout << (p->color == black ? "Black\n" : "Red\n" );
 
-        if(p->left == NULL || p->right == NULL) y = p;
+        if(p->left == nullptr || p->right == nullptr) y = p;
         else y = Successor(p);
 
-        if(y->left != NULL) q = y->left;
+        if(y->left != nullptr) q = y->left;
         else{
-            if(y->right != NULL) q = y->right;
-            else q = NULL;
+            if(y->right != nullptr) q = y->right;
+            else q = nullptr;
         }
 
-        if(q != NULL) q->father = y->father;
-        if(y->father == NULL) root = q;
+        if(q != nullptr) q->father = y->father;
+        if(y->father == nullptr) root = q;
         else{
             if(y == y->father->left) y->father->left = q;
             else y->father->right = q;
@@ -767,7 +829,7 @@ inline void RBTree<T>::Delete(T x){
 
 template <typename T>
 inline void RBTree<T>::Delete_fix(node<T> *p){
-    if(p != NULL){
+    if(p != nullptr){
         node<T> *s;
 
         while(p != root && p->color == black){
@@ -836,10 +898,10 @@ inline void RBTree<T>::Delete_fix(node<T> *p){
 
 template<typename T>
 void RBTree<T>::Destroy_tree(node<T> *ptr){
-    if(ptr == NULL) return;
+    if(ptr == nullptr) return;
 
     Destroy_tree(ptr->node_For_Post_Order_Walk());
-    delete ptr;
+    this->Delete(ptr->key);
 }
 
 #endif //_SIMPLE_RED_BLACK_TREE_HPP_
