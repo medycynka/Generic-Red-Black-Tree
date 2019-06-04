@@ -321,7 +321,7 @@ public:
     inline RBTree&  operator=(RBTree<T> &&) noexcept;
     inline size_t   Black_hight();
     inline size_t   Size()          { return Size(root); };
-    inline void     Delete(T);
+    inline bool     Delete(T);
     inline void     clear()         { Destroy_tree(minIt()); };
     inline bool     isEmpty() const { return root == nullptr; };
     inline node<T>* maxIt()   const { return ( isEmpty() ? nullptr : root->max_node() ); };
@@ -778,11 +778,11 @@ node<T>* RBTree<T>::Successor(node<T> *p){
 }
 
 template <typename T>
-inline void RBTree<T>::Delete(T x){
+inline bool RBTree<T>::Delete(T x){
     if(root == nullptr){
         std::cout << "\nEmpty RBTree." ;
 
-        return ;
+        return false;
     }
 
     auto *p = root;
@@ -798,7 +798,7 @@ inline void RBTree<T>::Delete(T x){
         }
     }
 
-    if(found == 0) return;
+    if(found == 0) return false;
     else{
         //std::cout << "\nDeleted Element: " << p->key << "\nColour: ";
         //std::cout << (p->color == black ? "Black\n" : "Red\n" );
@@ -824,6 +824,8 @@ inline void RBTree<T>::Delete(T x){
             p->key=y->key;
         }
         if(y->color == black) Delete_fix(q);
+
+        return true;
     }
 }
 
