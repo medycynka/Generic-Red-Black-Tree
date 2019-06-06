@@ -37,6 +37,18 @@ class node{
         bool  operator>=( const node &source) const	{ return key >= source.key; };
         bool  operator<=( const node &source) const	{ return key <= source.key; };
 
+        friend std::ostream& operator<<(std::ostream& ofs, const node<T>* pt){
+            ofs << "Key: " << pt->key << ", color: " << ( pt->color == black ? "B" : "R" ) << "\n";
+            if(pt->father != nullptr) ofs << "(Father) key: " << pt->father->key << ", color: " << (pt->father->color == black ? "B" : "R") << "\n";
+            else ofs << "No father (root)" << "\n";
+            if(pt->left != nullptr) ofs << "(Left son) key: " << pt->left->key << ", color: " << (pt->left->color == black ? "B" : "R") << "\n";
+            else ofs << "(No left son)" << "\n";
+            if(pt->right != nullptr) ofs << "(Right son) key: " << pt->right->key << ", color: " << (pt->right->color == black ? "B" : "R") << "\n\n";
+            else ofs << "(No right son)" << "\n\n";
+
+            return ofs;
+        };
+
         inline void    print_node();
         inline bool    is_left_son()  const { return ( (father != nullptr) && father->left == this ); };
         inline bool    is_right_son() const { return ( (father != nullptr) && father->right == this ); };
@@ -62,7 +74,7 @@ template <typename T>
 inline void node<T>::print_node(){
     std::cout << "Key: " << key << ", color: " << ( color == black ? "B" : "R" ) << std::endl;
 
-    if(father != nullptr ) std::cout << "(Father) key: " << father->key << ", color: " << ( father->color == black ? "B" : "R" ) << std::endl;
+    if(father != nullptr) std::cout << "(Father) key: " << father->key << ", color: " << ( father->color == black ? "B" : "R" ) << std::endl;
     else std::cout << "No father (root)" << std::endl;
     
     if(left != nullptr) std::cout << "(Left son) key: " << left->key << ", color: " << ( left->color == black ? "B" : "R" ) << std::endl;
@@ -117,7 +129,7 @@ inline node<T>* node<T>::node_Predecessor(){
 
 template <typename T>
 inline node<T>* node<T>::node_Sibling(){
-    if(this != nullptr) return ( father == nullptr ? nullptr : ( is_left_son() ? father->right : father->left ) );
+    if(this != nullptr) return (father == nullptr ? nullptr : ( is_left_son() ? father->right : father->left ));
     else return nullptr;
 }
 
@@ -296,12 +308,12 @@ class RBTree{
         inline node<T>* maxIt()   const { return ( isEmpty() ? nullptr : root->max_node() ); };
         inline node<T>* minIt()   const { return ( isEmpty() ? nullptr : root->min_node() ); };
 
-        Iterator        begin()        const { return Iterator( minIt() ); };
-        Iterator        end()          const { return Iterator(); };
-        ReverseIterator rbegin()       const { return ReverseIterator( maxIt() ); };
-        ReverseIterator rend()         const { return ReverseIterator(); };
-        ConstIterator   cbegin()       const { return ConstIterator( minIt() ); };
-        ConstIterator   cend()         const { return ConstIterator(); };
+        Iterator             begin()   const { return Iterator( minIt() ); };
+        Iterator             end()     const { return Iterator(); };
+        ReverseIterator      rbegin()  const { return ReverseIterator( maxIt() ); };
+        ReverseIterator      rend()    const { return ReverseIterator(); };
+        ConstIterator        cbegin()  const { return ConstIterator( minIt() ); };
+        ConstIterator        cend()    const { return ConstIterator(); };
         ConstReverseIterator crbegin() const { return ConstReverseIterator(maxIt()); };
         ConstReverseIterator crend()   const { return ConstReverseIterator(); };
 
@@ -317,9 +329,7 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator++(){
 
         return *this;
     }
-    else{
-        return *this;
-    }
+    else return *this;
 }
 
 template <typename T>
@@ -337,9 +347,7 @@ typename RBTree<T>::Iterator RBTree<T>::Iterator::operator--(){
 
         return *this;
     }
-    else{
-        return *this;
-    }
+    else return *this;
 }
 
 template <typename T>
@@ -357,9 +365,7 @@ typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator++(){
 
         return *this;
     }
-    else{
-        return *this;
-    }
+    else return *this;
 }
 
 template <typename T>
@@ -377,9 +383,7 @@ typename RBTree<T>::ReverseIterator RBTree<T>::ReverseIterator::operator--(){
 
         return *this;
     }
-    else{
-        return *this;
-    }
+    else return *this;
 }
 
 template <typename T>
@@ -397,9 +401,7 @@ typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator++(){
 
         return *this;
     }
-    else{
-        return *this;
-    }
+    else return *this;
 }
 
 template <typename T>
@@ -417,9 +419,7 @@ typename RBTree<T>::ConstIterator RBTree<T>::ConstIterator::operator--(){
 
         return *this;
     }
-    else{
-        return *this;
-    }
+    else return *this;
 }
 
 template <typename T>
@@ -437,9 +437,7 @@ typename RBTree<T>::ConstReverseIterator RBTree<T>::ConstReverseIterator::operat
 
         return *this;
     }
-    else{
-        return *this;
-    }
+    else return *this;
 }
 
 template <typename T>
@@ -457,9 +455,7 @@ typename RBTree<T>::ConstReverseIterator RBTree<T>::ConstReverseIterator::operat
 
         return *this;
     }
-    else{
-        return *this;
-    }
+    else return *this;
 }
 
 template <typename T>
@@ -512,8 +508,8 @@ inline void RBTree<T>::Insert(T input){
 
         create->father = q;
 
-        if(q->key < create->key) q->right=create;
-        else if(q->key > create->key) q->left=create;
+        if(q->key < create->key) q->right = create;
+        else if(q->key > create->key) q->left = create;
         else return;
     }
 
@@ -537,7 +533,7 @@ inline void RBTree<T>::Insert_fix(node<T> *create){
             }
             else{
                 if(x->father->right == x){
-                    x  = x->father;
+                    x = x->father;
                     Rotate_left(x);
                 }
 
@@ -703,7 +699,7 @@ inline void RBTree<T>::Display(node<T>* in, size_t level){
     if(in == nullptr) return;
 
     std::cout << "level: " << level << std::endl;
-    in->print_node();
+    std::cout << in;
 
     Display(in->left, level+1);
     Display(in->right, level+1);
