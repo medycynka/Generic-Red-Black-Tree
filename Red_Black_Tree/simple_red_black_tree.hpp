@@ -296,12 +296,14 @@ class RBTree{
         inline node<T>* maxIt()   const { return ( isEmpty() ? nullptr : root->max_node() ); };
         inline node<T>* minIt()   const { return ( isEmpty() ? nullptr : root->min_node() ); };
 
-        Iterator        begin()  const { return Iterator( minIt() ); };
-        Iterator        end()    const { return Iterator(); };
-        ReverseIterator rbegin() const { return ReverseIterator( maxIt() ); };
-        ReverseIterator rend()   const { return ReverseIterator(); };
-        ConstIterator   cbegin() const { return ConstIterator( minIt() ); };
-        ConstIterator   cend()   const { return ConstIterator(); };
+        Iterator        begin()        const { return Iterator( minIt() ); };
+        Iterator        end()          const { return Iterator(); };
+        ReverseIterator rbegin()       const { return ReverseIterator( maxIt() ); };
+        ReverseIterator rend()         const { return ReverseIterator(); };
+        ConstIterator   cbegin()       const { return ConstIterator( minIt() ); };
+        ConstIterator   cend()         const { return ConstIterator(); };
+        ConstReverseIterator crbegin() const { return ConstReverseIterator(maxIt()); };
+        ConstReverseIterator crend()   const { return ConstReverseIterator(); };
 
     private:
         size_t   size_;
