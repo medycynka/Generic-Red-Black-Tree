@@ -146,6 +146,7 @@ class RBTree{
         inline void     Merge(node<T>*);
         inline void     Split(node<T>*);
         inline void     Delete_fix(node<T>*);
+        inline void     Destroy_Tree(node<T>*);
 
     public:
         class Iterator{
@@ -153,7 +154,7 @@ class RBTree{
                 node<T> * Iter;
 
             public:
-                friend class RBTree<T>;
+                friend class RBTree;
                 typedef Iterator                  self_type;
                 typedef T                         value_type;
                 typedef T&                        reference;
@@ -188,7 +189,7 @@ class RBTree{
                 node<T> * Iter;
 
             public:
-                friend class RBTree<T>;
+                friend class RBTree;
                 typedef ReverseIterator           self_type;
                 typedef T                         value_type;
                 typedef T&                        reference;
@@ -223,7 +224,7 @@ class RBTree{
                 node<T> * Iter;
 
             public:
-                friend class RBTree<T>;
+                friend class RBTree;
                 typedef ConstIterator             self_type;
                 typedef T                         value_type;
                 typedef T&                        reference;
@@ -258,7 +259,7 @@ class RBTree{
                 node<T> * Iter;
 
             public:
-                friend class RBTree<T>;
+                friend class RBTree;
                 typedef ConstReverseIterator      self_type;
                 typedef T                         value_type;
                 typedef T&                        reference;
@@ -293,18 +294,22 @@ class RBTree{
         RBTree(const RBTree<T> &&t) noexcept : size_(t.size_), root(t.root){};
 
         inline node<T>* getRoot() const { return root; };
+        inline size_t   size()          { return size_; };
+        inline bool     isEmpty() const { return (root == nullptr && size_ == 0); };
+        inline void     Display()       { Display(root, 0); };
+        inline void     clear()         { size_ = 0; Destroy_Tree(root); root = nullptr; };
         inline void     Insert(T input);
         inline bool     T_find(T);
         inline node<T>* T_node_find(T);
-        inline void     Display()       { Display(root, 0); };
-        inline void     operator+(const RBTree<T>& in) { Merge(in.root); };
-        inline void     operator-(const RBTree<T>& in) { Split(in.root); };
-        inline RBTree&  operator=(const RBTree<T> &);
-        inline RBTree&  operator=(RBTree<T> &&) noexcept;
+        inline void     operator+ (const RBTree<T>& in) { Merge(in.root); };
+        inline void     operator- (const RBTree<T>& in) { Split(in.root); };
+        inline RBTree&  operator= (const RBTree<T> &);
+        inline RBTree&  operator= (RBTree<T> &&) noexcept;
+        inline bool     operator==(const RBTree<T> &) const;
+        inline bool     operator!=(const RBTree<T> &tree) const { return !(*this == tree); };
         inline size_t   Black_hight();
-        inline size_t   size()          { return size_; };
         inline bool     Delete(T);
-        inline bool     isEmpty() const { return (root == nullptr && size_ == 0); };
+
         inline node<T>* maxIt()   const { return ( isEmpty() ? nullptr : root->max_node() ); };
         inline node<T>* minIt()   const { return ( isEmpty() ? nullptr : root->min_node() ); };
 
@@ -484,6 +489,25 @@ inline RBTree<T>& RBTree<T>::operator=(RBTree<T> &&tree) noexcept{
     size_ = tree.size_;
 
     return *this;
+}
+
+template<typename T>
+bool RBTree<T>::operator==(const RBTree<T> &tree) const{
+    if(size_ != tree.size_ || root != tree.root) return false;
+    else{
+        auto it = begin();
+        auto tree_it = tree.begin();
+
+        while(it != end() && tree_it != end()){
+            if(*it != *tree_it) return false;
+            else{
+                ++it;
+                ++tree_it;
+            }
+        }
+
+        return true;
+    }
 }
 
 template <typename T>
@@ -828,6 +852,16 @@ inline void RBTree<T>::Delete_fix(node<T> *p){
             root->color = black;
         }
     }
+}
+
+template<typename T>
+void RBTree<T>::Destroy_Tree(node<T> *p){
+    if(p == nullptr) return;
+
+    Destroy_Tree(p->left);
+    Destroy_Tree(p->right);
+    p = nullptr;
+    delete p;
 }
 
 #endif //_SIMPLE_RED_BLACK_TREE_HPP_

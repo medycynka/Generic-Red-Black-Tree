@@ -69,23 +69,34 @@ int main(int argc, char* argv[]){
     }
 
     RBTree<int> tree2 = tree;
+    tree.Delete(2);
+    tree2.Insert(42);
     std::cout << std::endl;
 
     for(auto it = tree2.rbegin(); it != tree2.rend(); ++it){
         std::cout << *it << ", ";
     }
 
-    std::cout << std::endl;
+    RBTree<int> t;
+    for(auto i = 0; i < 5; i++) t.Insert(i);
+    t.clear();
+    t.Display();
+    std::cout << std::endl << t.size() << std::endl;
+    t.Insert(2);
+    t.Insert(7);
+    for(auto it = t.rbegin(); it != t.rend(); ++it){
+        std::cout << *it << ", ";
+    }
     std::cout << std::endl << std::endl << std::endl;
+    t.clear();
 
     /**
      * Test for 10000 elements
      */
-    RBTree<size_t> t1;
     std::cout << "Insert and search test for " << test1 << " elements" << std::endl;
     auto start = std::chrono::system_clock::now();
     for(auto i = 0; i < test1; ++i) {
-        t1.Insert(i);
+        t.Insert(i);
     }
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end - start;
@@ -93,21 +104,21 @@ int main(int argc, char* argv[]){
 
     start = std::chrono::system_clock::now();
     for(auto i = 0; i < test1; ++i){
-        t1.T_find(i);
+        t.T_find(i);
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end - start;
     std::cout << "Found all of " << test1 << " elements in " << elapsed_seconds.count() << "s" << std::endl << std::endl;
+    t.clear();
 
 
     /**
      * Test for 100000 elements
      */
-    RBTree<size_t> t2;
     std::cout << "Insert and search test for " << test2 << " elements" << std::endl;
     start = std::chrono::system_clock::now();
     for(auto i = 0; i < test2; ++i) {
-        t2.Insert(i);
+        t.Insert(i);
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end - start;
@@ -115,21 +126,21 @@ int main(int argc, char* argv[]){
 
     start = std::chrono::system_clock::now();
     for(auto i = 0; i < test2; ++i){
-        t2.T_find(i);
+        t.T_find(i);
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end - start;
     std::cout << "Found all of " << test2 << " elements in " << elapsed_seconds.count() << "s" << std::endl << std::endl;
+    t.clear();
 
 
     /**
      * Test for 1000000 elements
      */
-    RBTree<size_t> t3;
     std::cout << "Insert and search test for " << test3 << " elements" << std::endl;
     start = std::chrono::system_clock::now();
     for(auto i = 0; i < test3; ++i) {
-        t3.Insert(i);
+        t.Insert(i);
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end - start;
@@ -137,21 +148,21 @@ int main(int argc, char* argv[]){
 
     start = std::chrono::system_clock::now();
     for(auto i = 0; i < test3; ++i){
-        t3.T_find(i);
+        t.T_find(i);
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end - start;
     std::cout << "Found all of " << test3 << " elements in " << elapsed_seconds.count() << "s" << std::endl << std::endl;
+    t.clear();
 
 
     /**
      * Test for 10000000 elements
      */
-    RBTree<size_t> t4;
     std::cout << "Insert and search test for " << test4 << " elements" << std::endl;
     start = std::chrono::system_clock::now();
     for(auto i = 0; i < test4; ++i) {
-        t4.Insert(i);
+        t.Insert(i);
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end - start;
@@ -159,11 +170,13 @@ int main(int argc, char* argv[]){
 
     start = std::chrono::system_clock::now();
     for(auto i = 0; i < test4; ++i){
-        t4.T_find(i);
+        t.T_find(i);
     }
     end = std::chrono::system_clock::now();
     elapsed_seconds = end - start;
     std::cout << "Found all of " << test4 << " elements in " << elapsed_seconds.count() << "s" << std::endl << std::endl;
+    t.clear();
+    std::cout << t.size() << std::endl;
 
     return 0;
 }
