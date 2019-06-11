@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <iterator>
+#include <exception>
 
 enum colors { red, black };
 
@@ -303,6 +304,8 @@ class RBTree{
         inline node<T>* T_node_find(T);
         inline void     operator+ (const RBTree<T>& in) { Merge(in.root); };
         inline void     operator- (const RBTree<T>& in) { Split(in.root); };
+        inline T        operator[](const size_t &id);
+        inline const T  operator[](const size_t &id) const;
         inline RBTree&  operator= (const RBTree<T> &);
         inline RBTree&  operator= (RBTree<T> &&) noexcept;
         inline bool     operator==(const RBTree<T> &) const;
@@ -507,6 +510,36 @@ bool RBTree<T>::operator==(const RBTree<T> &tree) const{
         }
 
         return true;
+    }
+}
+
+template<typename T>
+T RBTree<T>::operator[](const size_t &id){
+    if(id < 0 || id >= size_) throw std::out_of_range("Wrong index");
+    else{
+        if(id == 0) return minIt()->key;
+
+        auto count = 1;
+        auto *n = minIt()->node_Successor();
+
+        while(count++ != id) n = n->node_Successor();
+
+        return n->key;
+    }
+}
+
+template<typename T>
+const T RBTree<T>::operator[](const size_t &id) const{
+    if(id < 0 || id >= size_) throw std::out_of_range("Wrong index");
+    else{
+        if(id == 0) return minIt()->key;
+
+        auto count = 1;
+        auto *n = minIt()->node_Successor();
+
+        while(count++ != id) n = n->node_Successor();
+
+        return n->key;
     }
 }
 
