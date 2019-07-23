@@ -68,14 +68,21 @@ int main(int argc, char* argv[]){
         std::cout << *it << ", ";
     }
 
+    std::cout << std::endl << std::endl << std::endl << std::endl;
     RBTree<int> tree2 = tree;
     tree.Delete(2);
     tree2.Insert(42);
     std::cout << std::endl;
 
+    for(auto it = tree.rbegin(); it != tree.rend(); ++it){
+        std::cout << *it << ", ";
+    }
+    std::cout << std::endl;
     for(auto it = tree2.rbegin(); it != tree2.rend(); ++it){
         std::cout << *it << ", ";
     }
+
+    std::cout << std::endl << std::endl << std::endl << std::endl;
 
     RBTree<int> t;
     for(auto i = 0; i < 5; i++) t.Insert(i);
