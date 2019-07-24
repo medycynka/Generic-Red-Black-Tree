@@ -24,6 +24,7 @@ int main(int argc, char* argv[]){
     std::cout << (tree.T_find(3) ? "Found 3" : "Couldn't find 3") << std::endl;
     tree.Delete(3);
     std::cout << (tree.T_find(3) ? "Found 3" : "Couldn't find 3") << std::endl;
+
     std::cout << std::endl;
 
     std::cout << "Number of nodes: " << tree.size() << std::endl;
@@ -67,6 +68,10 @@ int main(int argc, char* argv[]){
     for(auto it = tree.rbegin(); it != tree.rend(); ++it){
         std::cout << *it << ", ";
     }
+
+    std::cout << std::endl << std::endl << "Testing operator []:" << std::endl;
+    std::cout << "for i = 1 key value = " << tree[1] << std::endl;
+    std::cout << "for i = 7 key value = " << tree[7] << std::endl;
 
     std::cout << std::endl << std::endl << std::endl << std::endl;
     RBTree<int> tree2 = tree;

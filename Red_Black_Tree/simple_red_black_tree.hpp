@@ -7,6 +7,9 @@
 template <typename T>
 class RBTree{
     private:
+        /**
+        * Helper functions
+        */
         explicit        RBTree(node<T>* in) : root(in){ size_ = Size(root); };
 
         inline size_t   Size(node<T>*);
@@ -21,6 +24,9 @@ class RBTree{
         inline void     Chop(node<T>*);
 
     public:
+        /**
+        * Iterators
+        */
         class Iterator{
             protected:
                 node<T> * Iter;
@@ -161,18 +167,32 @@ class RBTree{
                 explicit                   operator bool           ()                                   const { return (Iter != nullptr); };
         };
 
+        /**
+        * Constructors
+        */
         RBTree()                             : size_(0), root(nullptr){};
         RBTree(const RBTree<T> &t)           : size_(0), root(nullptr){ Copy(t.root); };
         RBTree(const RBTree<T> &&t) noexcept : size_(0), root(nullptr){ Copy(t.root); };
 
+        /**
+        * Utility functions
+        */
         inline node<T>* getRoot() const { return root; };
         inline size_t   size()          { return size_; };
         inline bool     isEmpty() const { return (root == nullptr && size_ == 0); };
         inline void     Display()       { Display(root, 0); };
         inline void     clear()         { size_ = 0; Chop(root); root = nullptr; };
+        inline node<T>* maxIt()   const { return ( isEmpty() ? nullptr : root->max_node() ); };
+        inline node<T>* minIt()   const { return ( isEmpty() ? nullptr : root->min_node() ); };
         inline void     Insert(T input);
         inline bool     T_find(T);
         inline node<T>* T_node_find(T);
+        inline size_t   Black_hight();
+        inline bool     Delete(T);
+
+        /**
+        * Operators
+        */
         inline void     operator+ (const RBTree<T>& in) { Merge(in.root); };
         inline void     operator- (const RBTree<T>& in) { Split(in.root); };
         inline T        operator[](const size_t &id);
@@ -181,12 +201,14 @@ class RBTree{
         inline RBTree&  operator= (RBTree<T> &&) noexcept;
         inline bool     operator==(const RBTree<T> &) const;
         inline bool     operator!=(const RBTree<T> &tree) const { return !(*this == tree); };
-        inline size_t   Black_hight();
-        inline bool     Delete(T);
+        inline bool     operator< (const RBTree<T> &tree) const;
+        inline bool     operator<=(const RBTree<T> &tree) const { return !(*this > tree); };
+        inline bool     operator> (const RBTree<T> &tree) const;
+        inline bool     operator>=(const RBTree<T> &tree) const { return !(*this < tree); };
 
-        inline node<T>* maxIt()   const { return ( isEmpty() ? nullptr : root->max_node() ); };
-        inline node<T>* minIt()   const { return ( isEmpty() ? nullptr : root->min_node() ); };
-
+        /**
+        * Begin/End functions
+        */
         Iterator             begin()   const { return Iterator( minIt() ); };
         Iterator             end()     const { return Iterator(); };
         ReverseIterator      rbegin()  const { return ReverseIterator( maxIt() ); };
@@ -366,10 +388,6 @@ inline void RBTree<T>::Chop(node<T> *in){
 
 template <typename T>
 inline RBTree<T>& RBTree<T>::operator=(const RBTree<T> &tree){
-    /*if(tree.root == nullptr) root = nullptr;
-    else root = tree.root;
-
-    size_ = tree.size_;*/
     if(this != &tree){
         Chop(root);
         root = nullptr;
@@ -381,10 +399,6 @@ inline RBTree<T>& RBTree<T>::operator=(const RBTree<T> &tree){
 
 template <typename T>
 inline RBTree<T>& RBTree<T>::operator=(RBTree<T> &&tree) noexcept{
-    /*if(tree.root == nullptr) root = nullptr;
-    else root = tree.root;
-
-    size_ = tree.size_;*/
     if(this != &tree){
         Chop(root);
         root = nullptr;
@@ -410,6 +424,47 @@ bool RBTree<T>::operator==(const RBTree<T> &tree) const{
         }
 
         return true;
+    }
+}
+
+template<typename T>
+bool RBTree<T>::operator<(const RBTree<T> &tree) const{
+    if(size_ == tree.size_){
+        auto it = begin();
+        auto tree_it = tree.begin();
+
+        while(it != end() && tree_it != end()){
+            if(*it >= *tree_it) return false;
+            else{
+                ++it;
+                ++tree_it;
+            }
+        }
+
+        return true;
+    }
+    else{
+        return (size_ < tree.size_);
+    }
+}
+
+bool RBTree<T>::operator>(const RBTree<T> &tree) const{
+    if(size_ == tree.size_){
+        auto it = begin();
+        auto tree_it = tree.begin();
+
+        while(it != end() && tree_it != end()){
+            if(*it <= *tree_it) return false;
+            else{
+                ++it;
+                ++tree_it;
+            }
+        }
+
+        return true;
+    }
+    else{
+        return (size_ > tree.size_);
     }
 }
 

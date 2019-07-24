@@ -26,7 +26,7 @@ class node{
         node(T input, node* father_, int new_color) : key(input), father(father_), left(nullptr), right(nullptr), color(new_color){};
         ~node() = default;
 
-        node& operator= (const T &input)           { key = input; return *this; };
+        node& operator= (const T &input)            { key = input; return *this; };
         node& operator= (const node<T> &input);
         node& operator= (node<T> &&input) noexcept;
         bool  operator==(const T &input)     const	{ return key == input; };
@@ -80,7 +80,7 @@ node<T> &node<T>::operator=(const node<T> &input){
         delete newLeft;
         delete newRight;
 
-        throw;
+        throw std::bad_alloc("Failed to copy nodes!");
     }
 
     key = input.key;
@@ -111,7 +111,7 @@ node<T> &node<T>::operator=(node<T> &&input) noexcept{
         delete newLeft;
         delete newRight;
 
-        throw;
+        throw std::bad_alloc("Failed to copy nodes!");
     }
 
     key = input.key;
