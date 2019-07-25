@@ -193,13 +193,13 @@ class RBTree{
         /**
         * Operators
         */
-        inline void     operator+ (const RBTree<T>& in) { Merge(in.root); };
-        inline void     operator- (const RBTree<T>& in) { Split(in.root); };
+        inline void     operator+ (const RBTree<T>& in)         { Merge(in.root); };
+        inline void     operator- (const RBTree<T>& in)         { Split(in.root); };
         inline T        operator[](const size_t &id);
-        inline const T  operator[](const size_t &id) const;
+        inline const T  operator[](const size_t &id)      const;
         inline RBTree&  operator= (const RBTree<T> &);
-        inline RBTree&  operator= (RBTree<T> &&) noexcept;
-        inline bool     operator==(const RBTree<T> &) const;
+        inline RBTree&  operator= (RBTree<T> &&)       noexcept;
+        inline bool     operator==(const RBTree<T> &)     const;
         inline bool     operator!=(const RBTree<T> &tree) const { return !(*this == tree); };
         inline bool     operator< (const RBTree<T> &tree) const;
         inline bool     operator<=(const RBTree<T> &tree) const { return !(*this > tree); };
@@ -448,6 +448,7 @@ bool RBTree<T>::operator<(const RBTree<T> &tree) const{
     }
 }
 
+template <typename T>
 bool RBTree<T>::operator>(const RBTree<T> &tree) const{
     if(size_ == tree.size_){
         auto it = begin();

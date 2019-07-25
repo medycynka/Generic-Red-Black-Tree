@@ -69,9 +69,19 @@ int main(int argc, char* argv[]){
         std::cout << *it << ", ";
     }
 
-    std::cout << std::endl << std::endl << "Testing operator []:" << std::endl;
+    std::cout << std::endl << std::endl << "Testing operator[] (and node operator[]):" << std::endl;
     std::cout << "for i = 1 key value = " << tree[1] << std::endl;
-    std::cout << "for i = 7 key value = " << tree[7] << std::endl;
+    std::cout << "for i = 7 key value = " << tree[7] << std::endl << std::endl;
+    node<int> r(5);
+    r.father = new node<int>(1);
+    r.left = new node<int>(3);
+    r.right = new node<int>(8);
+    std::cout << "test node: " << std::endl;
+    r.print_node();
+    std::cout << "in node for i = 0 (self) key value = " << r[0] << std::endl;
+    std::cout << "in node for i = 1 (father) key value = " << r[1] << std::endl;
+    std::cout << "in node for i = 2 (left) key value = " << r[2] << std::endl;
+    std::cout << "in node for i = 3 (right) key value = " << r[3] << std::endl;
 
     std::cout << std::endl << std::endl << std::endl << std::endl;
     RBTree<int> tree2 = tree;

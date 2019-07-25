@@ -26,21 +26,23 @@ class node{
         node(T input, node* father_, int new_color) : key(input), father(father_), left(nullptr), right(nullptr), color(new_color){};
         ~node() = default;
 
-        node& operator= (const T &input)            { key = input; return *this; };
-        node& operator= (const node<T> &input);
-        node& operator= (node<T> &&input) noexcept;
-        bool  operator==(const T &input)     const	{ return key == input; };
-        bool  operator!=(const T &input)     const	{ return key != input; };
-        bool  operator> (const T &input)     const	{ return key > input; };
-        bool  operator< (const T &input)     const	{ return key < input; };
-        bool  operator>=(const T &input)     const	{ return key >= input; };
-        bool  operator<=(const T &input)     const	{ return key <= input; };
-        bool  operator==(const node &source) const	{ return ( (key == source.key) && (father == source.father) ); };
-        bool  operator!=(const node &source) const	{ return (!(*this == source)); };
-        bool  operator> (const node &source) const	{ return key > source.key; };
-        bool  operator< (const node &source) const	{ return key < source.key; };
-        bool  operator>=(const node &source) const	{ return key >= source.key; };
-        bool  operator<=(const node &source) const	{ return key <= source.key; };
+        node&   operator= (const T &input)            { key = input; return *this; };
+        node&   operator= (const node<T> &input);
+        node&   operator= (node<T> &&input) noexcept;
+        bool    operator==(const T &input)     const	{ return key == input; };
+        bool    operator!=(const T &input)     const	{ return key != input; };
+        bool    operator> (const T &input)     const	{ return key > input; };
+        bool    operator< (const T &input)     const	{ return key < input; };
+        bool    operator>=(const T &input)     const	{ return key >= input; };
+        bool    operator<=(const T &input)     const	{ return key <= input; };
+        bool    operator==(const node &source) const	{ return ( (key == source.key) && (father == source.father) ); };
+        bool    operator!=(const node &source) const	{ return (!(*this == source)); };
+        bool    operator> (const node &source) const	{ return key > source.key; };
+        bool    operator< (const node &source) const	{ return key < source.key; };
+        bool    operator>=(const node &source) const	{ return key >= source.key; };
+        bool    operator<=(const node &source) const	{ return key <= source.key; };
+        T       operator[](const size_t &id);
+        const T operator[](const size_t &id) const;
 
         friend std::ostream& operator<<(std::ostream& ofs, const node<T>* pt){
             ofs << "Key: " << pt->key << ", color: " << ( pt->color == black ? "B" : "R" ) << "\n";
@@ -124,6 +126,24 @@ node<T> &node<T>::operator=(node<T> &&input) noexcept{
     delete newRight;
 
     return *this;
+}
+
+template <typename T>
+T node<T>::operator[](const size_t &id){
+    if(id < 0 || id > 3) throw std::out_of_range("Wrong index");
+    else if(id == 0) return this->key;
+    else if(id == 1) return father->key;
+    else if(id == 2) return left->key;
+    else return right->key;
+}
+
+template <typename T>
+const T node<T>::operator[](const size_t &id) const{
+    if(id < 0 || id > 3) throw std::out_of_range("Wrong index");
+    else if(id == 0) return this->key;
+    else if(id == 1) return father->key;
+    else if(id == 2) return left->key;
+    else return right->key;
 }
 
 template <typename T>
