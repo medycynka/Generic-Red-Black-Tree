@@ -9,6 +9,7 @@
 
 enum colors { red, black };
 
+
 template <typename T>
 class node{
     public:
@@ -56,21 +57,21 @@ class node{
             return ofs;
         };
 
-        inline void    print_node();
-        inline bool    is_left_son()  const { return ( (father != nullptr) && father->left == this ); };
-        inline bool    is_right_son() const { return ( (father != nullptr) && father->right == this ); };
-        inline node*   max_node()           { return ( (right == nullptr) ? this : right->max_node() ); };
-        inline node*   min_node()           { return ( (left == nullptr) ? this : left->min_node() ); };
-        inline node*   node_Successor();
-        inline node*   node_Predecessor();
-        inline node*   node_Sibling();
+        inline void               print_node();
+        [[nodiscard]] inline bool is_left_son()  const { return ( (father != nullptr) && father->left == this ); };
+        [[nodiscard]] inline bool is_right_son() const { return ( (father != nullptr) && father->right == this ); };
+        inline node*              max_node()           { return ( (right == nullptr) ? this : right->max_node() ); };
+        inline node*              min_node()           { return ( (left == nullptr) ? this : left->min_node() ); };
+        inline node*              node_Successor();
+        inline node*              node_Predecessor();
+        inline node*              node_Sibling();
 };
 
 template<typename T>
 node<T> &node<T>::operator=(const node<T> &input){
-    auto *newFather = nullptr;
-    auto *newLeft = nullptr;
-    auto *newRight = nullptr;
+    auto *newFather = node<T>();
+    auto *newLeft = node<T>();
+    auto *newRight = node<T>();
 
     try{
         newFather = new node(*input.father);
@@ -82,7 +83,7 @@ node<T> &node<T>::operator=(const node<T> &input){
         delete newLeft;
         delete newRight;
 
-        throw std::bad_alloc("Failed to copy nodes!");
+        throw std::bad_alloc();
     }
 
     key = input.key;
@@ -99,9 +100,9 @@ node<T> &node<T>::operator=(const node<T> &input){
 
 template<typename T>
 node<T> &node<T>::operator=(node<T> &&input) noexcept{
-    auto *newFather = nullptr;
-    auto *newLeft = nullptr;
-    auto *newRight = nullptr;
+    auto *newFather = node<T>();
+    auto *newLeft = node<T>();
+    auto *newRight = node<T>();
 
     try{
         newFather = new node(*input.father);
@@ -113,7 +114,7 @@ node<T> &node<T>::operator=(node<T> &&input) noexcept{
         delete newLeft;
         delete newRight;
 
-        throw std::bad_alloc("Failed to copy nodes!");
+        throw std::bad_alloc();
     }
 
     key = input.key;
