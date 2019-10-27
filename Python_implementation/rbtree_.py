@@ -229,7 +229,7 @@ class RBTree(Generic[T]):
             return ret
 
     def __eq__(self, other: 'RBTree[T]') -> bool:
-        if self.size_ != other.size_ or self.__root != self.__root:
+        if self.size_ != other.size_ or self.__root != other.__root:
             return False
         else:
             it = iter(self)
@@ -252,7 +252,7 @@ class RBTree(Generic[T]):
         return not self == other
 
     def __lt__(self, other: 'RBTree[T]') -> bool:
-        if self.size_ > other.size_ or self.__root >= self.__root:
+        if self.size_ > other.size_ or self.__root >= other.__root:
             return False
         else:
             it = iter(self)
@@ -275,7 +275,7 @@ class RBTree(Generic[T]):
         return not self > other
 
     def __gt__(self, other: 'RBTree[T]') -> bool:
-        if self.size_ < other.size_ or self.__root <= self.__root:
+        if self.size_ < other.size_ or self.__root <= other.__root:
             return False
         else:
             it = iter(self)
