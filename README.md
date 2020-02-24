@@ -45,9 +45,9 @@ Class **node** is a representation of a **Red-Black Tree** node
    * <b>inline bool is_right_son()</b> - returns **true** if the node is a right son, otherwise returns **false**
    * <b>inline node* max_node()</b> - returns a node with **maximal key**
    * <b>inline node* min_node()</b> - returns a node with **minimal key**
-   * <b>inline node* node_Successor()</b> - returns a **succesor** of the node or **NULL** if the node doesn't havy a succesor
-   * <b>inline node* node_Predecessor()</b> - returns a **predecessor** of the node or **NULL** if the node doesn't havy a predecessor
-   * <b>inline node* node_Sibling()</b> - returns, a **sibling** of the node or **NULL** if node doesn't have a sibling or is a root of the tree
+   * <b>inline node* node_Successor()</b> - returns a **succesor** of the node or **nullptr** if the node doesn't havy a succesor
+   * <b>inline node* node_Predecessor()</b> - returns a **predecessor** of the node or **nullptr** if the node doesn't havy a predecessor
+   * <b>inline node* node_Sibling()</b> - returns, a **sibling** of the node or **nullptr** if node doesn't have a sibling or is a root of the tree
    
 ## _class_ RBTree
 Class **RBTree** is a main class representing **Red-Black Tree** structure
