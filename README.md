@@ -105,4 +105,5 @@ Class **RBTree** is a main class representing **Red-Black Tree** structure
   
 # General use
 1. Impleneting other structures like **_std::set_** or **_std::map_**
-2. Simple test is in the _main.cpp_ 
+2. Simple test is in the _main_tests.cpp_ 
+3 Example of usage is in the _example.hpp_
