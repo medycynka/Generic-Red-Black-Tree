@@ -1,4 +1,4 @@
-#include "rb_tree.hpp"
+#include "source/rb_tree.hpp"
 #include <vector>
 #define BOOST_TEST_MODULE RBTree_Test
 
