@@ -8,6 +8,7 @@
 #include "rbt_reverse_iterator.hpp"
 #include "rbt_const_iterator.hpp"
 #include "rbt_const_reverse_iterator.hpp"
+#include <initializer_list>
 
 
 template <typename T>
@@ -37,6 +38,12 @@ public:
     RBTree(const RBTree<T> &t)           : size_(0), root(nullptr){ Copy(t.root); };
     RBTree(const RBTree<T> &&t) noexcept : size_(0), root(nullptr){ Copy(t.root); };
 
+    RBTree(std::initializer_list<T> init): size_(0){ for(auto &e : init){ insert(e); } };
+
+    template<typename InputIt>
+    RBTree(InputIt first, InputIt last)  : size_(0){ for(auto it = first; it != last; it++){ insert(*it); } };
+
+
     /**
      * Utility functions
     */
@@ -49,15 +56,27 @@ public:
     inline RBNode<T>*         minIt()   const { return ( isEmpty() ? nullptr : root->min_node() ); };
     inline void               insert(const T &input);
     inline bool               find(const T&);
+    inline Iterator<T>        find_it(const T&);
+    inline ConstIterator<T>   find_it(const T&) const;
     inline RBNode<T>*         node_find(const T&);
     inline size_t             Black_hight();
     inline bool               remove(const T&);
+    inline std::pair<Iterator<T>, Iterator<T>>           get_from_to(const T &from, const T &to);
+    inline std::pair<ConstIterator<T>, ConstIterator<T>> get_from_to(const T &from, const T &to) const;
+    inline std::pair<Iterator<T>, Iterator<T>>           equal_range(const T &x);
+    inline std::pair<ConstIterator<T>, ConstIterator<T>> equal_range(const T &x) const;
+    inline Iterator<T>                                   lower_bound(const T &x);
+    inline ConstIterator<T>                              lower_bound(const T &x) const;
+    inline Iterator<T>                                   upper_bound(const T &x);
+    inline ConstIterator<T>                              upper_bound(const T &x) const;
 
     /**
      * Operators
     */
     inline void     operator+ (const RBTree<T>& in)         { Merge(in.root); };
     inline void     operator- (const RBTree<T>& in)         { Split(in.root); };
+    inline RBTree&  operator+=(const T &x)                  { insert(x); return *this; };
+    inline RBTree&  operator-=(const T &x)                  { remove(x); return *this; };
     inline T        operator[](const size_t &id);
     inline const T  operator[](const size_t &id)      const;
     inline RBTree&  operator= (const RBTree<T> &);
@@ -367,6 +386,28 @@ inline bool RBTree<T>::find(const T &in){
     return false;
 }
 
+template <typename T>
+inline Iterator<T> RBTree<T>::find_it(const T &x) {
+    for(auto it = begin(); it != end(); ++it){
+        if(*it == x){
+            return it;
+        }
+    }
+
+    return end();
+}
+
+template <typename T>
+inline ConstIterator<T> RBTree<T>::find_it(const T &x) const {
+    for(const auto it = cbegin(); it != cend(); ++it){
+        if(*it == x){
+            return it;
+        }
+    }
+
+    return cend();
+}
+
 template<typename T>
 RBNode<T>* RBTree<T>::node_find(const T &in){
     auto *t = root;
@@ -560,6 +601,108 @@ inline void RBTree<T>::Delete_fix(RBNode<T> *p){
             root->color = black;
         }
     }
+}
+
+template<typename T>
+std::pair<Iterator<T>, Iterator<T>> RBTree<T>::get_from_to(const T &from, const T &to) {
+    if(from <= to) {
+        Iterator<T> f_;
+        Iterator<T> t_;
+
+        for (auto it = begin(); it != end(); ++it) {
+            if (!f_ && *it == from) {
+                f_ = it;
+            }
+            if (!t_ && *it == to) {
+                t_ = it;
+            }
+            if(f_ && t_){
+                break;
+            }
+        }
+
+        return {f_ ? f_ : end(), t_ ? t_ : end()};
+    } else{
+        return {end(), end()};
+    }
+}
+
+template<typename T>
+std::pair<ConstIterator<T>, ConstIterator<T>> RBTree<T>::get_from_to(const T &from, const T &to) const {
+    if(from <= to) {
+        ConstIterator<T> f_;
+        ConstIterator<T> t_;
+
+        for (const auto it = cbegin(); it != cend(); ++it) {
+            if (!f_ && *it == from) {
+                f_ = it;
+            }
+            if (!t_ && *it == to) {
+                t_ = it;
+            }
+            if(f_ && t_){
+                break;
+            }
+        }
+
+        return {f_ ? f_ : cend(), t_ ? t_ : cend()};
+    } else{
+        return {cend(), cend()};
+    }
+}
+
+template<typename T>
+std::pair<Iterator<T>, Iterator<T>> RBTree<T>::equal_range(const T &x) {
+    return {lower_bound(x), upper_bound(x)};
+}
+
+template<typename T>
+std::pair<ConstIterator<T>, ConstIterator<T>> RBTree<T>::equal_range(const T &x) const {
+    return {lower_bound(x), upper_bound(x)};
+}
+
+template<typename T>
+Iterator<T> RBTree<T>::lower_bound(const T &x) {
+    for(auto it = begin(); it != end(); ++it){
+        if(*it >= x){
+            return it;
+        }
+    }
+
+    return end();
+}
+
+template<typename T>
+ConstIterator<T> RBTree<T>::lower_bound(const T &x) const {
+    for(const auto it = cbegin(); it != cend(); ++it){
+        if(*it >= x){
+            return it;
+        }
+    }
+
+    return cend();
+}
+
+template<typename T>
+Iterator<T> RBTree<T>::upper_bound(const T &x) {
+    for(auto it = begin(); it != end(); ++it){
+        if(*it > x){
+            return it;
+        }
+    }
+
+    return end();
+}
+
+template<typename T>
+ConstIterator<T> RBTree<T>::upper_bound(const T &x) const {
+    for(const auto it = cbegin(); it != cend(); ++it){
+        if(*it > x){
+            return it;
+        }
+    }
+
+    return cend();
 }
 
 #endif //RBTREE_RB_TREE_HPP
