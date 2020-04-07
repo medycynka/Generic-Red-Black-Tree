@@ -9,6 +9,7 @@
 #include "rbt_const_iterator.hpp"
 #include "rbt_const_reverse_iterator.hpp"
 #include <initializer_list>
+#include <vector>
 
 
 template <typename T>
@@ -37,9 +38,7 @@ public:
     RBTree()                             : size_(0), root(nullptr){};
     RBTree(const RBTree<T> &t)           : size_(0), root(nullptr){ Copy(t.root); };
     RBTree(const RBTree<T> &&t) noexcept : size_(0), root(nullptr){ Copy(t.root); };
-
     RBTree(std::initializer_list<T> init): size_(0){ for(auto &e : init){ insert(e); } };
-
     template<typename InputIt>
     RBTree(InputIt first, InputIt last)  : size_(0){ for(auto it = first; it != last; it++){ insert(*it); } };
 
@@ -54,13 +53,20 @@ public:
     inline void               clear()         { size_ = 0; Chop(root); root = nullptr; };
     inline RBNode<T>*         maxIt()   const { return ( isEmpty() ? nullptr : root->max_node() ); };
     inline RBNode<T>*         minIt()   const { return ( isEmpty() ? nullptr : root->min_node() ); };
-    inline void               insert(const T &input);
+    inline void               insert(const T &);
+    inline void               insert(Iterator<T> first, Iterator<T> last);
     inline bool               find(const T&);
+    inline std::size_t        count(const T &);
     inline Iterator<T>        find_it(const T&);
     inline ConstIterator<T>   find_it(const T&) const;
     inline RBNode<T>*         node_find(const T&);
     inline size_t             Black_hight();
     inline bool               remove(const T&);
+    inline Iterator<T>        erase(ConstIterator<T> pos);
+    inline Iterator<T>        erase(Iterator<T> pos);
+    inline Iterator<T>        erase(Iterator<T> first, Iterator<T> last);
+    inline std::size_t        erase(const T &);
+    inline void               swap(RBTree<T> &) noexcept;
     inline std::pair<Iterator<T>, Iterator<T>>           get_from_to(const T &from, const T &to);
     inline std::pair<ConstIterator<T>, ConstIterator<T>> get_from_to(const T &from, const T &to) const;
     inline std::pair<Iterator<T>, Iterator<T>>           equal_range(const T &x);
@@ -84,9 +90,10 @@ public:
     inline bool     operator==(const RBTree<T> &)     const;
     inline bool     operator!=(const RBTree<T> &tree) const { return !(*this == tree); };
     inline bool     operator< (const RBTree<T> &tree) const;
+    inline bool     operator> (const RBTree<T> &tree) const { return tree < *this; };
     inline bool     operator<=(const RBTree<T> &tree) const { return !(*this > tree); };
-    inline bool     operator> (const RBTree<T> &tree) const;
     inline bool     operator>=(const RBTree<T> &tree) const { return !(*this < tree); };
+    inline explicit operator bool()                   const { return !isEmpty(); };
 
     /**
      * Iterators
@@ -184,27 +191,6 @@ bool RBTree<T>::operator<(const RBTree<T> &tree) const{
     }
     else{
         return (size_ < tree.size_ && root < tree.root);
-    }
-}
-
-template <typename T>
-bool RBTree<T>::operator>(const RBTree<T> &tree) const{
-    if(size_ == tree.size_ && root > tree.root){
-        auto it = begin();
-        auto tree_it = tree.begin();
-
-        while(it != end() && tree_it != tree.end()){
-            if(*it <= *tree_it) return false;
-            else{
-                ++it;
-                ++tree_it;
-            }
-        }
-
-        return true;
-    }
-    else{
-        return (size_ > tree.size_ && root > tree.root);
     }
 }
 
@@ -703,6 +689,93 @@ ConstIterator<T> RBTree<T>::upper_bound(const T &x) const {
     }
 
     return cend();
+}
+
+template<typename T>
+Iterator<T> RBTree<T>::erase(ConstIterator<T> pos) {
+    auto ret = Iterator<T>(pos.getIter());
+    ++ret;
+    remove(*pos);
+
+    return ret;
+}
+
+template<typename T>
+Iterator<T> RBTree<T>::erase(Iterator<T> pos) {
+    auto ret = pos.getIter();
+    ++ret;
+    remove(*pos);
+
+    return ret;
+}
+
+template<typename T>
+Iterator<T> RBTree<T>::erase(Iterator<T> first, Iterator<T> last) {
+    auto ret = last;
+
+    if(ret != end()){
+        ++ret;
+    }
+
+    std::vector<T> remover;
+    for(auto it = first; it != last; ++it){
+        remover.push_back(*it);
+    }
+
+    for(auto &e : remover){
+        remove(e);
+    }
+
+    return ret;
+}
+
+template<typename T>
+std::size_t RBTree<T>::erase(const T &key) {
+    std::size_t count = 0;
+
+    while(find(key)){
+        remove(key);
+        count++;
+    }
+
+    return count;
+}
+
+template<typename T>
+void RBTree<T>::swap(RBTree<T> &other) noexcept {
+    std::vector<T> swaper;
+
+    for(auto it = other.begin(); it != other.end(); ++it){
+        swaper.push_back(*it);
+    }
+
+    other.clear();
+    other.insert(begin(), end());
+    clear();
+
+    for(auto &e : swaper){
+        insert(e);
+    }
+}
+
+template<typename T>
+void RBTree<T>::insert(Iterator<T> first, Iterator<T> last) {
+    for(auto it = first; it != last; ++it){
+        insert(*it);
+    }
+}
+
+template<typename T>
+std::size_t RBTree<T>::count(const T &key) {
+    std::size_t count = 0;
+
+    for(auto it = begin(); it != end(); ++it){
+        if(*it == key){
+            count++;
+        }
+    }
+
+    return count;
 }
 
 #endif //RBTREE_RB_TREE_HPP
