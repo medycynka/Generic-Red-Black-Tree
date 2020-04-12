@@ -1,5 +1,5 @@
-#ifndef RBTREE_UNIQUE_PTR_RBT_CONST_ITERATOR_HPP
-#define RBTREE_UNIQUE_PTR_RBT_CONST_ITERATOR_HPP
+#ifndef RBTREE_RBT_CONST_ITERATOR_HPP
+#define RBTREE_RBT_CONST_ITERATOR_HPP
 
 #pragma once
 
@@ -77,4 +77,4 @@ const ConstIterator<T> ConstIterator<T>::ConstIterator::operator--(int){
     return pom;
 }
 
-#endif //RBTREE_UNIQUE_PTR_RBT_CONST_ITERATOR_HPP
+#endif //RBTREE_RBT_CONST_ITERATOR_HPP

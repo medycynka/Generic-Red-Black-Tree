@@ -6,7 +6,7 @@
 #include <iostream>
 #include <iterator>
 #include <utility>
-#include <exception>
+#include "exceptions.hpp"
 
 
 enum colors { red, black };
@@ -43,7 +43,7 @@ public:
     bool    operator< (const RBNode &source) const	{ return key < source.key; };
     bool    operator>=(const RBNode &source) const	{ return key >= source.key; };
     bool    operator<=(const RBNode &source) const	{ return key <= source.key; };
-    explicit operator bool() const { return father != nullptr; };
+    explicit operator bool() const { return (father != nullptr ? true : (left != nullptr ? true : right != nullptr)); };
     T       operator[](const size_t &id);
     T       operator[](const size_t &id) const;
 
@@ -71,14 +71,14 @@ public:
         return ofs;
     };
 
-    inline void               print_node();
-    [[nodiscard]] inline bool is_left_son()  const { return ( (father != nullptr) && father->left == this ); };
-    [[nodiscard]] inline bool is_right_son() const { return ( (father != nullptr) && father->right == this ); };
-    inline RBNode*            max_node()           { return ( (right == nullptr) ? this : right->max_node() ); };
-    inline RBNode*            min_node()           { return ( (left == nullptr) ? this : left->min_node() ); };
-    inline RBNode*            node_Successor();
-    inline RBNode*            node_Predecessor();
-    inline RBNode*            node_Sibling();
+    void               print_node();
+    [[nodiscard]] bool is_left_son()  const { return ( (father != nullptr) && father->left == this ); };
+    [[nodiscard]] bool is_right_son() const { return ( (father != nullptr) && father->right == this ); };
+    RBNode*            max_node()           { return ( (right == nullptr) ? this : right->max_node() ); };
+    RBNode*            min_node()           { return ( (left == nullptr) ? this : left->min_node() ); };
+    RBNode*            node_Successor();
+    RBNode*            node_Predecessor();
+    RBNode*            node_Sibling();
 };
 
 template<typename T>
@@ -99,7 +99,7 @@ RBNode<T> &RBNode<T>::operator=(const RBNode<T> &input){
         delete newLeft;
         delete newRight;
 
-        throw std::bad_alloc();
+        throw NodeFailedAllocException();
     }
 
     key = input.key;
@@ -130,7 +130,7 @@ RBNode<T> &RBNode<T>::operator=(RBNode<T> &&input) noexcept{
         delete newLeft;
         delete newRight;
 
-        throw std::bad_alloc();
+        throw NodeFailedAllocException();
     }
 
     key = input.key;
@@ -146,8 +146,8 @@ RBNode<T> &RBNode<T>::operator=(RBNode<T> &&input) noexcept{
 }
 
 template <typename T>
-T RBNode<T>::operator[](const size_t &id){
-    if(id < 0 || id > 3) throw std::out_of_range("Wrong index");
+inline T RBNode<T>::operator[](const size_t &id){
+    if(id < 0 || id > 3) throw NodeIndexOutOfBoundException();
     else if(id == 0) return this->key;
     else if(id == 1) return father->key;
     else if(id == 2) return left->key;
@@ -155,8 +155,8 @@ T RBNode<T>::operator[](const size_t &id){
 }
 
 template <typename T>
-T RBNode<T>::operator[](const size_t &id) const{
-    if(id < 0 || id > 3) throw std::out_of_range("Wrong index");
+inline T RBNode<T>::operator[](const size_t &id) const{
+    if(id < 0 || id > 3) throw NodeIndexOutOfBoundException();
     else if(id == 0) return this->key;
     else if(id == 1) return father->key;
     else if(id == 2) return left->key;
