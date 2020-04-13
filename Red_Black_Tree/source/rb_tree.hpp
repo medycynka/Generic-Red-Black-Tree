@@ -53,14 +53,16 @@ public:
     void               display()       { Display(root_, 0); };
     void               clear()         { size_ = 0; Chop(root_); root_ = nullptr; };
     RBNode<T>*         maxIt()   const { return ( isEmpty() ? nullptr : root_->max_node() ); };
+    Iterator<T>        maxIter()       { return Iterator<T>(maxIt()); };
     RBNode<T>*         minIt()   const { return ( isEmpty() ? nullptr : root_->min_node() ); };
-    void               insert(const T &);
+    Iterator<T>        minIter()       { return Iterator<T>(minIt()); };
+    Iterator<T>        insert(const T &);
     void               insert(Iterator<T> first, Iterator<T> last);
-    Iterator<T>        insert_unique(const T &);
+    std::pair<Iterator<T>, bool> insert_unique(const T &);
     bool               find(const T&);
     std::size_t        count(const T &);
-    Iterator<T>        find_it(const T&);
-    ConstIterator<T>   find_it(const T&) const;
+    Iterator<T>        iterator_to(const T&);
+    ConstIterator<T>   iterator_to(const T&) const;
     RBNode<T>*         node_find(const T&);
     size_t             Black_hight();
     void               replace(const T&, const T&);
@@ -234,7 +236,7 @@ inline const T RBTree<T>::operator[](const size_t &id) const{
 }
 
 template <typename T>
-inline void RBTree<T>::insert(const T &input){
+inline Iterator<T> RBTree<T>::insert(const T &input){
     RBNode<T> *q;
     auto *create = new RBNode<T>(input);
     auto p = root_;
@@ -250,18 +252,20 @@ inline void RBTree<T>::insert(const T &input){
 
             if(p->key > create->key) p = p->left;
             else if(p->key < create->key) p = p->right;
-            else return;
+            else return end();
         }
 
         create->father = q;
 
         if(q->key < create->key) q->right = create;
         else if(q->key > create->key) q->left = create;
-        else return;
+        else return end();
     }
 
     size_++;
     Insert_fix(create);
+
+    return iterator_to(input);
 }
 
 template<typename T>
@@ -382,25 +386,13 @@ inline bool RBTree<T>::find(const T &in){
 }
 
 template <typename T>
-inline Iterator<T> RBTree<T>::find_it(const T &x) {
-    for(auto it = begin(); it != end(); ++it){
-        if(*it == x){
-            return it;
-        }
-    }
-
-    return end();
+inline Iterator<T> RBTree<T>::iterator_to(const T &x) {
+    return Iterator<T>(node_find(x));
 }
 
 template <typename T>
-inline ConstIterator<T> RBTree<T>::find_it(const T &x) const {
-    for(const auto it = cbegin(); it != cend(); ++it){
-        if(*it == x){
-            return it;
-        }
-    }
-
-    return cend();
+inline ConstIterator<T> RBTree<T>::iterator_to(const T &x) const {
+    return ConstIterator<T>(node_find(x));
 }
 
 template<typename T>
@@ -806,16 +798,16 @@ void RBTree<T>::copy_from(RBTree<T> &&src) {
 }
 
 template<typename T>
-Iterator<T> RBTree<T>::insert_unique(const T &val) {
+std::pair<Iterator<T>, bool> RBTree<T>::insert_unique(const T &val) {
     auto check = size();
     insert(val);
 
     if(check == size()){
-        return end();
+        return {iterator_to(val), false};
     } else{
         for(auto it = begin(); it != end(); ++it){
             if(*it == val){
-                return it;
+                return {it, true};
             }
         }
 
