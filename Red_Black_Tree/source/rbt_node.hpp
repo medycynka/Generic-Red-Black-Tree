@@ -8,7 +8,7 @@
 #include <utility>
 #include "exceptions.hpp"
 
-namespace rbt::node_impl {
+namespace algo::ds::rbt::node_impl {
 
     enum colors { red, black };
 
@@ -100,7 +100,7 @@ namespace rbt::node_impl {
             delete newLeft;
             delete newRight;
 
-            throw rbt::exception::NodeFailedAllocException();
+            throw algo::ds::rbt::exception::NodeFailedAllocException();
         }
 
         key = input.key;
@@ -131,7 +131,7 @@ namespace rbt::node_impl {
             delete newLeft;
             delete newRight;
 
-            throw rbt::exception::NodeFailedAllocException();
+            throw algo::ds::rbt::exception::NodeFailedAllocException();
         }
 
         key = input.key;
@@ -148,7 +148,7 @@ namespace rbt::node_impl {
 
     template <typename T>
     inline T RBNode<T>::operator[](const size_t& id) {
-        if (id < 0 || id > 3) throw rbt::exception::NodeIndexOutOfBoundException();
+        if (id < 0 || id > 3) throw algo::ds::rbt::exception::NodeIndexOutOfBoundException();
         else if (id == 0) return this->key;
         else if (id == 1) return father->key;
         else if (id == 2) return left->key;
@@ -157,7 +157,7 @@ namespace rbt::node_impl {
 
     template <typename T>
     inline T RBNode<T>::operator[](const size_t& id) const {
-        if (id < 0 || id > 3) throw rbt::exception::NodeIndexOutOfBoundException();
+        if (id < 0 || id > 3) throw algo::ds::rbt::exception::NodeIndexOutOfBoundException();
         else if (id == 0) return this->key;
         else if (id == 1) return father->key;
         else if (id == 2) return left->key;

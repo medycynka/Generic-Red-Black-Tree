@@ -10,7 +10,7 @@
 #include <initializer_list>
 #include <vector>
 
-namespace rbt {
+namespace algo::ds::rbt {
 
     template <typename T>
     class RBTree {
@@ -18,16 +18,16 @@ namespace rbt {
         /**
             * Helper functions
         */
-        size_t Size(rbt::node_impl::RBNode<T>*);
-        void   Display(rbt::node_impl::RBNode<T>*, size_t);
-        void   Rotate_left(rbt::node_impl::RBNode<T>*);
-        void   Rotate_right(rbt::node_impl::RBNode<T>*);
-        void   Insert_fix(rbt::node_impl::RBNode<T>*);
-        void   Merge(rbt::node_impl::RBNode<T>*);
-        void   Split(rbt::node_impl::RBNode<T>*);
-        void   Delete_fix(rbt::node_impl::RBNode<T>*);
-        void   Copy(rbt::node_impl::RBNode<T>*);
-        void   Chop(rbt::node_impl::RBNode<T>*);
+        size_t Size(algo::ds::rbt::node_impl::RBNode<T>*);
+        void   Display(algo::ds::rbt::node_impl::RBNode<T>*, size_t);
+        void   Rotate_left(algo::ds::rbt::node_impl::RBNode<T>*);
+        void   Rotate_right(algo::ds::rbt::node_impl::RBNode<T>*);
+        void   Insert_fix(algo::ds::rbt::node_impl::RBNode<T>*);
+        void   Merge(algo::ds::rbt::node_impl::RBNode<T>*);
+        void   Split(algo::ds::rbt::node_impl::RBNode<T>*);
+        void   Delete_fix(algo::ds::rbt::node_impl::RBNode<T>*);
+        void   Copy(algo::ds::rbt::node_impl::RBNode<T>*);
+        void   Chop(algo::ds::rbt::node_impl::RBNode<T>*);
 
     public:
         /**
@@ -44,44 +44,44 @@ namespace rbt {
         /**
             * Utility functions
         */
-        rbt::node_impl::RBNode<T>* getRoot() const { return root_; };
-        rbt::iterators::Iterator<T>                  root() { return rbt::iterators::Iterator<T>(root_); };
-        rbt::iterators::ConstIterator<T>             root()    const { return rbt::iterators::ConstIterator<T>(root_); };
-        rbt::iterators::ConstIterator<T>             croot()   const { return rbt::iterators::ConstIterator<T>(root_); };
+        algo::ds::rbt::node_impl::RBNode<T>* getRoot() const { return root_; };
+        algo::ds::rbt::iterators::Iterator<T>                  root() { return algo::ds::rbt::iterators::Iterator<T>(root_); };
+        algo::ds::rbt::iterators::ConstIterator<T>             root()    const { return algo::ds::rbt::iterators::ConstIterator<T>(root_); };
+        algo::ds::rbt::iterators::ConstIterator<T>             croot()   const { return algo::ds::rbt::iterators::ConstIterator<T>(root_); };
         size_t                                       size() { return size_; };
         [[nodiscard]] bool                           isEmpty() const { return (root_ == nullptr && size_ == 0); };
         void                                         display() { Display(root_, 0); };
         void                                         clear() { size_ = 0; Chop(root_); root_ = nullptr; };
-        rbt::node_impl::RBNode<T>* maxIt()   const { return (isEmpty() ? nullptr : root_->max_node()); };
-        rbt::iterators::Iterator<T>                  maxIter() { return rbt::iterators::Iterator<T>(maxIt()); };
-        rbt::node_impl::RBNode<T>* minIt()   const { return (isEmpty() ? nullptr : root_->min_node()); };
-        rbt::iterators::Iterator<T>                  minIter() { return rbt::iterators::Iterator<T>(minIt()); };
-        rbt::iterators::Iterator<T>                  insert(const T&);
-        void                                         insert(rbt::iterators::Iterator<T> first, rbt::iterators::Iterator<T> last);
-        std::pair<rbt::iterators::Iterator<T>, bool> insert_unique(const T&);
+        algo::ds::rbt::node_impl::RBNode<T>* maxIt()   const { return (isEmpty() ? nullptr : root_->max_node()); };
+        algo::ds::rbt::iterators::Iterator<T>                  maxIter() { return algo::ds::rbt::iterators::Iterator<T>(maxIt()); };
+        algo::ds::rbt::node_impl::RBNode<T>* minIt()   const { return (isEmpty() ? nullptr : root_->min_node()); };
+        algo::ds::rbt::iterators::Iterator<T>                  minIter() { return algo::ds::rbt::iterators::Iterator<T>(minIt()); };
+        algo::ds::rbt::iterators::Iterator<T>                  insert(const T&);
+        void                                         insert(algo::ds::rbt::iterators::Iterator<T> first, algo::ds::rbt::iterators::Iterator<T> last);
+        std::pair<algo::ds::rbt::iterators::Iterator<T>, bool> insert_unique(const T&);
         bool                                         find(const T&);
         std::size_t                                  count(const T&);
-        rbt::iterators::Iterator<T>                  iterator_to(const T&);
-        rbt::iterators::ConstIterator<T>             iterator_to(const T&) const;
-        rbt::node_impl::RBNode<T>* node_find(const T&);
+        algo::ds::rbt::iterators::Iterator<T>                  iterator_to(const T&);
+        algo::ds::rbt::iterators::ConstIterator<T>             iterator_to(const T&) const;
+        algo::ds::rbt::node_impl::RBNode<T>* node_find(const T&);
         size_t                                       Black_hight();
         void                                         replace(const T&, const T&);
         bool                                         remove(const T&);
-        rbt::iterators::Iterator<T>                  erase(rbt::iterators::ConstIterator<T> pos);
-        rbt::iterators::Iterator<T>                  erase(rbt::iterators::Iterator<T> pos);
-        rbt::iterators::Iterator<T>                  erase(rbt::iterators::Iterator<T> first, rbt::iterators::Iterator<T> last);
+        algo::ds::rbt::iterators::Iterator<T>                  erase(algo::ds::rbt::iterators::ConstIterator<T> pos);
+        algo::ds::rbt::iterators::Iterator<T>                  erase(algo::ds::rbt::iterators::Iterator<T> pos);
+        algo::ds::rbt::iterators::Iterator<T>                  erase(algo::ds::rbt::iterators::Iterator<T> first, algo::ds::rbt::iterators::Iterator<T> last);
         std::size_t                                  erase(const T&);
         void                                         swap(RBTree<T>&) noexcept;
         void                                         copy_from(const RBTree<T>& src);
         void                                         copy_from(RBTree<T>&& src);
-        std::pair<rbt::iterators::Iterator<T>, rbt::iterators::Iterator<T>>           bounded_range(const T& from, const T& to);
-        std::pair<rbt::iterators::ConstIterator<T>, rbt::iterators::ConstIterator<T>> bounded_range(const T& from, const T& to) const;
-        std::pair<rbt::iterators::Iterator<T>, rbt::iterators::Iterator<T>>           equal_range(const T& x);
-        std::pair<rbt::iterators::ConstIterator<T>, rbt::iterators::ConstIterator<T>> equal_range(const T& x) const;
-        rbt::iterators::Iterator<T>                  lower_bound(const T& x);
-        rbt::iterators::ConstIterator<T>             lower_bound(const T& x) const;
-        rbt::iterators::Iterator<T>                  upper_bound(const T& x);
-        rbt::iterators::ConstIterator<T>             upper_bound(const T& x) const;
+        std::pair<algo::ds::rbt::iterators::Iterator<T>, algo::ds::rbt::iterators::Iterator<T>>           bounded_range(const T& from, const T& to);
+        std::pair<algo::ds::rbt::iterators::ConstIterator<T>, algo::ds::rbt::iterators::ConstIterator<T>> bounded_range(const T& from, const T& to) const;
+        std::pair<algo::ds::rbt::iterators::Iterator<T>, algo::ds::rbt::iterators::Iterator<T>>           equal_range(const T& x);
+        std::pair<algo::ds::rbt::iterators::ConstIterator<T>, algo::ds::rbt::iterators::ConstIterator<T>> equal_range(const T& x) const;
+        algo::ds::rbt::iterators::Iterator<T>                  lower_bound(const T& x);
+        algo::ds::rbt::iterators::ConstIterator<T>             lower_bound(const T& x) const;
+        algo::ds::rbt::iterators::Iterator<T>                  upper_bound(const T& x);
+        algo::ds::rbt::iterators::ConstIterator<T>             upper_bound(const T& x) const;
 
         /**
             * Operators
@@ -106,26 +106,26 @@ namespace rbt {
             * Iterators
             * Begin/End functions
         */
-        rbt::iterators::Iterator<T>             begin() { return rbt::iterators::Iterator<T>(minIt()); };
-        rbt::iterators::Iterator<T>             end() { return rbt::iterators::Iterator<T>(); };
-        rbt::iterators::ConstIterator<T>        begin()   const { return rbt::iterators::ConstIterator<T>(minIt()); };
-        rbt::iterators::ConstIterator<T>        end()     const { return rbt::iterators::ConstIterator<T>(); };
-        rbt::iterators::ReverseIterator<T>      rbegin() { return rbt::iterators::ReverseIterator<T>(maxIt()); };
-        rbt::iterators::ReverseIterator<T>      rend() { return rbt::iterators::ReverseIterator<T>(); };
-        rbt::iterators::ConstReverseIterator<T> rbegin()  const { return rbt::iterators::ConstReverseIterator<T>(maxIt()); };
-        rbt::iterators::ConstReverseIterator<T> rend()    const { return rbt::iterators::ConstReverseIterator<T>(); };
-        rbt::iterators::ConstIterator<T>        cbegin()  const { return rbt::iterators::ConstIterator<T>(minIt()); };
-        rbt::iterators::ConstIterator<T>        cend()    const { return rbt::iterators::ConstIterator<T>(); };
-        rbt::iterators::ConstReverseIterator<T> crbegin() const { return rbt::iterators::ConstReverseIterator<T>(maxIt()); };
-        rbt::iterators::ConstReverseIterator<T> crend()   const { return rbt::iterators::ConstReverseIterator<T>(); };
+        algo::ds::rbt::iterators::Iterator<T>             begin() { return algo::ds::rbt::iterators::Iterator<T>(minIt()); };
+        algo::ds::rbt::iterators::Iterator<T>             end() { return algo::ds::rbt::iterators::Iterator<T>(); };
+        algo::ds::rbt::iterators::ConstIterator<T>        begin()   const { return algo::ds::rbt::iterators::ConstIterator<T>(minIt()); };
+        algo::ds::rbt::iterators::ConstIterator<T>        end()     const { return algo::ds::rbt::iterators::ConstIterator<T>(); };
+        algo::ds::rbt::iterators::ReverseIterator<T>      rbegin() { return algo::ds::rbt::iterators::ReverseIterator<T>(maxIt()); };
+        algo::ds::rbt::iterators::ReverseIterator<T>      rend() { return algo::ds::rbt::iterators::ReverseIterator<T>(); };
+        algo::ds::rbt::iterators::ConstReverseIterator<T> rbegin()  const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(maxIt()); };
+        algo::ds::rbt::iterators::ConstReverseIterator<T> rend()    const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(); };
+        algo::ds::rbt::iterators::ConstIterator<T>        cbegin()  const { return algo::ds::rbt::iterators::ConstIterator<T>(minIt()); };
+        algo::ds::rbt::iterators::ConstIterator<T>        cend()    const { return algo::ds::rbt::iterators::ConstIterator<T>(); };
+        algo::ds::rbt::iterators::ConstReverseIterator<T> crbegin() const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(maxIt()); };
+        algo::ds::rbt::iterators::ConstReverseIterator<T> crend()   const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(); };
 
     private:
         size_t   size_;
-        rbt::node_impl::RBNode<T>* root_;
+        algo::ds::rbt::node_impl::RBNode<T>* root_;
     };
 
     template <typename T>
-    inline void RBTree<T>::Copy(rbt::node_impl::RBNode<T>* in) {
+    inline void RBTree<T>::Copy(algo::ds::rbt::node_impl::RBNode<T>* in) {
         if (in) {
             insert(in->key);
             Copy(in->left);
@@ -134,7 +134,7 @@ namespace rbt {
     }
 
     template <typename T>
-    inline void RBTree<T>::Chop(rbt::node_impl::RBNode<T>* in) {
+    inline void RBTree<T>::Chop(algo::ds::rbt::node_impl::RBNode<T>* in) {
         if (in) {
             Chop(in->left);
             Chop(in->right);
@@ -207,7 +207,7 @@ namespace rbt {
 
     template<typename T>
     inline T RBTree<T>::operator[](const size_t& id) {
-        if (id < 0 || id >= size_) throw rbt::exception::TreeIndexOutOfBoundException();
+        if (id < 0 || id >= size_) throw algo::ds::rbt::exception::TreeIndexOutOfBoundException();
         else {
             if (id == 0) return minIt()->key;
 
@@ -222,7 +222,7 @@ namespace rbt {
 
     template<typename T>
     inline const T RBTree<T>::operator[](const size_t& id) const {
-        if (id < 0 || id >= size_) throw rbt::exception::TreeIndexOutOfBoundException();
+        if (id < 0 || id >= size_) throw algo::ds::rbt::exception::TreeIndexOutOfBoundException();
         else {
             if (id == 0) return minIt()->key;
 
@@ -236,9 +236,9 @@ namespace rbt {
     }
 
     template <typename T>
-    inline rbt::iterators::Iterator<T> RBTree<T>::insert(const T& input) {
-        rbt::node_impl::RBNode<T>* q;
-        auto* create = new rbt::node_impl::RBNode<T>(input);
+    inline algo::ds::rbt::iterators::Iterator<T> RBTree<T>::insert(const T& input) {
+        algo::ds::rbt::node_impl::RBNode<T>* q;
+        auto* create = new algo::ds::rbt::node_impl::RBNode<T>(input);
         auto p = root_;
         q = nullptr;
 
@@ -269,17 +269,17 @@ namespace rbt {
     }
 
     template<typename T>
-    inline void RBTree<T>::Insert_fix(rbt::node_impl::RBNode<T>* create) {
+    inline void RBTree<T>::Insert_fix(algo::ds::rbt::node_impl::RBNode<T>* create) {
         auto* x = create;
 
-        while (x != root_ && x->father->color == rbt::node_impl::red) {
+        while (x != root_ && x->father->color == algo::ds::rbt::node_impl::red) {
             if (x->father == x->father->father->left) {
                 auto* y = x->father->father->right;
 
-                if ((y != nullptr) && (y->color == rbt::node_impl::red)) {
-                    x->father->color = rbt::node_impl::black;
-                    y->color = rbt::node_impl::black;
-                    x->father->father->color = rbt::node_impl::red;
+                if ((y != nullptr) && (y->color == algo::ds::rbt::node_impl::red)) {
+                    x->father->color = algo::ds::rbt::node_impl::black;
+                    y->color = algo::ds::rbt::node_impl::black;
+                    x->father->father->color = algo::ds::rbt::node_impl::red;
                     x = x->father->father;
                 }
                 else {
@@ -288,18 +288,18 @@ namespace rbt {
                         Rotate_left(x);
                     }
 
-                    x->father->color = rbt::node_impl::black;
-                    x->father->father->color = rbt::node_impl::red;
+                    x->father->color = algo::ds::rbt::node_impl::black;
+                    x->father->father->color = algo::ds::rbt::node_impl::red;
                     Rotate_right(x->father->father);
                 }
             }
             else {
                 auto* y = x->father->father->left;
 
-                if ((y != nullptr) && (y->color == rbt::node_impl::red)) {
-                    x->father->color = rbt::node_impl::black;
-                    y->color = rbt::node_impl::black;
-                    x->father->father->color = rbt::node_impl::red;
+                if ((y != nullptr) && (y->color == algo::ds::rbt::node_impl::red)) {
+                    x->father->color = algo::ds::rbt::node_impl::black;
+                    y->color = algo::ds::rbt::node_impl::black;
+                    x->father->father->color = algo::ds::rbt::node_impl::red;
                     x = x->father->father;
                 }
                 else {
@@ -308,18 +308,18 @@ namespace rbt {
                         Rotate_right(x);
                     }
 
-                    x->father->color = rbt::node_impl::black;
-                    x->father->father->color = rbt::node_impl::red;
+                    x->father->color = algo::ds::rbt::node_impl::black;
+                    x->father->father->color = algo::ds::rbt::node_impl::red;
                     Rotate_left(x->father->father);
                 }
             }
         }
 
-        root_->color = rbt::node_impl::black;
+        root_->color = algo::ds::rbt::node_impl::black;
     }
 
     template<typename T>
-    inline void RBTree<T>::Rotate_right(rbt::node_impl::RBNode<T>* in) {
+    inline void RBTree<T>::Rotate_right(algo::ds::rbt::node_impl::RBNode<T>* in) {
         if (in->left == nullptr) return;
         else {
             auto* x = in->left;
@@ -346,7 +346,7 @@ namespace rbt {
     }
 
     template <typename T>
-    inline void RBTree<T>::Rotate_left(rbt::node_impl::RBNode<T>* x) {
+    inline void RBTree<T>::Rotate_left(algo::ds::rbt::node_impl::RBNode<T>* x) {
         if (x->right == nullptr) return;
         else {
             auto* y = x->right;
@@ -386,17 +386,17 @@ namespace rbt {
     }
 
     template <typename T>
-    inline rbt::iterators::Iterator<T> RBTree<T>::iterator_to(const T& x) {
-        return rbt::iterators::Iterator<T>(node_find(x));
+    inline algo::ds::rbt::iterators::Iterator<T> RBTree<T>::iterator_to(const T& x) {
+        return algo::ds::rbt::iterators::Iterator<T>(node_find(x));
     }
 
     template <typename T>
-    inline rbt::iterators::ConstIterator<T> RBTree<T>::iterator_to(const T& x) const {
-        return rbt::iterators::ConstIterator<T>(node_find(x));
+    inline algo::ds::rbt::iterators::ConstIterator<T> RBTree<T>::iterator_to(const T& x) const {
+        return algo::ds::rbt::iterators::ConstIterator<T>(node_find(x));
     }
 
     template<typename T>
-    rbt::node_impl::RBNode<T>* RBTree<T>::node_find(const T& in) {
+    algo::ds::rbt::node_impl::RBNode<T>* RBTree<T>::node_find(const T& in) {
         auto* t = root_;
 
         while (t != nullptr) {
@@ -409,7 +409,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline void RBTree<T>::Merge(rbt::node_impl::RBNode<T>* p) {
+    inline void RBTree<T>::Merge(algo::ds::rbt::node_impl::RBNode<T>* p) {
         if (p != nullptr) {
             if (p->left) Merge(p->left);
             if (p->right) Merge(p->right);
@@ -419,7 +419,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline void RBTree<T>::Split(rbt::node_impl::RBNode<T>* p) {
+    inline void RBTree<T>::Split(algo::ds::rbt::node_impl::RBNode<T>* p) {
         if (p != nullptr) {
             if (p->left) Split(p->left);
             if (p->right) Split(p->right);
@@ -434,7 +434,7 @@ namespace rbt {
         auto num = 0;
 
         while (p != nullptr) {
-            if (p->color == rbt::node_impl::black) num++;
+            if (p->color == algo::ds::rbt::node_impl::black) num++;
 
             p = p->left;
         }
@@ -443,7 +443,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline size_t RBTree<T>::Size(rbt::node_impl::RBNode<T>* in) {
+    inline size_t RBTree<T>::Size(algo::ds::rbt::node_impl::RBNode<T>* in) {
         if (in == nullptr) return 0;
         else {
             auto ls = Size(in->left);
@@ -454,7 +454,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline void RBTree<T>::Display(rbt::node_impl::RBNode<T>* in, size_t level) {
+    inline void RBTree<T>::Display(algo::ds::rbt::node_impl::RBNode<T>* in, size_t level) {
         if (in == nullptr) return;
 
         std::cout << "level: " << level << std::endl;
@@ -487,8 +487,8 @@ namespace rbt {
         else {
             //std::cout << "Deleted Element: " << p->key << " Colour: " << (p->color == black ? "Black" : "Red" ) << "   SIZE: " << size_-1 << std::endl;
 
-            rbt::node_impl::RBNode<T>* y = nullptr;
-            rbt::node_impl::RBNode<T>* q = nullptr;
+            algo::ds::rbt::node_impl::RBNode<T>* y = nullptr;
+            algo::ds::rbt::node_impl::RBNode<T>* q = nullptr;
 
             if (p->left == nullptr || p->right == nullptr) y = p;
             else y = p->node_Successor();
@@ -512,7 +512,7 @@ namespace rbt {
                 p->key = y->key;
             }
 
-            if (y->color == rbt::node_impl::black) Delete_fix(q);
+            if (y->color == algo::ds::rbt::node_impl::black) Delete_fix(q);
 
             size_--;
 
@@ -521,35 +521,35 @@ namespace rbt {
     }
 
     template <typename T>
-    inline void RBTree<T>::Delete_fix(rbt::node_impl::RBNode<T>* p) {
+    inline void RBTree<T>::Delete_fix(algo::ds::rbt::node_impl::RBNode<T>* p) {
         if (p != nullptr) {
-            rbt::node_impl::RBNode<T>* s;
+            algo::ds::rbt::node_impl::RBNode<T>* s;
 
-            while (p != root_ && p->color == rbt::node_impl::black) {
+            while (p != root_ && p->color == algo::ds::rbt::node_impl::black) {
                 if (p->father->left == p) {
                     s = p->father->right;
 
-                    if (s->color == rbt::node_impl::red) {
-                        s->color = rbt::node_impl::black;
-                        p->father->color = rbt::node_impl::red;
+                    if (s->color == algo::ds::rbt::node_impl::red) {
+                        s->color = algo::ds::rbt::node_impl::black;
+                        p->father->color = algo::ds::rbt::node_impl::red;
                         Rotate_left(p->father);
                         s = p->father->right;
                     }
-                    if (s->right->color == rbt::node_impl::black && s->left->color == rbt::node_impl::black) {
-                        s->color = rbt::node_impl::red;
+                    if (s->right->color == algo::ds::rbt::node_impl::black && s->left->color == algo::ds::rbt::node_impl::black) {
+                        s->color = algo::ds::rbt::node_impl::red;
                         p = p->father;
                     }
                     else {
-                        if (s->right->color == rbt::node_impl::black) {
-                            s->left->color = rbt::node_impl::black;
-                            s->color = rbt::node_impl::red;
+                        if (s->right->color == algo::ds::rbt::node_impl::black) {
+                            s->left->color = algo::ds::rbt::node_impl::black;
+                            s->color = algo::ds::rbt::node_impl::red;
                             Rotate_right(s);
                             s = p->father->right;
                         }
 
                         s->color = p->father->color;
-                        p->father->color = rbt::node_impl::black;
-                        s->right->color = rbt::node_impl::black;
+                        p->father->color = algo::ds::rbt::node_impl::black;
+                        s->right->color = algo::ds::rbt::node_impl::black;
                         Rotate_left(p->father);
                         p = root_;
                     }
@@ -557,43 +557,43 @@ namespace rbt {
                 else {
                     s = p->father->left;
 
-                    if (s->color == rbt::node_impl::red) {
-                        s->color = rbt::node_impl::red;
-                        p->father->color = rbt::node_impl::red;
+                    if (s->color == algo::ds::rbt::node_impl::red) {
+                        s->color = algo::ds::rbt::node_impl::red;
+                        p->father->color = algo::ds::rbt::node_impl::red;
                         Rotate_right(p->father);
                         s = p->father->left;
                     }
-                    if (s->left->color == rbt::node_impl::black && s->right->color == rbt::node_impl::black) {
-                        s->color = rbt::node_impl::red;
+                    if (s->left->color == algo::ds::rbt::node_impl::black && s->right->color == algo::ds::rbt::node_impl::black) {
+                        s->color = algo::ds::rbt::node_impl::red;
                         p = p->father;
                     }
                     else {
-                        if (s->left->color == rbt::node_impl::black) {
-                            s->right->color = rbt::node_impl::black;
-                            s->color = rbt::node_impl::red;
+                        if (s->left->color == algo::ds::rbt::node_impl::black) {
+                            s->right->color = algo::ds::rbt::node_impl::black;
+                            s->color = algo::ds::rbt::node_impl::red;
                             Rotate_left(s);
                             s = p->father->left;
                         }
 
                         s->color = p->father->color;
-                        p->father->color = rbt::node_impl::black;
-                        s->left->color = rbt::node_impl::black;
+                        p->father->color = algo::ds::rbt::node_impl::black;
+                        s->left->color = algo::ds::rbt::node_impl::black;
                         Rotate_right(p->father);
                         p = root_;
                     }
                 }
 
-                p->color = rbt::node_impl::black;
-                root_->color = rbt::node_impl::black;
+                p->color = algo::ds::rbt::node_impl::black;
+                root_->color = algo::ds::rbt::node_impl::black;
             }
         }
     }
 
     template<typename T>
-    inline std::pair<rbt::iterators::Iterator<T>, rbt::iterators::Iterator<T>> RBTree<T>::bounded_range(const T& from, const T& to) {
+    inline std::pair<algo::ds::rbt::iterators::Iterator<T>, algo::ds::rbt::iterators::Iterator<T>> RBTree<T>::bounded_range(const T& from, const T& to) {
         if (from <= to) {
-            rbt::iterators::Iterator<T> f_;
-            rbt::iterators::Iterator<T> t_;
+            algo::ds::rbt::iterators::Iterator<T> f_;
+            algo::ds::rbt::iterators::Iterator<T> t_;
 
             for (auto it = begin(); it != end(); ++it) {
                 if (!f_ && *it == from) {
@@ -615,10 +615,10 @@ namespace rbt {
     }
 
     template<typename T>
-    inline std::pair<rbt::iterators::ConstIterator<T>, rbt::iterators::ConstIterator<T>> RBTree<T>::bounded_range(const T& from, const T& to) const {
+    inline std::pair<algo::ds::rbt::iterators::ConstIterator<T>, algo::ds::rbt::iterators::ConstIterator<T>> RBTree<T>::bounded_range(const T& from, const T& to) const {
         if (from <= to) {
-            rbt::iterators::ConstIterator<T> f_;
-            rbt::iterators::ConstIterator<T> t_;
+            algo::ds::rbt::iterators::ConstIterator<T> f_;
+            algo::ds::rbt::iterators::ConstIterator<T> t_;
 
             for (const auto it = cbegin(); it != cend(); ++it) {
                 if (!f_ && *it == from) {
@@ -640,17 +640,17 @@ namespace rbt {
     }
 
     template<typename T>
-    inline std::pair<rbt::iterators::Iterator<T>, rbt::iterators::Iterator<T>> RBTree<T>::equal_range(const T& x) {
+    inline std::pair<algo::ds::rbt::iterators::Iterator<T>, algo::ds::rbt::iterators::Iterator<T>> RBTree<T>::equal_range(const T& x) {
         return { lower_bound(x), upper_bound(x) };
     }
 
     template<typename T>
-    inline std::pair<rbt::iterators::ConstIterator<T>, rbt::iterators::ConstIterator<T>> RBTree<T>::equal_range(const T& x) const {
+    inline std::pair<algo::ds::rbt::iterators::ConstIterator<T>, algo::ds::rbt::iterators::ConstIterator<T>> RBTree<T>::equal_range(const T& x) const {
         return { lower_bound(x), upper_bound(x) };
     }
 
     template<typename T>
-    inline rbt::iterators::Iterator<T> RBTree<T>::lower_bound(const T& x) {
+    inline algo::ds::rbt::iterators::Iterator<T> RBTree<T>::lower_bound(const T& x) {
         for (auto it = begin(); it != end(); ++it) {
             if (*it >= x) {
                 return it;
@@ -661,7 +661,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline rbt::iterators::ConstIterator<T> RBTree<T>::lower_bound(const T& x) const {
+    inline algo::ds::rbt::iterators::ConstIterator<T> RBTree<T>::lower_bound(const T& x) const {
         for (const auto it = cbegin(); it != cend(); ++it) {
             if (*it >= x) {
                 return it;
@@ -672,7 +672,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline rbt::iterators::Iterator<T> RBTree<T>::upper_bound(const T& x) {
+    inline algo::ds::rbt::iterators::Iterator<T> RBTree<T>::upper_bound(const T& x) {
         for (auto it = begin(); it != end(); ++it) {
             if (*it > x) {
                 return it;
@@ -683,7 +683,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline rbt::iterators::ConstIterator<T> RBTree<T>::upper_bound(const T& x) const {
+    inline algo::ds::rbt::iterators::ConstIterator<T> RBTree<T>::upper_bound(const T& x) const {
         for (const auto it = cbegin(); it != cend(); ++it) {
             if (*it > x) {
                 return it;
@@ -694,8 +694,8 @@ namespace rbt {
     }
 
     template<typename T>
-    inline rbt::iterators::Iterator<T> RBTree<T>::erase(rbt::iterators::ConstIterator<T> pos) {
-        auto ret = rbt::iterators::Iterator<T>(pos.getIter());
+    inline algo::ds::rbt::iterators::Iterator<T> RBTree<T>::erase(algo::ds::rbt::iterators::ConstIterator<T> pos) {
+        auto ret = algo::ds::rbt::iterators::Iterator<T>(pos.getIter());
         ++ret;
         remove(*pos);
 
@@ -703,7 +703,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline rbt::iterators::Iterator<T> RBTree<T>::erase(rbt::iterators::Iterator<T> pos) {
+    inline algo::ds::rbt::iterators::Iterator<T> RBTree<T>::erase(algo::ds::rbt::iterators::Iterator<T> pos) {
         auto ret = pos;
         ++ret;
         remove(*pos);
@@ -712,7 +712,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline rbt::iterators::Iterator<T> RBTree<T>::erase(rbt::iterators::Iterator<T> first, rbt::iterators::Iterator<T> last) {
+    inline algo::ds::rbt::iterators::Iterator<T> RBTree<T>::erase(algo::ds::rbt::iterators::Iterator<T> first, algo::ds::rbt::iterators::Iterator<T> last) {
         auto ret = last;
 
         if (ret != end()) {
@@ -761,7 +761,7 @@ namespace rbt {
     }
 
     template<typename T>
-    inline void RBTree<T>::insert(rbt::iterators::Iterator<T> first, rbt::iterators::Iterator<T> last) {
+    inline void RBTree<T>::insert(algo::ds::rbt::iterators::Iterator<T> first, algo::ds::rbt::iterators::Iterator<T> last) {
         for (auto it = first; it != last; ++it) {
             insert(*it);
         }
@@ -799,7 +799,7 @@ namespace rbt {
     }
 
     template<typename T>
-    std::pair<rbt::iterators::Iterator<T>, bool> RBTree<T>::insert_unique(const T& val) {
+    std::pair<algo::ds::rbt::iterators::Iterator<T>, bool> RBTree<T>::insert_unique(const T& val) {
         auto check = size();
         insert(val);
 
@@ -813,7 +813,7 @@ namespace rbt {
                 }
             }
 
-            throw rbt::exception::TreeInsertionFailedException();
+            throw algo::ds::rbt::exception::TreeInsertionFailedException();
         }
     }
 
@@ -825,42 +825,42 @@ namespace rbt {
             if (check->father == nullptr) {
                 if (check->left != nullptr) {
                     if (with_this <= check->left->key) {
-                        throw rbt::exception::TreeReplaceException();
+                        throw algo::ds::rbt::exception::TreeReplaceException();
                     }
                 }
                 if (check->right != nullptr) {
                     if (with_this >= check->right) {
-                        throw rbt::exception::TreeReplaceException();
+                        throw algo::ds::rbt::exception::TreeReplaceException();
                     }
                 }
             }
             else if (check->is_left_son()) {
                 if (with_this >= check->father->key) {
-                    throw rbt::exception::TreeReplaceException();
+                    throw algo::ds::rbt::exception::TreeReplaceException();
                 }
                 if (check->left) {
                     if (with_this <= check->left->key) {
-                        throw rbt::exception::TreeReplaceException();
+                        throw algo::ds::rbt::exception::TreeReplaceException();
                     }
                 }
                 if (check->right) {
                     if (with_this >= check->left->key) {
-                        throw rbt::exception::TreeReplaceException();
+                        throw algo::ds::rbt::exception::TreeReplaceException();
                     }
                 }
             }
             else {
                 if (with_this <= check->father->key) {
-                    throw rbt::exception::TreeReplaceException();
+                    throw algo::ds::rbt::exception::TreeReplaceException();
                 }
                 if (check->left) {
                     if (with_this <= check->left->key) {
-                        throw rbt::exception::TreeReplaceException();
+                        throw algo::ds::rbt::exception::TreeReplaceException();
                     }
                 }
                 if (check->right) {
                     if (with_this >= check->left->key) {
-                        throw rbt::exception::TreeReplaceException();
+                        throw algo::ds::rbt::exception::TreeReplaceException();
                     }
                 }
             }

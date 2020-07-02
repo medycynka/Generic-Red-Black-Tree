@@ -5,7 +5,7 @@
 
 #include <exception>
 
-namespace rbt::exception {
+namespace algo::ds::rbt::exception {
     struct NodeIndexOutOfBoundException : public std::exception {
         [[nodiscard]] const char* what() const noexcept override {
             return "Out of bound! Tried to get element at index bigger than 2 or smaller than 0!";

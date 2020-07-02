@@ -13,7 +13,7 @@ constexpr int test4{ 10000000 };     // 10^7
 int main() {
     // Simple test
     {
-        rbt::RBTree<int> tree;
+        algo::ds::rbt::RBTree<int> tree;
         if (tree.isEmpty()) std::cout << "Tree is empty" << "\n" << "\n";
 
         for (auto i = 0; i < 20; i++) {
@@ -73,10 +73,10 @@ int main() {
         std::cout << "\n" << "\n" << "Testing operator[] (and node operator[]):" << "\n";
         std::cout << "for i = 1 key value = " << tree[1] << "\n";
         std::cout << "for i = 7 key value = " << tree[7] << "\n" << "\n";
-        rbt::node_impl::RBNode<int> r(5);
-        r.father = new rbt::node_impl::RBNode<int>(1);
-        r.left = new rbt::node_impl::RBNode<int>(3);
-        r.right = new rbt::node_impl::RBNode<int>(8);
+        algo::ds::rbt::node_impl::RBNode<int> r(5);
+        r.father = new algo::ds::rbt::node_impl::RBNode<int>(1);
+        r.left = new algo::ds::rbt::node_impl::RBNode<int>(3);
+        r.right = new algo::ds::rbt::node_impl::RBNode<int>(8);
         std::cout << "test node: " << "\n";
         r.print_node();
         std::cout << "in node for i = 0 (self) key value = " << r[0] << "\n";
@@ -85,7 +85,7 @@ int main() {
         std::cout << "in node for i = 3 (right) key value = " << r[3] << "\n";
 
         std::cout << "\n" << "\n" << "\n" << "\n";
-        rbt::RBTree<int> tree2 = tree;
+        algo::ds::rbt::RBTree<int> tree2 = tree;
         tree.remove(2);
         tree2.insert(42);
         std::cout << "\n";
@@ -100,7 +100,7 @@ int main() {
 
         std::cout << "\n" << "\n" << "\n" << "\n";
 
-        rbt::RBTree<int> t;
+        algo::ds::rbt::RBTree<int> t;
         for (auto i = 0; i < 5; i++) t.insert(i);
         t.clear();
         t.display();
@@ -119,7 +119,7 @@ int main() {
         /*
          * For best performance remove if statement (risking not detecting a bug)
          */
-        rbt::RBTree<int> t;
+        algo::ds::rbt::RBTree<int> t;
         std::cout << std::setprecision(16) << std::fixed;
         /*
          * Test for 10000 elements
