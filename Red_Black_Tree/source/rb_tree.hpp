@@ -106,18 +106,18 @@ namespace algo::ds::rbt {
             * Iterators
             * Begin/End functions
         */
-        algo::ds::rbt::iterators::Iterator<T>             begin()         { return algo::ds::rbt::iterators::Iterator<T>(minIt()); };
-        algo::ds::rbt::iterators::Iterator<T>             end()           { return algo::ds::rbt::iterators::Iterator<T>(); };
-        algo::ds::rbt::iterators::ConstIterator<T>        begin()   const { return algo::ds::rbt::iterators::ConstIterator<T>(minIt()); };
-        algo::ds::rbt::iterators::ConstIterator<T>        end()     const { return algo::ds::rbt::iterators::ConstIterator<T>(); };
-        algo::ds::rbt::iterators::ReverseIterator<T>      rbegin()        { return algo::ds::rbt::iterators::ReverseIterator<T>(maxIt()); };
-        algo::ds::rbt::iterators::ReverseIterator<T>      rend()          { return algo::ds::rbt::iterators::ReverseIterator<T>(); };
-        algo::ds::rbt::iterators::ConstReverseIterator<T> rbegin()  const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(maxIt()); };
-        algo::ds::rbt::iterators::ConstReverseIterator<T> rend()    const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(); };
-        algo::ds::rbt::iterators::ConstIterator<T>        cbegin()  const { return algo::ds::rbt::iterators::ConstIterator<T>(minIt()); };
-        algo::ds::rbt::iterators::ConstIterator<T>        cend()    const { return algo::ds::rbt::iterators::ConstIterator<T>(); };
-        algo::ds::rbt::iterators::ConstReverseIterator<T> crbegin() const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(maxIt()); };
-        algo::ds::rbt::iterators::ConstReverseIterator<T> crend()   const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(); };
+        algo::ds::rbt::iterators::Iterator<T>             begin()         noexcept { return algo::ds::rbt::iterators::Iterator<T>(minIt()); };
+        algo::ds::rbt::iterators::Iterator<T>             end()           noexcept { return algo::ds::rbt::iterators::Iterator<T>(); };
+        algo::ds::rbt::iterators::ConstIterator<T>        begin()   const noexcept { return algo::ds::rbt::iterators::ConstIterator<T>(minIt()); };
+        algo::ds::rbt::iterators::ConstIterator<T>        end()     const noexcept { return algo::ds::rbt::iterators::ConstIterator<T>(); };
+        algo::ds::rbt::iterators::ReverseIterator<T>      rbegin()        noexcept { return algo::ds::rbt::iterators::ReverseIterator<T>(maxIt()); };
+        algo::ds::rbt::iterators::ReverseIterator<T>      rend()          noexcept { return algo::ds::rbt::iterators::ReverseIterator<T>(); };
+        algo::ds::rbt::iterators::ConstReverseIterator<T> rbegin()  const noexcept { return algo::ds::rbt::iterators::ConstReverseIterator<T>(maxIt()); };
+        algo::ds::rbt::iterators::ConstReverseIterator<T> rend()    const noexcept { return algo::ds::rbt::iterators::ConstReverseIterator<T>(); };
+        algo::ds::rbt::iterators::ConstIterator<T>        cbegin()  const noexcept { return algo::ds::rbt::iterators::ConstIterator<T>(minIt()); };
+        algo::ds::rbt::iterators::ConstIterator<T>        cend()    const noexcept { return algo::ds::rbt::iterators::ConstIterator<T>(); };
+        algo::ds::rbt::iterators::ConstReverseIterator<T> crbegin() const noexcept { return algo::ds::rbt::iterators::ConstReverseIterator<T>(maxIt()); };
+        algo::ds::rbt::iterators::ConstReverseIterator<T> crend()   const noexcept { return algo::ds::rbt::iterators::ConstReverseIterator<T>(); };
 
     private:
         size_t                               size_;
