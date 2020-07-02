@@ -33,47 +33,47 @@ namespace algo::ds::rbt {
         /**
         * Constructors
         */
-        RBTree() : size_{ 0 }, root_{ nullptr } {};
-        RBTree(const RBTree<T>& t) : size_{ 0 }, root_{ nullptr } { Copy(t.root_); };
-        RBTree(const RBTree<T>&& t) noexcept : size_{ 0 }, root_{ nullptr } { Copy(t.root_); };
+        RBTree()                              : size_{ 0 }, root_{ nullptr } {};
+        RBTree(const RBTree<T>& t)            : size_{ 0 }, root_{ nullptr } { Copy(t.root_); };
+        RBTree(const RBTree<T>&& t) noexcept  : size_{ 0 }, root_{ nullptr } { Copy(t.root_); };
         RBTree(std::initializer_list<T> init) : size_{ 0 } { for (auto& e : init) { insert(e); } };
         template<typename InputIt>
-        RBTree(InputIt first, InputIt last) : size_{ 0 } { for (auto it = first; it != last; it++) { insert(*it); } };
+        RBTree(InputIt first, InputIt last)   : size_{ 0 } { for (auto it = first; it != last; it++) { insert(*it); } };
 
 
         /**
             * Utility functions
         */
-        algo::ds::rbt::node_impl::RBNode<T>* getRoot() const { return root_; };
+        algo::ds::rbt::node_impl::RBNode<T>*                   getRoot() const { return root_; };
         algo::ds::rbt::iterators::Iterator<T>                  root() { return algo::ds::rbt::iterators::Iterator<T>(root_); };
         algo::ds::rbt::iterators::ConstIterator<T>             root()    const { return algo::ds::rbt::iterators::ConstIterator<T>(root_); };
         algo::ds::rbt::iterators::ConstIterator<T>             croot()   const { return algo::ds::rbt::iterators::ConstIterator<T>(root_); };
-        size_t                                       size() { return size_; };
-        [[nodiscard]] bool                           isEmpty() const { return (root_ == nullptr && size_ == 0); };
-        void                                         display() { Display(root_, 0); };
-        void                                         clear() { size_ = 0; Chop(root_); root_ = nullptr; };
-        algo::ds::rbt::node_impl::RBNode<T>* maxIt()   const { return (isEmpty() ? nullptr : root_->max_node()); };
+        size_t                                                 size() { return size_; };
+        [[nodiscard]] bool                                     isEmpty() const { return (root_ == nullptr && size_ == 0); };
+        void                                                   display() { Display(root_, 0); };
+        void                                                   clear() { size_ = 0; Chop(root_); root_ = nullptr; };
+        algo::ds::rbt::node_impl::RBNode<T>*                   maxIt()   const { return (isEmpty() ? nullptr : root_->max_node()); };
         algo::ds::rbt::iterators::Iterator<T>                  maxIter() { return algo::ds::rbt::iterators::Iterator<T>(maxIt()); };
-        algo::ds::rbt::node_impl::RBNode<T>* minIt()   const { return (isEmpty() ? nullptr : root_->min_node()); };
+        algo::ds::rbt::node_impl::RBNode<T>*                   minIt()   const { return (isEmpty() ? nullptr : root_->min_node()); };
         algo::ds::rbt::iterators::Iterator<T>                  minIter() { return algo::ds::rbt::iterators::Iterator<T>(minIt()); };
         algo::ds::rbt::iterators::Iterator<T>                  insert(const T&);
-        void                                         insert(algo::ds::rbt::iterators::Iterator<T> first, algo::ds::rbt::iterators::Iterator<T> last);
+        void                                                   insert(algo::ds::rbt::iterators::Iterator<T> first, algo::ds::rbt::iterators::Iterator<T> last);
         std::pair<algo::ds::rbt::iterators::Iterator<T>, bool> insert_unique(const T&);
-        bool                                         find(const T&);
-        std::size_t                                  count(const T&);
+        bool                                                   find(const T&);
+        std::size_t                                            count(const T&);
         algo::ds::rbt::iterators::Iterator<T>                  iterator_to(const T&);
         algo::ds::rbt::iterators::ConstIterator<T>             iterator_to(const T&) const;
-        algo::ds::rbt::node_impl::RBNode<T>* node_find(const T&);
-        size_t                                       Black_hight();
-        void                                         replace(const T&, const T&);
-        bool                                         remove(const T&);
+        algo::ds::rbt::node_impl::RBNode<T>*                   node_find(const T&);
+        size_t                                                 Black_hight();
+        void                                                   replace(const T&, const T&);
+        bool                                                   remove(const T&);
         algo::ds::rbt::iterators::Iterator<T>                  erase(algo::ds::rbt::iterators::ConstIterator<T> pos);
         algo::ds::rbt::iterators::Iterator<T>                  erase(algo::ds::rbt::iterators::Iterator<T> pos);
         algo::ds::rbt::iterators::Iterator<T>                  erase(algo::ds::rbt::iterators::Iterator<T> first, algo::ds::rbt::iterators::Iterator<T> last);
-        std::size_t                                  erase(const T&);
-        void                                         swap(RBTree<T>&) noexcept;
-        void                                         copy_from(const RBTree<T>& src);
-        void                                         copy_from(RBTree<T>&& src);
+        std::size_t                                            erase(const T&);
+        void                                                   swap(RBTree<T>&) noexcept;
+        void                                                   copy_from(const RBTree<T>& src);
+        void                                                   copy_from(RBTree<T>&& src);
         std::pair<algo::ds::rbt::iterators::Iterator<T>, algo::ds::rbt::iterators::Iterator<T>>           bounded_range(const T& from, const T& to);
         std::pair<algo::ds::rbt::iterators::ConstIterator<T>, algo::ds::rbt::iterators::ConstIterator<T>> bounded_range(const T& from, const T& to) const;
         std::pair<algo::ds::rbt::iterators::Iterator<T>, algo::ds::rbt::iterators::Iterator<T>>           equal_range(const T& x);
@@ -86,14 +86,14 @@ namespace algo::ds::rbt {
         /**
             * Operators
         */
-        void     operator+ (const RBTree<T>& in) { Merge(in.root_); };
-        void     operator- (const RBTree<T>& in) { Split(in.root_); };
-        RBTree& operator+=(const T& x) { insert(x); return *this; };
-        RBTree& operator-=(const T& x) { remove(x); return *this; };
+        void     operator+ (const RBTree<T>& in)         { Merge(in.root_); };
+        void     operator- (const RBTree<T>& in)         { Split(in.root_); };
+        RBTree&  operator+=(const T& x)                  { insert(x); return *this; };
+        RBTree&  operator-=(const T& x)                  { remove(x); return *this; };
         T        operator[](const size_t& id);
         const T  operator[](const size_t& id)      const;
-        RBTree& operator= (const RBTree<T>&);
-        RBTree& operator= (RBTree<T>&&)        noexcept;
+        RBTree&  operator= (const RBTree<T>&);
+        RBTree&  operator= (RBTree<T>&&)        noexcept;
         bool     operator==(const RBTree<T>&)      const;
         bool     operator!=(const RBTree<T>& tree) const { return !(*this == tree); };
         bool     operator< (const RBTree<T>& tree) const;
@@ -106,12 +106,12 @@ namespace algo::ds::rbt {
             * Iterators
             * Begin/End functions
         */
-        algo::ds::rbt::iterators::Iterator<T>             begin() { return algo::ds::rbt::iterators::Iterator<T>(minIt()); };
-        algo::ds::rbt::iterators::Iterator<T>             end() { return algo::ds::rbt::iterators::Iterator<T>(); };
+        algo::ds::rbt::iterators::Iterator<T>             begin()         { return algo::ds::rbt::iterators::Iterator<T>(minIt()); };
+        algo::ds::rbt::iterators::Iterator<T>             end()           { return algo::ds::rbt::iterators::Iterator<T>(); };
         algo::ds::rbt::iterators::ConstIterator<T>        begin()   const { return algo::ds::rbt::iterators::ConstIterator<T>(minIt()); };
         algo::ds::rbt::iterators::ConstIterator<T>        end()     const { return algo::ds::rbt::iterators::ConstIterator<T>(); };
-        algo::ds::rbt::iterators::ReverseIterator<T>      rbegin() { return algo::ds::rbt::iterators::ReverseIterator<T>(maxIt()); };
-        algo::ds::rbt::iterators::ReverseIterator<T>      rend() { return algo::ds::rbt::iterators::ReverseIterator<T>(); };
+        algo::ds::rbt::iterators::ReverseIterator<T>      rbegin()        { return algo::ds::rbt::iterators::ReverseIterator<T>(maxIt()); };
+        algo::ds::rbt::iterators::ReverseIterator<T>      rend()          { return algo::ds::rbt::iterators::ReverseIterator<T>(); };
         algo::ds::rbt::iterators::ConstReverseIterator<T> rbegin()  const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(maxIt()); };
         algo::ds::rbt::iterators::ConstReverseIterator<T> rend()    const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(); };
         algo::ds::rbt::iterators::ConstIterator<T>        cbegin()  const { return algo::ds::rbt::iterators::ConstIterator<T>(minIt()); };
@@ -120,7 +120,7 @@ namespace algo::ds::rbt {
         algo::ds::rbt::iterators::ConstReverseIterator<T> crend()   const { return algo::ds::rbt::iterators::ConstReverseIterator<T>(); };
 
     private:
-        size_t   size_;
+        size_t                               size_;
         algo::ds::rbt::node_impl::RBNode<T>* root_;
     };
 
