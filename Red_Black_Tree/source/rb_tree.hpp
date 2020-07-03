@@ -40,7 +40,6 @@ namespace algo::ds::rbt {
         template<typename InputIt>
         RBTree(InputIt first, InputIt last)   : size_{ 0 } { for (auto it = first; it != last; it++) { insert(*it); } };
 
-
         /**
             * Utility functions
         */
@@ -82,6 +81,19 @@ namespace algo::ds::rbt {
         algo::ds::rbt::iterators::ConstIterator<T>             lower_bound(const T& x) const;
         algo::ds::rbt::iterators::Iterator<T>                  upper_bound(const T& x);
         algo::ds::rbt::iterators::ConstIterator<T>             upper_bound(const T& x) const;
+
+        /*
+        * Ostream overloading
+        */
+        friend std::ostream& operator<<(std::ostream& ofs, const RBTree<T>& tree) {
+            for (auto it = tree.cbegin(); it != tree.cend(); ++it) {
+                ofs << *it << ", ";
+            }
+
+            ofs << "\n";
+
+            return ofs;
+        }
 
         /**
             * Operators
