@@ -8,47 +8,54 @@
 #include <utility>
 #include "exceptions.hpp"
 
-namespace algo::ds::rbt::node_impl {
+namespace ads::ds::rbt::node_impl {
 
     enum colors { red, black };
 
     template <typename T>
     class RBNode {
     public:
-        T     key;
-        RBNode* father;
-        RBNode* left;
-        RBNode* right;
-        int   color;
+        typedef T           key_t;
+        typedef T&          key_ref_t;
+        typedef RBNode<T>   node_t;
+        typedef RBNode<T>*  node_ptr_t;
+        typedef RBNode<T>&  node_ref_t;
+        typedef RBNode<T>&& node_rval_t;
 
-        RBNode() : father{ nullptr }, left{ nullptr }, right{ nullptr }, color{ black } {};
-        explicit RBNode(T input) : key{ input }, father{ nullptr }, left{ nullptr }, right{ nullptr }, color{ red } {};
-        RBNode(const RBNode& s) : key{ s.key }, father{ s.father }, left{ s.left }, right{ s.right }, color{ s.color } {};
-        RBNode(RBNode&& s) noexcept : key{ s.key }, father{ s.father }, left{ s.left }, right{ s.right }, color{ s.color } {};
-        RBNode(T input, RBNode* father_) : key{ input }, father{ father_ }, left{ nullptr }, right{ nullptr }, color{ red } {};
-        RBNode(T input, RBNode* father_, int new_color) : key{ input }, father{ father_ }, left{ nullptr }, right{ nullptr }, color{ new_color } {};
+        key_t      key;
+        node_ptr_t father;
+        node_ptr_t left;
+        node_ptr_t right;
+        int        color;
+
+        RBNode()                                               : father{ nullptr }, left{ nullptr }, right{ nullptr }, color{ black } {};
+        explicit RBNode(key_t input)                           : key{ input }, father{ nullptr }, left{ nullptr }, right{ nullptr }, color{ red } {};
+        RBNode(const node_ref_t s)                             : key{ s.key }, father{ s.father }, left{ s.left }, right{ s.right }, color{ s.color } {};
+        RBNode(node_rval_t s) noexcept                         : key{ s.key }, father{ s.father }, left{ s.left }, right{ s.right }, color{ s.color } {};
+        RBNode(key_t input, node_ptr_t father_)                : key{ input }, father{ father_ }, left{ nullptr }, right{ nullptr }, color{ red } {};
+        RBNode(key_t input, node_ptr_t father_, int new_color) : key{ input }, father{ father_ }, left{ nullptr }, right{ nullptr }, color{ new_color } {};
         ~RBNode() = default;
 
-        RBNode& operator= (const T& input)             { key = input; return *this; };
-        RBNode& operator= (const RBNode<T>& input);
-        RBNode& operator= (RBNode<T>&& input) noexcept;
-        bool    operator==(const T& input)       const { return key == input; };
-        bool    operator!=(const T& input)       const { return key != input; };
-        bool    operator> (const T& input)       const { return key > input; };
-        bool    operator< (const T& input)       const { return key < input; };
-        bool    operator>=(const T& input)       const { return key >= input; };
-        bool    operator<=(const T& input)       const { return key <= input; };
-        bool    operator==(const RBNode& source) const { return ((key == source.key) && (father == source.father)); };
-        bool    operator!=(const RBNode& source) const { return (!(*this == source)); };
-        bool    operator> (const RBNode& source) const { return key > source.key; };
-        bool    operator< (const RBNode& source) const { return key < source.key; };
-        bool    operator>=(const RBNode& source) const { return key >= source.key; };
-        bool    operator<=(const RBNode& source) const { return key <= source.key; };
-        explicit operator bool()                 const { return (father != nullptr ? true : (left != nullptr ? true : right != nullptr)); };
-        T       operator[](const size_t& id);
-        T       operator[](const size_t& id) const;
+        node_ref_t operator= (const key_ref_t input)         { key = input; return *this; };
+        node_ref_t operator= (const node_ref_t input);
+        node_ref_t operator= (node_rval_t input) noexcept;
+        bool       operator==(const key_ref_t input)   const { return key == input; };
+        bool       operator!=(const key_ref_t input)   const { return key != input; };
+        bool       operator> (const key_ref_t input)   const { return key > input; };
+        bool       operator< (const key_ref_t input)   const { return key < input; };
+        bool       operator>=(const key_ref_t input)   const { return key >= input; };
+        bool       operator<=(const key_ref_t input)   const { return key <= input; };
+        bool       operator==(const node_ref_t source) const { return ((key == source.key) && (father == source.father)); };
+        bool       operator!=(const node_ref_t source) const { return (!(*this == source)); };
+        bool       operator> (const node_ref_t source) const { return key > source.key; };
+        bool       operator< (const node_ref_t source) const { return key < source.key; };
+        bool       operator>=(const node_ref_t source) const { return key >= source.key; };
+        bool       operator<=(const node_ref_t source) const { return key <= source.key; };
+        explicit   operator bool()                     const { return (father != nullptr ? true : (left != nullptr ? true : right != nullptr)); };
+        key_t      operator[](const size_t& id);
+        key_t      operator[](const size_t& id) const;
 
-        friend std::ostream& operator<<(std::ostream& ofs, const RBNode<T>* pt) {
+        friend std::ostream& operator<<(std::ostream& ofs, const node_ptr_t pt) {
             ofs << "Key: " << pt->key << ", color: " << (pt->color == black ? "B" : "R") << "\n";
             if (pt->father != nullptr) ofs << "(Father) key: " << pt->father->key << ", color: " << (pt->father->color == black ? "B" : "R") << "\n";
             else ofs << "No father (root)" << "\n";
@@ -60,7 +67,7 @@ namespace algo::ds::rbt::node_impl {
             return ofs;
         };
 
-        friend std::ostream& operator<<(std::ostream& ofs, const RBNode<T>& pt) {
+        friend std::ostream& operator<<(std::ostream& ofs, const node_ref_t pt) {
             ofs << "Key: " << pt.key << ", color: " << (pt.color == black ? "B" : "R") << "\n";
             if (pt.father != nullptr) ofs << "(Father) key: " << pt.father.key << ", color: " << (pt.father.color == black ? "B" : "R") << "\n";
             else ofs << "No father (root)" << "\n";
@@ -75,15 +82,15 @@ namespace algo::ds::rbt::node_impl {
         void               print_node();
         [[nodiscard]] bool is_left_son()  const { return ((father != nullptr) && father->left == this); };
         [[nodiscard]] bool is_right_son() const { return ((father != nullptr) && father->right == this); };
-        RBNode*            max_node()           { return ((right == nullptr) ? this : right->max_node()); };
-        RBNode*            min_node()           { return ((left == nullptr) ? this : left->min_node()); };
-        RBNode*            node_Successor();
-        RBNode*            node_Predecessor();
-        RBNode*            node_Sibling();
+        node_ptr_t         max_node()           { return ((right == nullptr) ? this : right->max_node()); };
+        node_ptr_t         min_node()           { return ((left == nullptr) ? this : left->min_node()); };
+        node_ptr_t         node_Successor();
+        node_ptr_t         node_Predecessor();
+        node_ptr_t         node_Sibling();
     };
 
     template<typename T>
-    RBNode<T>& RBNode<T>::operator=(const RBNode<T>& input) {
+    typename RBNode<T>::node_ref_t RBNode<T>::operator=(const node_ref_t input) {
         if (this == &input) return *this;
 
         auto* newFather = RBNode<T>();
@@ -100,7 +107,7 @@ namespace algo::ds::rbt::node_impl {
             delete newLeft;
             delete newRight;
 
-            throw algo::ds::rbt::exception::NodeFailedAllocException();
+            throw ads::ds::rbt::exception::NodeFailedAllocException();
         }
 
         key = input.key;
@@ -116,7 +123,7 @@ namespace algo::ds::rbt::node_impl {
     }
 
     template<typename T>
-    RBNode<T>& RBNode<T>::operator=(RBNode<T>&& input) noexcept {
+    typename RBNode<T>::node_ref_t RBNode<T>::operator=(node_rval_t input) noexcept {
         auto* newFather = RBNode<T>();
         auto* newLeft = RBNode<T>();
         auto* newRight = RBNode<T>();
@@ -131,7 +138,7 @@ namespace algo::ds::rbt::node_impl {
             delete newLeft;
             delete newRight;
 
-            throw algo::ds::rbt::exception::NodeFailedAllocException();
+            throw ads::ds::rbt::exception::NodeFailedAllocException();
         }
 
         key = input.key;
@@ -147,8 +154,8 @@ namespace algo::ds::rbt::node_impl {
     }
 
     template <typename T>
-    inline T RBNode<T>::operator[](const size_t& id) {
-        if (id < 0 || id > 3) throw algo::ds::rbt::exception::NodeIndexOutOfBoundException();
+    inline typename RBNode<T>::key_t RBNode<T>::operator[](const size_t& id) {
+        if (id < 0 || id > 3) throw ads::ds::rbt::exception::NodeIndexOutOfBoundException();
         else if (id == 0) return this->key;
         else if (id == 1) return father->key;
         else if (id == 2) return left->key;
@@ -156,8 +163,8 @@ namespace algo::ds::rbt::node_impl {
     }
 
     template <typename T>
-    inline T RBNode<T>::operator[](const size_t& id) const {
-        if (id < 0 || id > 3) throw algo::ds::rbt::exception::NodeIndexOutOfBoundException();
+    inline typename RBNode<T>::key_t RBNode<T>::operator[](const size_t& id) const {
+        if (id < 0 || id > 3) throw ads::ds::rbt::exception::NodeIndexOutOfBoundException();
         else if (id == 0) return this->key;
         else if (id == 1) return father->key;
         else if (id == 2) return left->key;
@@ -182,7 +189,7 @@ namespace algo::ds::rbt::node_impl {
 
     // For in-oredr walk / increment in iterator
     template <typename T>
-    inline RBNode<T>* RBNode<T>::node_Successor() {
+    inline typename RBNode<T>::node_ptr_t RBNode<T>::node_Successor() {
         if (this != nullptr) {
             if (right != nullptr) return right->min_node();
             else if (is_left_son()) return father;
@@ -202,7 +209,7 @@ namespace algo::ds::rbt::node_impl {
 
     // For reverse in-oredr walk / decrement in iterator
     template <typename T>
-    inline RBNode<T>* RBNode<T>::node_Predecessor() {
+    inline typename RBNode<T>::node_ptr_t RBNode<T>::node_Predecessor() {
         if (this != nullptr) {
             if (left != nullptr) return left->max_node();
             else if (is_right_son()) return father;
@@ -221,7 +228,7 @@ namespace algo::ds::rbt::node_impl {
     }
 
     template <typename T>
-    inline RBNode<T>* RBNode<T>::node_Sibling() {
+    inline typename RBNode<T>::node_ptr_t RBNode<T>::node_Sibling() {
         if (this != nullptr) return (father == nullptr ? nullptr : (is_left_son() ? father->right : father->left));
         else return nullptr;
     }

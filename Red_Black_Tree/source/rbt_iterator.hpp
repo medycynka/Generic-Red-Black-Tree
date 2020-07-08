@@ -5,12 +5,12 @@
 
 #include "rbt_node.hpp"
 
-namespace algo::ds::rbt::iterators {
+namespace ads::ds::rbt::iterators {
 
     template <typename T>
     class Iterator {
     protected:
-        algo::ds::rbt::node_impl::RBNode<T>* Iter;
+        ads::ds::rbt::node_impl::RBNode<T>* Iter;
  
     public:
         typedef Iterator                  self_type;
@@ -20,26 +20,26 @@ namespace algo::ds::rbt::iterators {
         typedef std::forward_iterator_tag iterator_category;
         typedef int                       difference_type;
 
-        Iterator()                                                  : Iter{ nullptr } {}
-        explicit Iterator(algo::ds::rbt::node_impl::RBNode<T>* ptr) : Iter{ ptr } {};
-        Iterator(const Iterator& s)                                 : Iter{ s.Iter } {};
-        Iterator(const Iterator&& s) noexcept                       : Iter{ s.Iter } {};
+        Iterator()                                                 : Iter{ nullptr } {}
+        explicit Iterator(ads::ds::rbt::node_impl::RBNode<T>* ptr) : Iter{ ptr } {};
+        Iterator(const Iterator& s)                                : Iter{ s.Iter } {};
+        Iterator(const Iterator&& s) noexcept                      : Iter{ s.Iter } {};
 
-        inline algo::ds::rbt::node_impl::RBNode<T>* getIter() { return Iter; };
+        inline ads::ds::rbt::node_impl::RBNode<T>* getIter() { return Iter; };
 
-        Iterator       operator++                                          ();
-        const Iterator operator++                                          (int);
-        Iterator       operator--                                          ();
-        const Iterator operator--                                          (int);
-        Iterator&      operator=                                           (const Iterator& source)       { if (this != &source) { this->Iter = source.Iter; } return (*this); };
-        Iterator&      operator=                                           (Iterator&& source)   noexcept { this->Iter = source.Iter; return (*this); };
-        bool           operator==                                          (const Iterator& source) const { return (Iter == source.Iter); };
-        bool           operator!=                                          (const Iterator& source) const { return (Iter != source.Iter); };
-        explicit       operator algo::ds::rbt::node_impl::RBNode<T>&       ()                             { return (*Iter); };
-        explicit       operator const algo::ds::rbt::node_impl::RBNode<T>& ()                       const { return (*Iter); };
-        T&             operator*                                           ()                       const { return (Iter->key); };
-        algo::ds::rbt::node_impl::RBNode<T>* operator->                    ()                       const { return Iter; };
-        explicit       operator bool()                                                              const { return (Iter != nullptr); };
+        Iterator       operator++                                         ();
+        const Iterator operator++                                         (int);
+        Iterator       operator--                                         ();
+        const Iterator operator--                                         (int);
+        Iterator&      operator=                                          (const Iterator& source)       { if (this != &source) { this->Iter = source.Iter; } return (*this); };
+        Iterator&      operator=                                          (Iterator&& source)   noexcept { this->Iter = source.Iter; return (*this); };
+        bool           operator==                                         (const Iterator& source) const { return (Iter == source.Iter); };
+        bool           operator!=                                         (const Iterator& source) const { return (Iter != source.Iter); };
+        explicit       operator ads::ds::rbt::node_impl::RBNode<T>&       ()                             { return (*Iter); };
+        explicit       operator const ads::ds::rbt::node_impl::RBNode<T>& ()                       const { return (*Iter); };
+        reference             operator*                                   ()                       const { return (Iter->key); };
+        ads::ds::rbt::node_impl::RBNode<T>* operator->                    ()                       const { return Iter; };
+        explicit       operator bool()                                                             const { return (Iter != nullptr); };
     };
 
     template <typename T>
